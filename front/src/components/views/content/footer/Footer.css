@@ -1,0 +1,19 @@
+.footer {
+    border-top: 1px solid lightgray;
+    height: 10%;
+}
+.footerElement {
+    display: inline-block;
+    padding: 15px 45px;
+}
+
+.footerInfo {
+    font-weight: bold;
+}
+
+.footerInfoSup {
+    font-size: 13px;
+    /*color: #484545;*/
+    color: black;
+    font-weight: 500;
+}

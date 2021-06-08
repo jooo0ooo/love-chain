@@ -1,0 +1,41 @@
+.content {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.contentBody {
+    height: 80%;
+}
+.contentTitle {
+    margin: 0;
+    padding: 13% 5% 0;
+    color: #E2A248;
+    font-size: 55px;
+    line-height: 95%;
+    width: 50%;
+    font-weight: 500;
+}
+
+.contentSubTitle {
+    margin: 0;
+    padding: 10px 5%;
+    color: #E88455;
+    width: 40%;
+    font-weight: 500;
+}
+
+.goService {
+    padding: 10px 5%;
+    font-size: 30px;
+    color: #ff720e;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.goService svg {
+    vertical-align: bottom;
+}
