@@ -1,13 +1,19 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true
+        },
+        ecmaVersion: 2018,
+        sourceType: "module"
     },
     plugins: [
+        'react',
         '@typescript-eslint/eslint-plugin',
         'import'
     ],
     extends: [
+        'plugin:react/recommended',
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier',
@@ -16,6 +22,8 @@ module.exports = {
     ],
     root: true,
     env: {
+        browser: true,
+        es6: true,
         node: true,
         jest: true,
     },

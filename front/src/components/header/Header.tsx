@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
-import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import { AiFillCaretDown } from 'react-icons/ai';
+import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import './Header.css'
 
-function Header() {
+function Header(): JSX.Element {
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
     const onClick = () => setIsActive(!isActive);
