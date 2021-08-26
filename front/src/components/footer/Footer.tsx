@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom';
-import './Footer.css'
+import React from 'react'
+import '@components/footer/Footer.css'
 
-function Footer() {
+function Footer(): JSX.Element {
     return (
         <div className="footer">
             <div className="footerElement">

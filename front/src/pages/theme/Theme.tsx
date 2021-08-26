@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { GiClick } from "react-icons/gi";
-import './Theme.css'
+import '@pages/theme/Theme.css'
 
-function Theme() {
+function Theme(): JSX.Element {
     return (
         <div className="content">
             <Link to="/theme/love">

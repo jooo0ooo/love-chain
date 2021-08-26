@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Header from '../header/Header';
-import Footer from '../footer/Footer';
+import Header from '@components/header/Header';
+import Footer from '@components/footer/Footer';
 import { GiClick } from "react-icons/gi";
-import './Home.css'
+import '@pages/home/Home.css'
 
 function Home(): JSX.Element {
     return (

@@ -1,9 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { GiClick } from "react-icons/gi";
-import './Anything.css'
+import '@pages/theme/anything/Anything.css'
 
-function Anything() {
+function Anything(): JSX.Element {
     return (
         <div className="content">
             Anything

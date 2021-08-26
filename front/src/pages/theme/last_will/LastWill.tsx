@@ -1,9 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { GiClick } from "react-icons/gi";
-import './LastWill.css'
+import '@pages/theme/last_will/LastWill.css'
 
-function LastWill() {
+function LastWill(): JSX.Element {
     return (
         <div className="content">
             Last Will

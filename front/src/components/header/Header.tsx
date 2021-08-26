@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import React, { useRef } from 'react'
+import { Link } from 'react-router-dom';
 import { AiFillCaretDown } from 'react-icons/ai';
-import { useDetectOutsideClick } from "./useDetectOutsideClick";
-import './Header.css'
+import { useDetectOutsideClick } from '@components/header/useDetectOutsideClick';
+import '@components/header/Header.css'
 
 function Header(): JSX.Element {
     const dropdownRef = useRef<HTMLDivElement>(null);

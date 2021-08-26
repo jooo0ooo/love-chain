@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import Home from './components/home/Home';
-import Theme from './components/theme/Theme';
-import Love from './components/theme/love/Love';
-import LastWill from './components/theme/last_will/LastWill';
-import Anything from './components/theme/anything/Anything';
-import './../App.css';
+import Home from '@pages/home/Home';
+import Theme from '@pages/theme/Theme';
+import Love from '@pages/theme/love/Love';
+import LastWill from '@pages/theme/last_will/LastWill';
+import Anything from '@pages/theme/anything/Anything';
+import '@routes/App.css';
 
 function App(): JSX.Element {
     return (

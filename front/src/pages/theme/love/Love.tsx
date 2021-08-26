@@ -1,10 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { GiClick } from "react-icons/gi";
-import Header from '../../header/Header';
-import './Love.css'
+import Header from '@components/header/Header';
+import '@pages/theme/love/Love.css'
 
-function Love() {
+function Love(): JSX.Element {
     return (
         <div style={{height: "100%"}}>
             <Header/>
