@@ -1,0 +1,95 @@
+#signup-header {
+    height: 50px;
+}
+
+.signin span {
+    color: #aaa;
+    margin-right: 5px;
+}
+
+svg {
+    vertical-align: middle;
+}
+
+#signup-content {
+    border: 1px solid #737373;
+    width: 55%;
+    margin: 0 auto;
+    margin-top: 5%;
+    padding: 10px 25px;
+    max-width: 550px;
+}
+
+#signup-content > div {
+    padding: 10px;
+}
+
+.fa-arrow-right {
+    color: #FF02D9;
+}
+
+.go-check {
+    color: #03ff03;
+}
+
+.gi-cancel {
+    color: red;
+}
+
+.signup-input {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    width: 75%;
+    margin-right: 4.5%;
+    margin-left: 3px;
+    color: white;
+    font-size: 15px;
+}
+
+.signup-input:focus {
+    outline: none;
+}
+
+.signup-btn {
+    color: #03ff03;
+    background-color: transparent;
+    border: 1px solid #03ff03;
+    border-radius: 7px;
+    padding: 5px 10px;
+}
+
+.signup-btn:disabled {
+    color: #c5c5c5;
+    border: 1px solid #c5c5c5;
+}
+
+.signup-form-label {
+    color: #02FFD5;
+    margin-bottom: 5px;
+}
+
+.btn-show {
+    display: inline-block;
+    color: #03ff03;
+    border: 1px solid #03ff03;
+}
+
+.btn-hide {
+    display: none;
+}
+
+#create-btn {
+    text-align: center;
+    color: #03ff03;
+    background-color: transparent;
+    border: 1px solid #03ff03;
+    padding: 5px;
+    border-radius: 7px;
+    margin: 15px 0 5px;
+}
+
+.btn-disabled {
+    color: black;
+    border: 1px solid black;
+}
