@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import TypeWriter from "@components/typeWriter/TypeWriter";
 import { isValidEmail, isValidPwd, isValidUsername, sleep } from '@utils/Utils';
 import '@pages/signup/Signup.css';
+import { inputList } from '@pages/signup/InputList';
 
 function Signup(): JSX.Element {
     const [emailFormActive, setEmailFormActive] = useState(false);
@@ -98,6 +99,41 @@ function Signup(): JSX.Element {
             setActiveElement("create-btn");
         }
     }
+
+    const signupContetn = inputList.map(({formType, title}, key) => 
+        <div className="signup-content-wrap" key={key}>
+            <div id={formType + "-form"} className={(formType == 'email' ? emailFormActive : formType == 'pwd' ? pwdFormActive : usernameFormActive) ? "show" : "hide"}>
+                <h4 className="signup-form-label">{title}</h4>
+                {
+                    activeElement == formType + "-input"
+                        ? <FaArrowRight className="fa-arrow-right"/> 
+                        : emailValid 
+                            ? <GoCheck className="go-check"/> 
+                            : <GiCancel className="gi-cancel"/>
+                }
+                <input id={formType + "-input"} 
+                    className="signup-input" 
+                    type={formType == "pwd" ? "password" : "text"} 
+                    ref={formType == "email" ? emailInput : formType == "pwd" ? pwdInput : usernameInput} 
+                    onFocus={() => setActiveElement(formType + "-input")} 
+                    onChange={(e)=>inputOnChangeHandler(e)} 
+                    onKeyPress={inputOnKeyPressHandler} 
+                    autoComplete="off"/>
+                <button 
+                    disabled={formType == "email" ? !emailValid : formType == "pwd" ? !pwdValid : !usernameValid} 
+                    className={
+                        classnames("signup-btn", 
+                            {
+                                "btn-show": activeElement == formType + "-input", 
+                                "btn-hide": activeElement != formType + "-input"
+                            }
+                        )} 
+                    onClick={()=> setActiveElement(formType == "email" ?  "pwd-input" : formType == "pwd" ? "username-input" : "create-btn")}
+                >continue</button>
+            </div>
+        </div>
+    );
+
     return (
         <div className="content" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/img/signin_out/background1.jpg'})`}}>
             <nav id="signup-header">
@@ -127,24 +163,7 @@ function Signup(): JSX.Element {
                     textArray={["Let's record our memories forever."]}
                     loop={false}
                 />
-                <div id="email-form" className={emailFormActive ? "show" : "hide"}>
-                    <h4 className="signup-form-label">Enter your email</h4>
-                    {activeElement == "email-input" ? <FaArrowRight className="fa-arrow-right"/> : emailValid ? <GoCheck className="go-check"/> : <GiCancel className="gi-cancel"/>}
-                    <input id="email-input" ref={emailInput} className="signup-input" type="text" onFocus={() => setActiveElement("email-input")} onChange={(e)=>inputOnChangeHandler(e)} onKeyPress={inputOnKeyPressHandler} autoComplete="off"/>
-                    <button disabled={!emailValid} className={classnames("signup-btn", {"btn-show": activeElement == "email-input", "btn-hide": activeElement != "email-input"})} onClick={()=> setActiveElement("pwd-input")}>continue</button>
-                </div>
-                <div id="pwd-form" className={pwdFormActive ? "show" : "hide"}>
-                    <h4 className="signup-form-label">Create a password</h4>
-                    {activeElement == "pwd-input" ? <FaArrowRight className="fa-arrow-right"/> : pwdValid ? <GoCheck className="go-check"/> : <GiCancel className="gi-cancel"/>}
-                    <input id="pwd-input" ref={pwdInput} className="signup-input" type="password" onFocus={()=> setActiveElement("pwd-input")} onChange={(e)=>inputOnChangeHandler(e)} onKeyPress={inputOnKeyPressHandler} autoComplete="off"/>
-                    <button disabled={!pwdValid} className={classnames("signup-btn", {"btn-show": activeElement == "pwd-input", "btn-hide": activeElement != "pwd-input"})} onClick={()=> setActiveElement("username-input")}>continue</button>
-                </div>
-                <div id="username-form" className={usernameFormActive ? "show" : "hide"}>
-                    <h4 className="signup-form-label">Enter a username</h4>
-                    {activeElement == "username-input" ? <FaArrowRight className="fa-arrow-right"/> : usernameValid ? <GoCheck className="go-check"/> : <GiCancel className="gi-cancel"/>}
-                    <input id="username-input" ref={usernameInput} className="signup-input" type="text" onFocus={() => setActiveElement("username-input")} onChange={(e)=>inputOnChangeHandler(e)} onKeyPress={inputOnKeyPressHandler} autoComplete="off"/>
-                    <button disabled={!usernameValid} className={classnames("signup-btn", {"btn-show": activeElement == "username-input", "btn-hide": activeElement != "username-input"})} onClick={()=> setActiveElement("create-btn")}>continue</button>
-                </div>
+                {signupContetn}
                 <Link id="create-btn" className={createBtnActive ? "show" : "hide"} to="/">
                     Create account
                 </Link>

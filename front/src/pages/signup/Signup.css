@@ -24,6 +24,18 @@ svg {
     padding: 10px;
 }
 
+#signup-content > div:nth-child(2) {
+    padding-top: 0;
+}
+
+.signup-content-wrap {
+    padding: 0!important;
+}
+
+.signup-content-wrap > div {
+    padding: 10px;
+}
+
 .fa-arrow-right {
     color: #FF02D9;
 }
@@ -66,7 +78,7 @@ svg {
 
 .signup-form-label {
     color: #02FFD5;
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
 
 .btn-show {
