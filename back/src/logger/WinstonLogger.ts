@@ -17,7 +17,7 @@ const rTracerFormat = printf(({ level, message, label, timestamp }) => {
 const options = {
     file: {
         level: 'info',
-        filename: `${config.log.filepath}/buttercup_admin_%DATE%.log`,
+        filename: `${config.log.filepath}/isb_%DATE%.log`,
         datePattern: 'YYYY-MM-DD-HH',
         handleExceptions: true,
         maxSize: '20m',

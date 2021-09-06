@@ -7,7 +7,7 @@ import * as session from 'express-session';
 import {expressMiddleware as rTracerExpressMiddlewares} from 'cls-rtracer';
 import { WinstonLogger } from '@src/logger/WinstonLogger';
 import {requestIdMiddleware} from "@src/middleware/RequestIdMiddleware";
-
+import { ErrorsInterceptor } from '@src/interceptor/ErrorsInterceptor';
 
 async function bootstrap() {
     await Promise.all([
@@ -47,6 +47,7 @@ async function bootstrap() {
     }));
     app.use(winstonLogger.morganMiddleware());
     app.useLogger(winstonLogger);
+    app.useGlobalInterceptors(new ErrorsInterceptor());
     
     app.enableCors();
     
@@ -54,4 +55,5 @@ async function bootstrap() {
         winstonLogger.log(`${config.server.name} is running with port: ${config.server.port}`);
     });
 }
+
 bootstrap();
