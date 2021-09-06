@@ -4,8 +4,8 @@ import { Controller, Get, Injectable } from '@nestjs/common';
 export class IndexController {
     constructor () {/* */}
 
-    @Get('')
-    root(): any {
-        return {message: 'Hello world'};
+    @Get('ping')
+    ping(): string {
+        return 'pong';
     }
 }

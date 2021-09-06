@@ -2,6 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import {Config} from '@src/config';
 import { IndexController } from '@src/controller/IndexController';
 import { DatabaseModule } from '@src/database/DatabaseModule';
+import { LoggerModule } from './logger/LoggerModule';
 
 @Module({})
 export class AppModule {
@@ -9,7 +10,8 @@ export class AppModule {
         return {
             module: AppModule,
             imports: [
-                DatabaseModule.forRoot(config)
+                DatabaseModule.forRoot(config),
+                LoggerModule
             ],
             providers: [
             ],
