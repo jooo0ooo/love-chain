@@ -105,3 +105,11 @@ svg {
     color: black;
     border: 1px solid black;
 }
+
+#signup-err-msg {
+    width: 55%;
+    max-width: 550px;
+    margin: 0 auto;
+    font-weight: bold;
+    padding: 10px 25px;
+}

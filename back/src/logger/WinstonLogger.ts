@@ -62,7 +62,7 @@ export class WinstonLogger implements LoggerService {
     }
 
     private setMessage(message: any, requestId?: string): string {
-        return this.context? `${this.context} - ${message}` : `${requestId} - ${message}`;
+        return this.context ? `${this.context} - ${message}` : `${requestId} - ${message}`;
     }
 
     public log(message: string, context?: string): any {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { BsArrowRight } from "react-icons/bs";
 import { FaArrowRight } from "react-icons/fa";
 import { GiCancel } from "react-icons/gi";
@@ -9,6 +9,9 @@ import TypeWriter from "@components/typeWriter/TypeWriter";
 import { isValidEmail, isValidPwd, isValidUsername, sleep } from '@utils/Utils';
 import '@pages/signup/Signup.css';
 import { inputList } from '@pages/signup/InputList';
+import { customAxios } from '@src/utils/CustomAxios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 function Signup(): JSX.Element {
     const [emailFormActive, setEmailFormActive] = useState(false);
@@ -23,9 +26,13 @@ function Signup(): JSX.Element {
     const [createBtnActive, setCreateBtnActive] = useState(false);
     const [activeElement, setActiveElement] = useState("");
 
+    const [errMsgContent, setErrMsgContent] = useState("");
+
     const emailInput = useRef<HTMLInputElement>(null);
     const pwdInput = useRef<HTMLInputElement>(null);
     const usernameInput = useRef<HTMLInputElement>(null);
+
+    const history = useHistory();
 
     useEffect(() => {
         sleep(3100).then(() => {
@@ -60,29 +67,48 @@ function Signup(): JSX.Element {
         }
     }, [activeElement]);
 
-    const inputOnChangeHandler = (e: any) => {
+    const inputOnChangeHandler = async (e: any) => {
         if (e.target.id == 'email-input') {
-            if (isValidEmail(e.target.value)) {
+            if (await isValidEmail(e.target.value).then((result) => {return result;})) {
                 setEmailValid(true);
+                setErrMsgContent("");
             } else {
                 setEmailValid(false);
+                setErrMsgContent("Email is invalid or already taken");
             }
         }
 
         if (e.target.id == 'pwd-input') {
             if (isValidPwd(e.target.value)) {
                 setPwdValid(true);
+                setErrMsgContent("");
             } else {
                 setPwdValid(false);
+                setErrMsgContent("Password must be at least 8 characters including numbers, lowercase letters and special characters.");
             }
         }
 
         if (e.target.id == 'username-input') {
-            if (isValidUsername(e.target.value)) {
+            if (await isValidUsername(e.target.value).then((result) => {return result;})) {
                 setUsernameValid(true);
+                setErrMsgContent("");
             } else {
                 setUsernameValid(false);
+                setErrMsgContent("Username " + e.target.value + " is not available.");
             }
+        }
+    }
+
+    const processSignup = async () => {
+        const email = emailInput.current?.value,
+            password = pwdInput.current?.value,
+            username = usernameInput.current?.value;
+            
+        const res = await customAxios.post('/signup', {email, password, username});
+        if (res.data.message == 'success') {
+            history.push("/signin");
+        } else {
+            toast.error(<div>Sign Up Failed!<br/>Check your input data</div>);
         }
     }
 
@@ -164,9 +190,17 @@ function Signup(): JSX.Element {
                     loop={false}
                 />
                 {signupContetn}
-                <Link id="create-btn" className={createBtnActive ? "show" : "hide"} to="/">
+                <div 
+                    id="create-btn" 
+                    className={createBtnActive ? "show" : "hide"} 
+                    onClick={processSignup}
+                >
                     Create account
-                </Link>
+                </div>
+                <ToastContainer />
+            </div>
+            <div id="signup-err-msg">
+                <span>{errMsgContent}</span>
             </div>
         </div>
     )

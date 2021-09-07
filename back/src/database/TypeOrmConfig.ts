@@ -3,6 +3,7 @@ import { Config } from '@src/config';
 
 export const getMasterDBOrmConfig = (config: Config): TypeOrmModuleOptions => {
     return {
+        name: config.db.master.name,
         type: config.db.master.type as any,
         database: config.db.master.dbname,
         synchronize: config.db.master.synchronize,
@@ -12,7 +13,7 @@ export const getMasterDBOrmConfig = (config: Config): TypeOrmModuleOptions => {
         port: config.db.master.port,
         username: config.db.master.username,
         password: config.db.master.password,
-        entities: [`${__dirname}/../entity/master/*{.ts,.js}`],
+        entities: [`${__dirname}/../model/entity/master/*{.ts,.js}`,`${__dirname}/../model/entity/master/**/*{.ts,.js}`],
         connectTimeout: config.db.master.connectionTimeout,
         extra: {
             charset: "utf8mb4_general_ci",
