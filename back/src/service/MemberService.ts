@@ -5,6 +5,7 @@ import {Connection} from "typeorm";
 import {WinstonLogger} from "@src/logger/WinstonLogger";
 import { MemberRepository } from "@src/repository/master/MemberRepository";
 import { SignupDto } from "@src/model/dto/SignupDto";
+import { Member } from "@src/model/entity/master/Member";
 
 @Injectable()
 export class MemberService {
@@ -25,13 +26,21 @@ export class MemberService {
         });
     }
 
+    async findOneByEmail(email: string): Promise<Member | undefined> {
+        return await this.memberRepository.findOneByEmail(email);
+    }
+
+    async findOneByUsername(username: string): Promise<Member | undefined> {
+        return await this.memberRepository.findOneByUsername(username);
+    }
+
     async isExistEmail(email: string): Promise<boolean> {
-        const member = await this.memberRepository.findOneByEmail(email);
+        const member = await this.findOneByEmail(email);
         return member ? true : false;
     }
 
     async isExistUsername(username: string): Promise<boolean> {
-        const member = await this.memberRepository.findOneByUsername(username);
+        const member = await this.findOneByUsername(username);
         return member ? true : false;
     }
 }

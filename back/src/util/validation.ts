@@ -17,10 +17,11 @@ export const isValidPwd = (pwd: string | undefined): boolean => {
 };
 
 export const isValidUsername = (username: string | undefined): boolean => {
-    if (username == undefined || username.length < 4) {
+    if (username == undefined) {
         return false;
     }
-    return true;
+    const usernameRegex = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,18}[A-Za-z0-9]{1}$/;
+    return usernameRegex.test(username);
 };
 
 export const isValidSignupRequest = (signupRequest: SignUpRequest): boolean => {

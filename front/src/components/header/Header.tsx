@@ -54,7 +54,7 @@ function Header(): JSX.Element {
             <Link className="signup" to="/signup">
                 Sign up
             </Link>
-            <Link className="signin" to="/">
+            <Link className="signin" to="/signin">
                 Sign in
             </Link>
         </nav>

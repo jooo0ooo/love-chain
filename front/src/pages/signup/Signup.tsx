@@ -84,7 +84,7 @@ function Signup(): JSX.Element {
                 setErrMsgContent("");
             } else {
                 setPwdValid(false);
-                setErrMsgContent("Password must be at least 8 characters including numbers, lowercase letters and special characters.");
+                setErrMsgContent("Password must be at least 8 characters including numbers, lowercase letters and special symbols.");
             }
         }
 
@@ -94,7 +94,7 @@ function Signup(): JSX.Element {
                 setErrMsgContent("");
             } else {
                 setUsernameValid(false);
-                setErrMsgContent("Username " + e.target.value + " is not available.");
+                setErrMsgContent("Username " + e.target.value + " is invalid or already taken. Username may only contain alphanumeric characters, underscore or hyphen and cannot begin with a special symbols and numbers and cannot end with a special symbols.");
             }
         }
     }
@@ -108,7 +108,7 @@ function Signup(): JSX.Element {
         if (res.data.message == 'success') {
             history.push("/signin");
         } else {
-            toast.error(<div>Sign Up Failed!<br/>Check your input data</div>);
+            toast.error(<div>Sign up Failed!<br/>Check your input data</div>);
         }
     }
 
@@ -168,7 +168,7 @@ function Signup(): JSX.Element {
                         <img className="logo" src={process.env.PUBLIC_URL + '/logo.png'} alt=""/>
                     </div>
                 </Link>
-                <Link className="signin" to="/">
+                <Link className="signin" to="/signin">
                     <span>Already have an account?</span> Sign in <BsArrowRight />
                 </Link>
             </nav>

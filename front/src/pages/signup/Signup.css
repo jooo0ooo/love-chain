@@ -69,11 +69,13 @@ svg {
     border: 1px solid #03ff03;
     border-radius: 7px;
     padding: 5px 10px;
+    cursor: pointer;
 }
 
 .signup-btn:disabled {
     color: #c5c5c5;
     border: 1px solid #c5c5c5;
+    cursor: not-allowed;
 }
 
 .signup-form-label {
@@ -99,6 +101,12 @@ svg {
     padding: 5px;
     border-radius: 7px;
     margin: 15px 0 5px;
+    cursor: pointer;
+}
+
+#create-btn:hover {
+    font-size: 19px;
+    font-weight: bold;
 }
 
 .btn-disabled {
@@ -112,4 +120,5 @@ svg {
     margin: 0 auto;
     font-weight: bold;
     padding: 10px 25px;
+    font-size: 13px;
 }

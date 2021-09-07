@@ -8,6 +8,7 @@ import { LoggerModule } from '@src/logger/LoggerModule';
 import { MemberRepository } from '@src/repository/master/MemberRepository';
 import { MemberService } from '@src/service/MemberService';
 import { MemberController } from './controller/member/MemberController';
+import { SigninController } from './controller/signin/SigninController';
 
 @Module({})
 export class AppModule {
@@ -27,6 +28,7 @@ export class AppModule {
             controllers: [
                 IndexController,
                 SignupController,
+                SigninController,
                 MemberController
             ]
         }
