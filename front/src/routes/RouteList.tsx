@@ -1,10 +1,12 @@
 import Home from "@pages/home/Home";
+import AboutUs from "@pages/aboutus/Aboutus"
 import Signup from "@pages/signup/Signup";
 import Signin from "@pages/signin/Signin"
 import Anything from "@pages/theme/anything/Anything";
 import LastWill from "@pages/theme/last_will/LastWill";
 import Love from "@pages/theme/love/Love";
 import Theme from "@pages/theme/Theme";
+import Aboutus from "@pages/aboutus/Aboutus";
 
 export const routes = [{
     path: '/',
@@ -27,4 +29,7 @@ export const routes = [{
 }, {
     path: '/signup',
     component: Signup
+}, {
+    path: '/aboutus',
+    component: Aboutus
 }]

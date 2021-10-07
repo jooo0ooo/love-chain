@@ -5,7 +5,7 @@ import Footer from '@components/footer/Footer';
 import { GiClick } from "react-icons/gi";
 import '@pages/home/Home.css'
 
-function Home(): JSX.Element {
+const Home = () => {
     return (
         <div className="content" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/img/mainpage/background4.jpg'})`}}>
             <Header/>
