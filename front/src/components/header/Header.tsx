@@ -20,7 +20,7 @@ function Header(): JSX.Element {
                     <span>Why ISB?</span>
                 </button>
             </Link>
-            <Link className="headerMenu" to="/">
+            <Link className="headerMenu" to="/aboutus">
                 <button className="menu-trigger">
                     <span>About us</span>
                 </button>
