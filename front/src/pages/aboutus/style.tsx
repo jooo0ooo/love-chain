@@ -144,3 +144,5 @@ export const ImageFir = styled.div`
   background-repeat:no-repeat;
   background-position:center top;
 `;
+
+// https://taleist.agency/about-copywriter/#contact   참고
