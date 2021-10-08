@@ -78,7 +78,6 @@ const Aboutus = () => {
                             </tr>
                         </TableOfContactUs>
                     </form>
-
                 </ContactUs>
                 <FourthContentBody>
                     협업한? 브랜드 소개
