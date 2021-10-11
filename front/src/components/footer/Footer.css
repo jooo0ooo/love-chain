@@ -9,11 +9,13 @@
 
 .footerInfo {
     font-weight: bold;
+    color: #EAEAEA;
 }
 
 .footerInfoSup {
     font-size: 13px;
     /*color: #484545;*/
     color: black;
+    color: #EAEAEA;
     font-weight: 500;
 }

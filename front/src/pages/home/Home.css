@@ -11,17 +11,19 @@
 .contentTitle {
     margin: 0;
     padding: 13% 5% 0;
-    color: #E2A248;
+    color: #ECE5F4;
     font-size: 55px;
     line-height: 95%;
     width: 50%;
     font-weight: 500;
+    font-style: italic;
 }
 
 .contentSubTitle {
     margin: 0;
     padding: 10px 5%;
-    color: #E88455;
+    color: #EAEAEA;
+    font-style: italic;
     width: 40%;
     font-weight: 500;
 }
@@ -29,7 +31,8 @@
 .goService {
     padding: 10px 5%;
     font-size: 30px;
-    color: #ff720e;
+    color: #FFFFFF;
+    font-style: italic;
     text-decoration: underline;
     border: none;
     background: none;
