@@ -4,7 +4,7 @@ import { customAxios } from '@src/utils/CustomAxios';
 import { ToastContainer, toast } from 'react-toastify';
 import "@pages/signin/Signin.css"
 
-const Signin = () => {
+const Signin = (): JSX.Element => {
     const emailInput = useRef<HTMLInputElement>(null);
     const pwdInput = useRef<HTMLInputElement>(null);
 

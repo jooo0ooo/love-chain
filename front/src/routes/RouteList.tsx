@@ -1,5 +1,4 @@
 import Home from "@pages/home/Home";
-import AboutUs from "@pages/aboutus/Aboutus"
 import Signup from "@pages/signup/Signup";
 import Signin from "@pages/signin/Signin"
 import Anything from "@pages/theme/anything/Anything";

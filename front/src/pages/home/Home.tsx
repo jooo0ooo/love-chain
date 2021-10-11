@@ -4,9 +4,8 @@ import Header from '@components/header/Header';
 import Footer from '@components/footer/Footer';
 import { GiClick } from "react-icons/gi";
 import '@pages/home/Home.css'
-import { FaCentercode } from 'react-icons/fa';
 
-const Home = () => {
+const Home = (): JSX.Element => {
     return (
         <div className="content" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/img/mainpage/background0.jpeg'})`, backgroundPosition: 'center'}}>
             <Header/>

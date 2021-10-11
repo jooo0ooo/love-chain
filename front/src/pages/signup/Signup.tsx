@@ -13,7 +13,7 @@ import { customAxios } from '@src/utils/CustomAxios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
-const Signup = () => {
+const Signup = (): JSX.Element => {
     const [emailFormActive, setEmailFormActive] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
 
