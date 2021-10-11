@@ -11,8 +11,15 @@ import {
     ThrContentBody,
     ContactUs, ContentOfContactUs, TableOfContactUs, SixthContentBody,
 } from "@pages/aboutus/style";
+import useInput from "@utils/useInput";
 
 const Aboutus = () => {
+    const [firName, onChangeFirName] = useInput('');
+    const [lastName, onChangeLastName] = useInput('');
+    const [email, onChangeEmail] = useInput('');
+    const [phone, onChangePhoneNum] = useInput('');
+    const [company, onChangeCompany] = useInput('');
+    const [message, onChangeMessage] = useInput('');
 
     return (
         // <Container style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/img/mainpage/background1.jpg'})`}}>
@@ -45,29 +52,32 @@ const Aboutus = () => {
                     <form>
                         <TableOfContactUs>
                             <tr>
-                                <td><input name="input_1" type="text" value="" className="medium"
+                                <td>
+                                    <input name="input_1" type="text" value={firName} onChange={onChangeFirName}
                                            placeholder="First Name*" aria-required="true" aria-invalid="false"/></td>
-                                <td><input name="input_2" type="text" value="" className="medium"
+                                <td>
+                                    <input name="input_2" type="text" value={lastName} onChange={onChangeLastName}
                                            placeholder="Last Name*" aria-required="true" aria-invalid="false"/></td>
                             </tr>
                             <tr>
-                                <td><input name="input_3" type="text" value="" className="medium"
+                                <td>
+                                    <input name="input_3" type="text" value={email} onChange={onChangeEmail}
                                            placeholder="Email*" aria-required="true" aria-invalid="false"/></td>
-                                <td><input name="input_4" type="text" value="" className="medium"
+                                <td>
+                                    <input name="input_4" type="text" value={phone} onChange={onChangePhoneNum}
                                            placeholder="Phone Number*" aria-required="true" aria-invalid="false"/></td>
                             </tr>
                             <tr>
-                                <td colSpan={2}><input name="input_5" type="text" value="" className="medium"
-                                                       placeholder="Company*" aria-required="true" aria-invalid="false"/></td>
+                                <td colSpan={2}>
+                                    <input name="input_5" type="text" value={company} onChange={onChangeCompany}
+                                           placeholder="Company*" aria-required="true" aria-invalid="false"/></td>
                             </tr>
                             <tr>
-                                <td colSpan={2}><textarea name="input_6" className="textarea medium"
-                                                          placeholder="Message*" aria-required="true"
-                                                          aria-invalid="false" rows={10} cols={50}></textarea></td>
+                                <td colSpan={2}><textarea name="input_6" placeholder="Message*" aria-required="true" value={message}
+                                                          aria-invalid="false" rows={10} cols={50} onChange={onChangeMessage}/></td>
                             </tr>
                         </TableOfContactUs>
                     </form>
-
                 </ContactUs>
                 <FourthContentBody>
                     협업한? 브랜드 소개
