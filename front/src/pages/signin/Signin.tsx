@@ -69,7 +69,7 @@ const Signin = () => {
                 <ToastContainer />
             </div>
             <div id="signin-signup-box">
-                New to I.S.B?
+                New to Love Chain?
                 <Link to="/signup" id="signin-to-signup"> Create an account.</Link>                
             </div>
         </div>

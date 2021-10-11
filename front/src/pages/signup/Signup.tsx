@@ -178,7 +178,7 @@ const Signup = () => {
                     typingDelay={50}
                     erasingDelay={50}
                     newTextDelay={2000}
-                    textArray={["Welcome to I.S.B"]}
+                    textArray={["Welcome to Love Chain"]}
                     loop={false}
                 />
                 <TypeWriter
