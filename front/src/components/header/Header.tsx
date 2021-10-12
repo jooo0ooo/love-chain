@@ -17,7 +17,7 @@ function Header(): JSX.Element {
             </Link>
             <Link className="headerMenu" to="/">
                 <button className="menu-trigger">
-                    <span>Why ISB?</span>
+                    <span>Why Love Chain?</span>
                 </button>
             </Link>
             <Link className="headerMenu" to="/aboutus">
