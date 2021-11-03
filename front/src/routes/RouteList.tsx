@@ -4,15 +4,15 @@ import Signin from "@pages/signin/Signin"
 import Anything from "@pages/theme/anything/Anything";
 import LastWill from "@pages/theme/last_will/LastWill";
 import Love from "@pages/theme/love/Love";
-import Theme from "@pages/theme/Theme";
 import Aboutus from "@pages/aboutus/Aboutus";
+import Main from "@pages/main/Main";
 
 export const routes = [{
     path: '/',
     component: Home
 }, {
-    path: '/theme/choose',
-    component: Theme
+    path: '/main',
+    component: Main
 }, {
     path: '/theme/love',
     component: Love
