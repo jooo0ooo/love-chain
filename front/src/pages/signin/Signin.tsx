@@ -25,7 +25,7 @@ const Signin = (): JSX.Element => {
             password = pwdInput.current?.value;
             
         const res = await customAxios.post('/signin', {email, password});
-        if (res.data.success) {
+        if (res.data.message == 'success') {
             history.push("/");
         } else {
             toast.error("Incorrect username or password.", {theme: "colored"});

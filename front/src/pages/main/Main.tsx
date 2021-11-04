@@ -6,17 +6,13 @@ import '@pages/main/Main.css'
 
 function Main(): JSX.Element {
 
-    const processTest = async () => {            
-        toast.success("Success!", {theme: "colored"});
-        
-        const res = await customAxios.get('/ping');
-        toast.warn(res.data, {theme: "colored"});
-        if (res.data.message == 'success') {
-            toast.success("Success!", {theme: "colored"});
+    const registerOpenBanking = async () => {
+        const res = await customAxios.get('/openbanking/register');
+        if (res.data) {
+            window.location.href = res.data;
         } else {
             toast.error("Error!", {theme: "colored"});
         }
-        
     }
     
     return (
@@ -27,7 +23,7 @@ function Main(): JSX.Element {
                     <div style={{width: "60%", height: "100%", float: "left", backgroundColor: "red"}}>
                         left
                         <div 
-                            onClick={processTest}
+                            onClick={registerOpenBanking}
                             style={{backgroundColor: 'black', color: 'white', padding: '50px', display: 'inline-block', width: '50%', marginTop: '150px', marginLeft: '100px', textAlign: 'center', cursor: 'pointer'}}
                         >
                             Test
