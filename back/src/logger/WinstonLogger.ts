@@ -17,7 +17,7 @@ const rTracerFormat = printf(({ level, message, label, timestamp }) => {
 const options = {
     file: {
         level: 'info',
-        filename: `${config.log.filepath}/isb_%DATE%.log`,
+        filename: `${config.log.filepath}/love-chain_%DATE%.log`,
         datePattern: 'YYYY-MM-DD-HH',
         handleExceptions: true,
         maxSize: '20m',
@@ -107,7 +107,7 @@ export class WinstonLogger implements LoggerService {
 
     public morganMiddleware(): any {
         morgan.token('requestId', (req) => {
-            return (req.headers['isb-request-id'] as string) || "null";
+            return (req.headers['love-chain-request-id'] as string) || "null";
         });
 
         return morgan('combined', {

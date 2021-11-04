@@ -9,6 +9,10 @@ import { MemberRepository } from '@src/repository/master/MemberRepository';
 import { MemberService } from '@src/service/MemberService';
 import { MemberController } from './controller/member/MemberController';
 import { SigninController } from './controller/signin/SigninController';
+import { OpenBankingService } from './service/OpenBankingService';
+import { OpenBankingController } from './controller/openbanking/OpenBankingController';
+import { ObAuthLogRepository } from './repository/master/openbanking/ObAuthLogRepository';
+import { ObTokenRepository } from './repository/master/openbanking/ObTokenRepository';
 
 @Module({})
 export class AppModule {
@@ -19,17 +23,21 @@ export class AppModule {
                 DatabaseModule.forRoot(config),
                 TypeOrmModule.forFeature([
                     MemberRepository,
+                    ObAuthLogRepository,
+                    ObTokenRepository,
                 ], config.db.master.name),
                 LoggerModule,
             ],
             providers: [
-                MemberService
+                MemberService,
+                OpenBankingService
             ],
             controllers: [
                 IndexController,
                 SignupController,
                 SigninController,
-                MemberController
+                MemberController,
+                OpenBankingController
             ]
         }
     }

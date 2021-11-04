@@ -37,7 +37,8 @@ export class SigninController {
             return new ApiResponse('0', 'failed', null);
         }
 
-        session.memberId = member.uuid;
+        session.memberSeq = member.seq;
+        session.memberUuid = member.uuid;
         session.memberUsername = member.username;
         session.memberEmail = member.email;
 

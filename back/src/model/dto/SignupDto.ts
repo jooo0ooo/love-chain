@@ -5,6 +5,7 @@ export interface SignupDto {
     username: string;
     email: string;
     password: string;
+    accessToken: string;
 }
 
 export const toSignupDto = (username: string, email: string, password: string): SignupDto => {
@@ -12,6 +13,7 @@ export const toSignupDto = (username: string, email: string, password: string): 
         uuid: uuidV4().toString(),
         username: username,
         email: email,
-        password: password
+        password: password,
+        accessToken: uuidV4().toString()
     }
 }

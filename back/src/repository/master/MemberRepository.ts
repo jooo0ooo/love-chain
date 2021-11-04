@@ -31,4 +31,12 @@ export class MemberRepository extends Repository<Member> {
             .where(`${tableName}.username = :username`, {username})
             .getOne();
     }
+
+    async findOneByUserSeq(userSeq: string, manager?: EntityManager): Promise<Member | undefined> {
+        const queryBuilder = manager?.createQueryBuilder(Member, tableName) || this.createQueryBuilder(tableName);
+        return queryBuilder
+            .select()
+            .where(`${tableName}.seq = :userSeq`, {userSeq})
+            .getOne();
+    }
 }

@@ -34,6 +34,10 @@ export class MemberService {
         return await this.memberRepository.findOneByUsername(username);
     }
 
+    async findOneByUserSeq(userSeq: string): Promise<Member | undefined> {
+        return await this.memberRepository.findOneByUserSeq(userSeq);
+    }
+
     async isExistEmail(email: string): Promise<boolean> {
         const member = await this.findOneByEmail(email);
         return member ? true : false;
