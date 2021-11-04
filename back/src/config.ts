@@ -28,6 +28,19 @@ export type Config = {
         }
     };
 
+    openbanking: {
+        common: {
+            key: string;
+            secret: string;
+        },
+        url: {
+            redirectUri: string;
+            authUri: string;
+            tokenUri: string;
+        }
+
+    }
+
     log: {
         filepath: string;
     };
@@ -36,7 +49,7 @@ export type Config = {
 export let config: Config = {
     server: {
         port: process.env.PORT || "3139",
-        name: process.env.SERVER_NAME || "isb",
+        name: process.env.SERVER_NAME || "love-chain",
         sessionSecret: process.env.SESSION_SECRET || "session-secret",
         passwordSecret: process.env.PASSWORD_SECRET || "password-secret",
     },
@@ -58,8 +71,20 @@ export let config: Config = {
         }
     },
 
+    openbanking: {
+        common: {
+            key: process.env.OB_API_KEY || '',
+            secret: process.env.OB_TOKEN_KEY || '',
+        },
+        url: {
+            redirectUri: process.env.OB_REDIRECT_URI || '',
+            authUri: process.env.OB_AUTH_URI || '',
+            tokenUri: process.env.OB_TOKEN_URI || '',
+        }
+    },
+
     log: {
-        filepath: process.env.LOG_FILE_PATH || "/data/isb-master/logs"
+        filepath: process.env.LOG_FILE_PATH || "/data/love-chain-master/logs"
     }
 };
 
@@ -88,6 +113,18 @@ export const setConfig = async (): Promise<void> => {
                 logging: originalConfig.db.master.logging,
                 dropSchema: originalConfig.db.master.dropSchema,
             },
+        },
+
+        openbanking: {
+            common: {
+                key: originalConfig.openbanking.common.key,
+                secret: originalConfig.openbanking.common.secret,
+            },
+            url: {
+                redirectUri: originalConfig.openbanking.url.redirectUri,
+                authUri: originalConfig.openbanking.url.authUri,
+                tokenUri: originalConfig.openbanking.url.tokenUri,
+            }
         },
 
         log: {

@@ -1,6 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import {WinstonLogger} from '@src/logger/WinstonLogger';
-import {objectToStringWithDeleteKeys} from '@src/util/conversion';
 import {UNASSIGNED} from "@src/constants";
 import {timeDefaultTransformer} from "@src/database/util";
 
@@ -24,6 +23,9 @@ export class Member {
     @Column({name: 'password', type: 'varchar', default: UNASSIGNED})
     public password!: string;
 
+    @Column({name: 'access_token', unique: true, type: 'varchar', length: 64})
+    public accessToken!: string;
+
     @Column({
         name: 'created_at',
         type: 'timestamp',
@@ -41,8 +43,4 @@ export class Member {
     })
     public updatedAt!: number;
 
-
-    public toString(): string {
-        return objectToStringWithDeleteKeys([])(this);
-    }
 }

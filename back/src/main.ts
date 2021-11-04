@@ -43,13 +43,13 @@ async function bootstrap() {
 
     app.use(rTracerExpressMiddlewares({
         useHeader: true,
-        headerName: 'isb-request-id'
+        headerName: 'love-chain-request-id'
     }));
     app.use(winstonLogger.morganMiddleware());
     app.useLogger(winstonLogger);
     app.useGlobalInterceptors(new ErrorsInterceptor());
     
-    app.enableCors();
+    app.enableCors({origin: true, credentials: true});
     
     await app.listen(config.server.port, async () => {
         winstonLogger.log(`${config.server.name} is running with port: ${config.server.port}`);
