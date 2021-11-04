@@ -161,7 +161,7 @@ const Signup = (): JSX.Element => {
     );
 
     return (
-        <div className="content" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/img/signin_out/background1.jpg'})`}}>
+        <div className="content" style={{backgroundImage: `url(${process.env.PUBLIC_URL + '/img/signin_out/signup.jpg'})`}}>
             <nav id="signup-header">
                 <Link to="/">
                     <div className="logoBox">
