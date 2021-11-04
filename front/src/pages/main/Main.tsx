@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '@components/header/Header';
-import { customAxios } from '@src/utils/CustomAxios';
+import { myAxios } from '@utils/myAxios';
 import { ToastContainer, toast } from 'react-toastify';
 import '@pages/main/Main.css'
 
 function Main(): JSX.Element {
 
     const registerOpenBanking = async () => {
-        const res = await customAxios.get('/openbanking/register');
+        const res = await myAxios.get('/openbanking/register');
         if (res.data) {
             window.location.href = res.data;
         } else {

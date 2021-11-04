@@ -9,7 +9,7 @@ import TypeWriter from "@components/typeWriter/TypeWriter";
 import { isValidEmail, isValidPwd, isValidUsername, sleep } from '@utils/Utils';
 import '@pages/signup/Signup.css';
 import { inputList } from '@pages/signup/InputList';
-import { customAxios } from '@src/utils/CustomAxios';
+import { myAxios } from '@src/utils/myAxios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -104,7 +104,7 @@ const Signup = (): JSX.Element => {
             password = pwdInput.current?.value,
             username = usernameInput.current?.value;
             
-        const res = await customAxios.post('/signup', {email, password, username});
+        const res = await myAxios.post('/signup', {email, password, username});
         if (res.data.message == 'success') {
             history.push("/signin");
         } else {

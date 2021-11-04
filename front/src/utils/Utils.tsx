@@ -1,4 +1,4 @@
-import { customAxios } from '@src/utils/CustomAxios';
+import { myAxios } from '@utils/myAxios';
 
 export const isValidEmail = async (email: string | undefined): Promise<boolean> => {
     if (email == undefined) {
@@ -7,7 +7,7 @@ export const isValidEmail = async (email: string | undefined): Promise<boolean> 
 
     const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (emailRegex.test(email)) {
-        const res = await customAxios.post('/member/check/email/' + email);
+        const res = await myAxios.post('/member/check/email/' + email);
         return res.data.message == 'exist' ? false : true;
     }
 
@@ -29,7 +29,7 @@ export const isValidUsername = async (username: string | undefined): Promise<boo
     
     const usernameRegex = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,18}[A-Za-z0-9]{1}$/;
     if (usernameRegex.test(username)) {
-        const res = await customAxios.post('/member/check/username/' + username);
+        const res = await myAxios.post('/member/check/username/' + username);
         return res.data.message == 'exist' ? false : true;
     }
 
