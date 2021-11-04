@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom';
-import { customAxios } from '@src/utils/CustomAxios';
+import { myAxios } from '@utils/myAxios';
 import { ToastContainer, toast } from 'react-toastify';
 import "@pages/signin/Signin.css"
 
@@ -24,7 +24,7 @@ const Signin = (): JSX.Element => {
         const email = emailInput.current?.value,
             password = pwdInput.current?.value;
             
-        const res = await customAxios.post('/signin', {email, password});
+        const res = await myAxios.post('/signin', {email, password});
         if (res.data.message == 'success') {
             history.push("/");
         } else {
