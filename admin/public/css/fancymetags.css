@@ -1,0 +1,199 @@
+/* FancyMe Tags Plugin
+ * By Pamela Rodriguez
+ * Free to use
+ * Link backs are appreciated :)
+ * www.thepamrdz.com
+ */
+
+/*Plugin CSS - Basic styling*/
+
+#hiddenlist{
+	display:none;
+}
+
+.fancyme-tags input[type=text]{
+    padding: 5px;
+    border: 1px solid #ccc;
+
+	width: 88%;
+}
+
+.fancyme-tags input[type=button]{
+    padding: 6px;
+    border: 0;
+    background-color: #bbb;
+    color: #333;
+    -moz-box-shadow:    2px 2px 0px 1px #999;
+ 	-webkit-box-shadow: 2px 2px 0px 1px #999;
+  	box-shadow:         2px 2px 0px 1px #999;
+  	cursor: pointer;
+}
+
+.fancyme-tags input[type=button]:hover{
+    background-color: #ddd;
+}
+
+.fancyme-tags #shownlist{
+    display: block;
+    clear: both;
+    margin-top: 0px; /*before: 15px*/
+    padding-left: 3px;
+}
+
+.fancyme-tags #shownlist span{
+    display: block;
+    float: left;
+    padding: 5px 8px;
+    background-color: #aaa;
+    color: #fff;
+    margin: 10px 10px 0 0;
+}
+
+.fancyme-tags #shownlist span a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 900;
+}
+
+/*Plugin CSS - Theme Styling*/
+
+.fancyme-tags.blue input[type=button]{
+	background-color: #374c85;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #25325a;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #25325a;
+  	box-shadow:         3px 3px 0px 1px #25325a;
+}
+
+.fancyme-tags.blue input[type=button]:hover{
+	background-color: #6481d0;
+	color: #fff;
+}
+
+.fancyme-tags.blue #shownlist span{
+    background-color: #374c85;
+}
+
+.fancyme-tags.red input[type=button]{
+	background-color: #921307;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #5f0100;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #5f0100;
+  	box-shadow:         3px 3px 0px 1px #5f0100;
+}
+
+.fancyme-tags.red input[type=button]:hover{
+	background-color: #dc2412;
+	color: #fff;
+}
+
+.fancyme-tags.red #shownlist span{
+    background-color: #921307;
+}
+
+.fancyme-tags.green input[type=button]{
+	background-color: #1c7f2c;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #084c24;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #084c24;
+  	box-shadow:         3px 3px 0px 1px #084c24;
+}
+
+.fancyme-tags.green input[type=button]:hover{
+	background-color: #35bb4a;
+	color: #fff;
+}
+
+.fancyme-tags.green #shownlist span{
+    background-color: #1c7f2c;
+}
+
+.fancyme-tags.yellow input[type=button]{
+	background-color: #ffde00;
+	color: #333;
+	-moz-box-shadow:    3px 3px 0px 1px #ffbf00;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #ffbf00;
+  	box-shadow:         3px 3px 0px 1px #ffbf00;
+}
+
+.fancyme-tags.yellow input[type=button]:hover{
+	background-color: #fbe972;
+	color: #333;
+}
+
+.fancyme-tags.yellow #shownlist span{
+    background-color: #ffde00;
+    color: #333;
+}
+
+.fancyme-tags.yellow #shownlist span a{
+    color: #333;
+}
+
+.fancyme-tags.orange input[type=button]{
+	background-color: #ee8a00;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #d85200;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #d85200;
+  	box-shadow:         3px 3px 0px 1px #d85200;
+}
+
+.fancyme-tags.orange input[type=button]:hover{
+	background-color: #ffbe64;
+	color: #fff;
+}
+
+.fancyme-tags.orange #shownlist span{
+    background-color: #ee8a00;
+}
+
+.fancyme-tags.pink input[type=button]{
+	background-color: #9d4978;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #891d59;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #891d59;
+  	box-shadow:         3px 3px 0px 1px #891d59;
+}
+
+.fancyme-tags.pink input[type=button]:hover{
+	background-color: #d372a8;
+	color: #fff;
+}
+
+.fancyme-tags.pink #shownlist span{
+    background-color: #9d4978;
+}
+
+.fancyme-tags.purple input[type=button]{
+	background-color: #7a52b1;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #351662;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #351662;
+  	box-shadow:         3px 3px 0px 1px #351662;
+}
+
+.fancyme-tags.purple input[type=button]:hover{
+	background-color: #a474e6;
+	color: #fff;
+}
+
+.fancyme-tags.purple #shownlist span{
+    background-color: #7a52b1;
+}
+
+.fancyme-tags.black input[type=button]{
+	background-color: #555;
+	color: #fff;
+	-moz-box-shadow:    3px 3px 0px 1px #000;
+ 	-webkit-box-shadow: 3px 3px 0px 1px #000;
+  	box-shadow:         3px 3px 0px 1px #000;
+}
+
+.fancyme-tags.black input[type=button]:hover{
+	background-color: #888;
+	color: #fff;
+}
+
+.fancyme-tags.black #shownlist span{
+    background-color: #555;
+}

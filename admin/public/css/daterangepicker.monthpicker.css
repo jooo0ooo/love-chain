@@ -1,0 +1,93 @@
+.s-timeRange {
+    display: inline-block;
+    padding: 5px 20px;
+    color: black;
+    background-color: white;
+}
+
+.daterangepicker .drp-buttons {
+    text-align: left;
+}
+.daterangepicker .drp-selected {
+    display: none;
+}
+div.drp-calendar.left {
+    margin-right: 20px!important;
+}
+li{
+    list-style: none;
+}
+.s-cal {
+    width: 150px;
+    margin-top: 8px;
+}
+ 
+div.calendar.left {
+    margin-right: 20px!important;
+}
+ 
+.s-calTitle>span {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #08c;
+    cursor: pointer;
+ 
+    line-height: 25px;
+    border-radius: 3px;
+}
+.s-calTitle>span:hover {
+    background-color: #08c;
+    color: #fff;
+}
+.s-calTitle>p {
+    line-height: 25px;
+    margin-bottom: 2px;
+}
+.s-calTitle,
+.s-calMonth {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.s-calMonth {
+    margin-left: -40px;
+}
+ul.s-calMonth>li {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+}
+ul.s-calMonth>li:hover{
+   background-color: #EBF4FB;
+}
+ul.s-calMonth>li.onFocus {
+    background-color: #08c;
+    color: #fff;
+}
+ul.s-calMonth>li.disabled {
+   cursor: not-allowed;
+    pointer-events: none;
+   opacity: 0.6;
+}
+.s-calViewTitle {
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    font-weight: bold;
+    color: #08c;
+}
+
+@media screen and (max-width: 600px) {
+	.daterangepicker {
+        width: 92%;
+        left: 15px;
+    }
+    .drp-calendar {
+        display: inline-block !important;
+    }
+    .s-cal {
+        display: inline;
+    }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title></title>
+    <meta name="description" content="">
+
+    <link rel="icon" href="data:,">
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="/public/css/toastr.min.css" rel="stylesheet">
+    <link href="/public/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="/public/css/custom.min.css" rel="stylesheet">
+    <link href="/public/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/public/css/all.min.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+    <link href="/public/css/select2.min.css" rel="stylesheet">
+    <link href="/public/css/fancymetags.css" rel="stylesheet">
+    
+    <script src="/public/js/jquery-3.5.1.min.js"></script>
+    <script src="/public/js/jquery.fancybox.min.js"></script>
+    <script src="/public/js/popper.js"></script>
+    <script src="/public/js/moment.min.js"></script>
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/common.js"></script>
+    <script src="/public/js/toastr.min.js"></script>
+    <script src="/public/js/jquery-ui.min.js"></script>
+    <script src="/public/js/select2.min.js"></script>
+    <script src="/public/js/fancymetags.js"></script>
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {{{ body }}}
+        </div>
+    </div>
+</body>
+<script src="/public/js/custom.min.js"></script>
+<script>
+    var names = document.getElementsByClassName("name");
+
+/*
+    for (var i = 0; i < names.length; i++) {
+        names[i].innerHTML = maskingName(names[i].innerHTML);
+    }
+
+    function maskingName(name) {
+        if(name == 'UNASSIGNED' || name=='-'){
+            return name
+        }
+        if (name.length > 2) {
+            var firstName = name.substring(0,1);
+            var lastName = name.substring(name.length-1,name.length);
+            var makers="";
+            for(var i = 0; i < name.length-2; i++) {
+                makers += "*";
+            }
+            var name = firstName + makers + lastName;
+            return name;
+        }
+        else if (name.length == 2) {
+            var firstName = name.substring(0,1);
+            return firstName + "*";
+        }
+        else {
+            return "*";
+        }
+    }
+    */
+</script>
+</html>

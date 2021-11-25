@@ -1,0 +1,157 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="small mb-1" for="email-input">Email</label>
+                        <input class="form-control py-4" id="email-input" type="email" placeholder="Enter email address" name="email" autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="small mb-1" for="password-input">Password</label>
+                        <input class="form-control py-4" id="password-input" type="password" placeholder="Enter password" name="password"/>
+                    </div>
+                    <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <span class="small text-info" href="#">login needed</span>
+                        <button id="login-btn" class="btn btn-primary">Login</button>
+                    </div>                
+                </div>
+                <div class="card-footer text-center">
+                    <div class="small"><span class="small text-info">회원가입이 필요하면 관리자에게 문의하세요.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="margin-left: 28%; color: black;">L.C. Admin 2FA Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+          <img id="qr" src="" alt="qr" style="display: none;">
+          <span id="qr-info" class="text-danger" style="display: none;"><br/>OTP 등록을 위해 1회만 나오는 QR Code입니다.<br /> 재등록을 원할시 개발팀에 문의해주세요.<br/><br/></span>
+          <p>위 QR코드를 등록한 OTP 앱에 표기된 숫자 6자리를 입력해주세용</p>
+          <input id="otp-input" type="number" class="form-control" oninput="maxLengthCheck(this)" maxlength="6" style="width:50%; display: inline-block;"/>
+          
+          <button class="btn btn-info" id="otp-btn">Verify</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$('html body').css('background-color', 'white');
+$('html').css('height', '100%');
+
+$("#password-input").keydown(function(key) {
+    if (key.keyCode == 13) {
+        location.href="/id_approval"
+        //submitLogin();
+    }
+});
+
+$('#login-btn').click(function() {
+    submitLogin();
+});
+
+function submitLogin() {
+    let email = $('#email-input').val(),
+        password = $('#password-input').val();
+
+    if (email.length == 0 || password == 0) {
+        toastr.error('Email, Password를 전부 입력해주세요.');
+        return;
+    }
+
+    if(!isEmail(email)) {
+        toastr.error('Email 형식이 올바르지 않습니다.');
+        return;
+    }
+
+    let data = {email: email, password: password};
+
+    $.ajax({
+        url: `/signin`,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result.success) {
+                $('#otpModal').modal('show');
+                if (result.otpImgUrl) {
+                    $('#qr').attr("src", result.otpImgUrl);
+                    $('#qr').show();
+                    $('#qr-info').show();
+                }
+            } else {
+                if (result.message) {
+                    toastr.error(result.message);
+                } else {
+                    toastr.error('로그인 실패, 이메일 혹은 비밀번호를 확인해주세요.');
+                }
+            }
+        },
+        error: function(result) {
+            console.log(result);
+        }
+    });
+}
+
+$("#otp-input").keydown(function(key) {
+    if (key.keyCode == 13) {
+        submitOtp();
+    }
+});
+
+$('#otp-btn').click(function() {
+    submitOtp();
+});
+
+function submitOtp() {
+    let otpInput = $("#otp-input").val();
+    if (otpInput.length !== 6) {
+        toastr.error('OTP 번호를 확인해주세요.');
+        return;
+    }
+
+    let data = {userToken: otpInput};
+
+    $.ajax({
+        url: `/signin/otp/` + otpInput,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (result) {
+            if (result.success) {
+                location.href="/home";
+            } else {
+                toastr.error('OTP 번호가 옳바르지 않습니다.');
+            }
+        },
+        error: function(result) {
+            console.log(result);
+        }
+    });
+}
+
+function isEmail(email) {
+	var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,5}$/i;
+	return regExp.test(email);
+}
+
+function maxLengthCheck(object) {
+    if (object.value.length > object.maxLength){
+        object.value = object.value.slice(0, object.maxLength);
+    }
+}
+
+$('#otpModal').on('shown.bs.modal', function () {
+    $('#otp-input').focus();
+})  
+</script>

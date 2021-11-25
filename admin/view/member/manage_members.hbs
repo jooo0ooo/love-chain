@@ -1,0 +1,144 @@
+{{> navigation/sidenav }}
+{{> navigation/topnav }}
+<style>
+</style>
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="card mb-4" style="width: 100%;">
+            <div class="card-body">
+                <div class="p-3" style="background-color: #efefef;">
+                    <form id="searchForm">
+                        <div style="display: inline-block;">
+                            <label class="text-black ml-3">이름</label>
+                            <input class="form-control form-control-sm" type="text" name="name" value="{{searchSelected.name}}" style="width: 120px; display: inline-block;"/>
+                        </div>
+                        <div style="display: inline-block;">
+                            <label class="text-black ml-3">닉네임</label>
+                            <input class="form-control form-control-sm" type="text" name="nickname" value="{{searchSelected.nickname}}" style="width: 120px; display: inline-block;"/>
+                        </div>
+                        <div style="display: inline-block;">
+                            <label class="text-black ml-3">이메일</label>
+                            <input class="form-control form-control-sm" type="text" name="email" value="{{searchSelected.email}}" style="width: 200px; display: inline-block;"/>
+                        </div>
+                        <div style="display: inline-block;">
+                            <label class="text-black ml-3">상태</label>
+                            <select class="form-control form-control-sm" name="status" style="width: 150px; display: inline-block; padding-left: 45px;">
+                                <option value="ALL" {{#ifType searchSelected.status "ALL"}}selected{{/ifType}}>ALL</option>
+                                <option value="CREATED" {{#ifType searchSelected.status "CREATED"}}selected{{/ifType}}>생성됨</option>
+                                <option value="ACTIVE" {{#ifType searchSelected.status "ACTIVE"}}selected{{/ifType}}>정상</option>
+                                <option value="INACTIVE" {{#ifType searchSelected.status "INACTIVE"}}selected{{/ifType}}>비활성화</option>
+                                <option value="BLOCKED" {{#ifType searchSelected.status "BLOCKED"}}selected{{/ifType}}>정지</option>
+                                <option value="DORMANT" {{#ifType searchSelected.status "DORMANT"}}selected{{/ifType}}>휴면</option>
+                                <option value="LEAVED" {{#ifType searchSelected.status "LEAVED"}}selected{{/ifType}}>탈퇴</option>
+                                <option value="LEAVED_REQUESTED" {{#ifType searchSelected.status "LEAVED_REQUESTED"}}selected{{/ifType}}>탈퇴 신청</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="page" id="page" value="{{pager.currentPage}}"/>
+                        <input type="hidden" name="limit" id="limit" value="{{pager.limit}}"/>
+                        <button class="btn btn-sm btn-secondary pull-right" id="submit-btn">검색하기</button>
+                    </form>
+                </div>
+                <div class="mt-3 mb-1">
+                    <span class="text-dark font-weight-bold">검색 결과 (1{{pager.totalCount}}건)</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>이름</th>
+                                <th>닉네임</th>
+                                <th>이메일</th>
+                                <th>국적</th>
+                                <th>본인인증 단계</th>
+                                <th>상태</th>
+                                <th>메모</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                            <tr id="{{this.memberId}}">
+                                <td data-label="이름" class="name">Jiwoo Jung{{this.name}}</td>
+                                <td data-label="닉네임">joo0oo{{this.nickname}}</td>
+                                <td data-label="이메일">pingrae@me.com{{this.email}}</td>
+                                <td data-label="국적">
+                                    KR
+                                    {{#ifType this.country "99"}}UNKNOWN{{/ifType}}
+                                    {{#ifType this.country ""}}{{/ifType}}
+                                    {{> common/admin_table_country }}
+                                </td>
+                                <td data-label="본인인증 단계">
+                                    신분증 인증
+                                    {{#ifType this.verified "phone"}}휴대폰본인인증{{/ifType}}
+                                    {{#ifType this.verified "two_factor"}}2 Factor{{/ifType}}
+                                    {{#ifType this.verified "email"}}이메일 인증{{/ifType}}
+                                    {{#ifType this.verified "sms"}}SMS 인증{{/ifType}}
+                                    {{#ifType this.verified "id"}}신분증 인증{{/ifType}}
+                                    {{#ifType this.verified "-"}}SNS{{/ifType}}
+                                </td>
+                                <td data-label="상태" id="td-member-status">
+                                    정상
+                                    {{#ifType this.status "CREATED"}}생성됨{{/ifType}}
+                                    {{#ifType this.status "ACTIVE"}}정상{{/ifType}}
+                                    {{#ifType this.status "INACTIVE"}}비활성화{{/ifType}}
+                                    {{#ifType this.status "BLOCKED"}}정지{{/ifType}}
+                                    {{#ifType this.status "DORMANT"}}휴면{{/ifType}}
+                                    {{#ifType this.status "LEAVED"}}탈퇴{{/ifType}}
+                                </td>
+                                <td data-label="메모" id="td-member-adminMemo">{{this.adminMemo}}</td>
+                            </tr>
+                        <!--{{#each members}}
+                        {{/each}}-->
+                    </table>
+                </div>
+                <div class="form-group pagination-centered">
+                    <ul class="pagination">
+                        <li class="pn-custom pn-left pn-left-option1 page-item"><a class="page-link" href="#" onclick="gotoPage(1);">&laquo;</a></li>
+                        <li class="pn-custom pn-left pn-left-option2 page-item"><a class="pageLink" href="#" onclick="gotoPage({{pager.currentPage}} - 1);">&larr;</a></li>
+
+                        <li class="pn-custom pn-right pn-right-option1 page-item"><a class="page-link" href="#" onclick="gotoPage({{pager.currentPage}} + 1);">&rarr;</a></li>
+                        <li class="pn-custom pn-right pn-right-option2 page-item"><a class="page-link" href="#" onclick="gotoPage({{pager.lastPage}});">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$('tbody tr').click(function() {
+    location.href="/manage_members/" + $(this).attr("id");
+});
+
+function gotoPage(page) {
+    $('#page').val(page);
+    $('#searchForm').submit();
+}
+
+$('#submit-btn').click(function() {
+    $('#searchForm').submit();
+});
+
+let currentPage = {{pager.currentPage}}, startPage = {{pager.startPage}}, endPage = {{pager.endPage}}, lastPage = {{pager.lastPage}};
+if (startPage == 1) {
+    $('.pn-left-option1').hide();
+}
+if (currentPage == 1) {
+    $('.pn-left-option2').hide();
+}
+
+let $li = '';
+for (let i = startPage; i <= endPage; i++) {
+    if (currentPage == i) {
+        $li += `<li class="page-item active pointer-disabled"><a class="page-link" href="#" onclick="gotoPage(` + i + `);">` + i + `</a></li>`;
+    } else {
+        $li += `<li class="page-item"><a class="page-link" href="#" onclick="gotoPage(` + i + `);">` + i + `</a></li>`;
+    }
+}
+$('.pn-left').last().after($li);
+
+if (endPage == lastPage) {
+    $('.pn-right-option2').hide();
+}
+if (currentPage == lastPage || {{pager.totalCount}} == 0) {
+    $('.pn-right-option1').hide();
+}
+</script>
