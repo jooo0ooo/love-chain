@@ -51,12 +51,7 @@ function Header(): JSX.Element {
                     <span>How to join?</span>
                 </button>
             </Link>
-            <Link className="signup" to="/signup">
-                Sign up
-            </Link>
-            <Link className="signin" to="/signin">
-                Sign in
-            </Link>
+
         </nav>
     )
 }
