@@ -3,17 +3,17 @@ import {Injectable} from "@nestjs/common";
 import {InjectConnection, InjectRepository} from "@nestjs/typeorm";
 import {Connection} from "typeorm";
 import {WinstonLogger} from "@src/logger/WinstonLogger";
-import { MemberRepository } from "@src/repository/master/MemberRepository";
+import { MemberRepository } from "@src/repository/client/MemberRepository";
 import { SignupDto } from "@src/model/dto/SignupDto";
-import { Member } from "@src/model/entity/master/Member";
+import { Member } from "@src/model/entity/client/Member";
 
 @Injectable()
 export class MemberService {
 
     constructor(
-        @InjectRepository(MemberRepository, config.db.master.name) private readonly memberRepository: MemberRepository,
+        @InjectRepository(MemberRepository, config.db.client.name) private readonly memberRepository: MemberRepository,
 
-        @InjectConnection(config.db.master.name) private readonly masterConnection: Connection,
+        @InjectConnection(config.db.client.name) private readonly clientConnection: Connection,
 
         private readonly logger: WinstonLogger,
     ) {
@@ -21,7 +21,7 @@ export class MemberService {
     }
 
     async insertMember(dto: SignupDto): Promise<void> {            
-        await this.masterConnection.transaction(async (manager) => {
+        await this.clientConnection.transaction(async (manager) => {
             await this.memberRepository.insertMember(dto, manager);
         });
     }

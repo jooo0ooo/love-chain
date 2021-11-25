@@ -23,11 +23,11 @@ async function bootstrap() {
     });
 
     const sessionOptions: MysqlSession.Options = {
-        host: config.db.master.host,
-        port: config.db.master.port,
-        user: config.db.master.username,
-        password: config.db.master.password,
-        database: config.db.master.dbname,
+        host: config.db.client.host,
+        port: config.db.client.port,
+        user: config.db.client.username,
+        password: config.db.client.password,
+        database: config.db.client.dbname,
         expiration: 86400000,
     };
     const MySQLStore = MysqlSession(session);
@@ -57,7 +57,7 @@ async function bootstrap() {
 
     app.use(rTracerExpressMiddlewares({
         useHeader: true,
-        headerName: 'lovechain-master-request-id'
+        headerName: 'lovechain-client-request-id'
     }));
     app.use(winstonLogger.morganMiddleware());
     app.useLogger(winstonLogger);

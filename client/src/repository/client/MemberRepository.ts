@@ -1,5 +1,5 @@
 import { SignupDto } from "@src/model/dto/SignupDto";
-import { Member } from "@src/model/entity/master/Member";
+import { Member } from "@src/model/entity/client/Member";
 import {EntityManager, EntityRepository, Repository} from "typeorm";
 
 const tableName = 't_member';

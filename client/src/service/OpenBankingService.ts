@@ -3,22 +3,22 @@ import {Injectable} from "@nestjs/common";
 import {InjectConnection, InjectRepository} from "@nestjs/typeorm";
 import {Connection} from "typeorm";
 import {WinstonLogger} from "@src/logger/WinstonLogger";
-import { ObAuthLogRepository } from "@src/repository/master/openbanking/ObAuthLogRepository";
+import { ObAuthLogRepository } from "@src/repository/client/openbanking/ObAuthLogRepository";
 import { MemberService } from "@src/service/MemberService";
 import axios from 'axios';
 import { URLSearchParams } from "url";
 import { ObAuthLogDto } from "@src/model/dto/openbanking/ObAuthLogDto";
 import { ObTokenDto } from "@src/model/dto/openbanking/ObTokenDto";
-import { ObTokenRepository } from "@src/repository/master/openbanking/ObTokenRepository";
-import { ObToken } from "@src/model/entity/master/openbanking/ObToken";
+import { ObTokenRepository } from "@src/repository/client/openbanking/ObTokenRepository";
+import { ObToken } from "@src/model/entity/client/openbanking/ObToken";
 
 @Injectable()
 export class OpenBankingService {
 
     constructor(
-        @InjectConnection(config.db.master.name) private readonly masterConnection: Connection,
-        @InjectRepository(ObAuthLogRepository, config.db.master.name) private readonly obAuthLogRepository: ObAuthLogRepository,
-        @InjectRepository(ObTokenRepository, config.db.master.name) private readonly obTokenRepository: ObTokenRepository,
+        @InjectConnection(config.db.client.name) private readonly clientConnection: Connection,
+        @InjectRepository(ObAuthLogRepository, config.db.client.name) private readonly obAuthLogRepository: ObAuthLogRepository,
+        @InjectRepository(ObTokenRepository, config.db.client.name) private readonly obTokenRepository: ObTokenRepository,
 
         private readonly memberService: MemberService,
         private readonly logger: WinstonLogger,

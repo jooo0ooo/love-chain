@@ -6,10 +6,10 @@ import { InjectConnection } from '@nestjs/typeorm';
 @Injectable()
 export class DatabaseService {
     constructor(
-        @InjectConnection(config.db.master.name) public masterConnection: Connection
+        @InjectConnection(config.db.client.name) public clientConnection: Connection
     ) {}
     
     async getRepository<T>(entity: ObjectType<T> | EntitySchema<T> | string): Promise<Repository<T>> {
-        return this.masterConnection.getRepository(entity);
+        return this.clientConnection.getRepository(entity);
     }
 }

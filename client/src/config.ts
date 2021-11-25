@@ -12,7 +12,7 @@ export type Config = {
     };
 
     db: {
-        master: {
+        client: {
             name: string;
             type: string;
             username: string;
@@ -49,25 +49,25 @@ export type Config = {
 export let config: Config = {
     server: {
         port: process.env.PORT || "3139",
-        name: process.env.SERVER_NAME || "lovechain-master",
+        name: process.env.SERVER_NAME || "lovechain-client",
         sessionSecret: process.env.SESSION_SECRET || "session-secret",
         passwordSecret: process.env.PASSWORD_SECRET || "password-secret",
     },
 
     db: {
-        master: {
-            name: process.env.DB_MASTER_CON_NAME || 'master',
-            type: process.env.DB_MASTER_TYPE || 'mysql',
-            username: process.env.DB_MASTER_USERNAME || "",
-            password: process.env.DB_MASTER_PASSWORD || "",
-            dbname: process.env.DB_MASTER_DB_NAME ||"",
-            host: process.env.DB_MASTER_HOST || "127.0.0.1",
-            port: process.env.DB_MASTER_PORT ? parseInt(process.env.DB_MASTER_PORT) : 3306,
-            maximumPoolSize: process.env.DB_MASTER_MAXIMUM_POOL_SIZE ? parseInt(process.env.DB_MASTER_MAXIMUM_POOL_SIZE) : 5,
-            connectionTimeout: process.env.DB_MASTER_CONNECTION_TIMEOUT ? parseInt(process.env.DB_MASTER_CONNECTION_TIMEOUT) : 10000,
-            synchronize: process.env.DB_MASTER_SYNCHRONIZE === 'true',
-            logging: process.env.DB_MASTER_LOGGING === 'true',
-            dropSchema: process.env.DB_MASTER_DROP_SCHEMA === 'true',
+        client: {
+            name: process.env.DB_CLIENT_CON_NAME || 'client',
+            type: process.env.DB_CLIENT_TYPE || 'mysql',
+            username: process.env.DB_CLIENT_USERNAME || "",
+            password: process.env.DB_CLIENT_PASSWORD || "",
+            dbname: process.env.DB_CLIENT_DB_NAME ||"",
+            host: process.env.DB_CLIENT_HOST || "127.0.0.1",
+            port: process.env.DB_CLIENT_PORT ? parseInt(process.env.DB_CLIENT_PORT) : 3306,
+            maximumPoolSize: process.env.DB_CLIENT_MAXIMUM_POOL_SIZE ? parseInt(process.env.DB_CLIENT_MAXIMUM_POOL_SIZE) : 5,
+            connectionTimeout: process.env.DB_CLIENT_CONNECTION_TIMEOUT ? parseInt(process.env.DB_CLIENT_CONNECTION_TIMEOUT) : 10000,
+            synchronize: process.env.DB_CLIENT_SYNCHRONIZE === 'true',
+            logging: process.env.DB_CLIENT_LOGGING === 'true',
+            dropSchema: process.env.DB_CLIENT_DROP_SCHEMA === 'true',
         }
     },
 
@@ -84,7 +84,7 @@ export let config: Config = {
     },
 
     log: {
-        filepath: process.env.LOG_FILE_PATH || "/data/lovechain-master/logs"
+        filepath: process.env.LOG_FILE_PATH || "/data/lovechain-client/logs"
     }
 };
 
@@ -99,19 +99,19 @@ export const setConfig = async (): Promise<void> => {
         },
 
         db: {
-            master: {
-                name: originalConfig.db.master.name,
-                type: originalConfig.db.master.type,
-                username: originalConfig.db.master.username,
-                password: originalConfig.db.master.password,
-                dbname: originalConfig.db.master.dbname,
-                host: originalConfig.db.master.host,
-                port: originalConfig.db.master.port,
-                maximumPoolSize: originalConfig.db.master.maximumPoolSize,
-                connectionTimeout: originalConfig.db.master.connectionTimeout,
-                synchronize: originalConfig.db.master.synchronize,
-                logging: originalConfig.db.master.logging,
-                dropSchema: originalConfig.db.master.dropSchema,
+            client: {
+                name: originalConfig.db.client.name,
+                type: originalConfig.db.client.type,
+                username: originalConfig.db.client.username,
+                password: originalConfig.db.client.password,
+                dbname: originalConfig.db.client.dbname,
+                host: originalConfig.db.client.host,
+                port: originalConfig.db.client.port,
+                maximumPoolSize: originalConfig.db.client.maximumPoolSize,
+                connectionTimeout: originalConfig.db.client.connectionTimeout,
+                synchronize: originalConfig.db.client.synchronize,
+                logging: originalConfig.db.client.logging,
+                dropSchema: originalConfig.db.client.dropSchema,
             },
         },
 
