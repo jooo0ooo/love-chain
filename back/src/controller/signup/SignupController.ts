@@ -1,4 +1,5 @@
-import { Controller, Post, Session, Body } from '@nestjs/common';
+import {Response} from "express";
+import { Controller, Post, Session, Body, Get, Res } from '@nestjs/common';
 import { WinstonLogger } from '@src/logger/WinstonLogger';
 import { ApiResponse } from '@src/model/global/ApiResponse';
 import { objectToString } from '@src/util/conversion';
@@ -36,5 +37,23 @@ export class SignupController {
         await this.memberService.insertMember(signupDto);
 
         return new ApiResponse('0', 'success', null);
+    }
+
+    @Get('/')
+    step1(
+        @Session() session: Record<string, any>,
+        @Res() res: Response,
+    ): void {
+        /*
+        if (session && session.adminId && session.otpVerified) {
+            if(session.passwordExpired) { 
+                return res.redirect(`/manage_admin_member/password`);
+            } else {
+                return res.redirect(`/home`);
+            }
+        }
+        */
+        return res.render('signup', {
+        });
     }
 }

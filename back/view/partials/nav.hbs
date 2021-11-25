@@ -1,0 +1,206 @@
+<style>
+body {
+  font-family:'nanum-pen';
+}
+
+#header {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.navbar {
+    padding: 0;
+}
+
+#header-container {
+	height: 50px;
+    background-color: #f7f7f7;
+    padding: 10px;
+}
+
+.navbar-header {
+	width: 100%;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+#nav-home {
+    position: relative;
+    height: 50px;
+    cursor: pointer;
+}
+
+#nav-home-img {
+    height:70%;
+    border-radius: 20px;
+}
+
+.custom-toggle {
+    font-size: 20px;
+    margin-right:5px;
+    border: none;
+    background: none;
+}
+
+.cnav-menu {
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	transition: all .5s ease;
+	position: fixed;
+	z-index: 10000;
+	top: 0;
+	right: -300px;
+	width: 280px;
+	margin-left: 20px;
+	background-color: #fff;
+	height: 100%;
+	overflow-y: scroll;
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+}
+
+.cnav-menu-user {
+    padding: 5px 30px;
+    font-weight: bold;
+}
+
+.cnav-menu-user > p:first-child {
+    margin-top: 15px;
+}
+
+.cnav-menu ul {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	width: 100%;
+}
+
+.cnav-menu li a {
+	padding: 15px 30px;
+	display: block;
+	width: 100%;
+	color: #333;
+    font-size: 20px;
+}
+
+.cnav-menu p {
+    font-size: 23px;
+    margin-bottom: 0;
+}
+
+.cnav-menu li a:hover {
+	background-color: #ebebeb;
+}
+
+.cnav-bg {
+	display: none;
+	position: absolute;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.8);
+	color: #fff;
+}
+
+.cnav-times {
+	position: absolute;
+	top: 6px;
+	right: 270px;
+	font-size: 32px;
+}
+
+.cnav-times:hover {
+	cursor: pointer;
+}
+
+.cnav-menu.active {
+	transform:translateX(-280px);
+	-webkit-transform:translateX(-280px);
+	-moz-transform:translateX(-280px);
+	-ms-transform:translateX(-280px);
+	-o-transform:translateX(-280px);
+}
+
+.cnav-bg.active {
+	display: block;
+}
+
+.container {
+	max-width: 440px;
+	padding-left: 0;
+	padding-right: 0;
+    background-color: #fbfbfb; 
+}
+</style>
+<div id="header" class="row">
+<nav class="navbar" role="navigation">
+	<div id="header-container" class="container">
+		<div class="navbar-header">
+			<span class="pull-left m-l-sm pointer" id="nav-home">
+                <img src="/public/image/logo.png" id="nav-home-img">
+            </span>
+			<button id="menu" class="navbar-toggle collapsed custom-toggle pull-right" type="button" data-button="navbar-toggle">
+				<i class="fa fa-reorder"></i> Menu
+			</button>
+		</div>
+	</div>
+</nav>
+</div>
+<div class="cnav cnav-bg">
+	<div class="cnav-times">&times;</div>
+</div>
+<div class="cnav cnav-menu">
+    <div class="cnav-menu-user">
+        <p>Jiwoo Jung</p>
+        <p id="user-nickname">NickName : Joo0oo</p>
+        <p id="user-email">Email : pingrae@me.com</p>
+    </div>
+	<ul>
+        <li><a href="/home2"><span class="">Home</span></a></li>
+        <li><a href="/write">Leave Message</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="${context}/how_to_join">Q&#38;A</a></li>
+        <li><a href="${context}/support">Support</a></li>
+	</ul>
+</div>
+<script>
+$('.custom-toggle').click(function() {
+	openNav();
+	hideOnClickOutside();
+});
+
+$('#nav-home').click(function() {
+    location.href = "/";
+})
+
+function openNav() {
+	$('.cnav').addClass('active');
+}
+
+function closeNav() {
+	$('.cnav').removeClass('active');
+}
+
+function hideOnClickOutside() {
+	var btn = $('.custom-toggle'),
+		menu = $('.cnav-menu');
+	const outsideClickListener = function(event) {
+		if (!$(event.target).closest(menu).length
+				&& $(event.target).closest(btn).length !== 1) {
+			closeNav();
+			removeClickListener();
+		}
+	}
+	
+	const removeClickListener = function() {
+		$(document).off('click touchend', outsideClickListener);
+	}
+	
+	$(document).on('click touchend', outsideClickListener);
+}
+</script>

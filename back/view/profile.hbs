@@ -1,0 +1,123 @@
+<style>
+#profile-section, #more-service-section {
+	padding: 10px;
+}
+
+.profile-menu-div {
+	margin: 0;
+	margin-bottom: 5px;
+}
+
+.profile-menu-div > h3 {
+	line-height: 25px;
+}
+
+#more-service {
+	margin-bottom: 0;
+}
+
+.more-service-menu {
+	margin: 0;
+	padding-top: 7px;
+	cursor: pointer;
+}
+
+#section-hr {
+	border-top-width: 2px;
+	margin-left: -5px;
+	margin-right: -5px;
+}
+
+.more-service-hr {
+	border-top-width: 2px;
+	margin: 0;
+	margin-left: -5px;
+	margin-right: -5px;
+}
+
+.more-service-title {
+	width: 55%;
+}
+
+.more-service-arrow {
+	width: 40%;
+	font-size: 14px;
+	color: #999;
+	font-weight: bold;
+	text-align: right;
+	padding-top: 7px;
+	padding-right: 0;
+}
+</style>
+<div class="container scroll-container">
+    <div id="context" class="">
+		<div id="profile-section">
+			<div class="">
+				<h3>Profile</h3>
+			</div>
+			<div class="row profile-menu-div">
+				<h3>
+					name<br/>
+					<span>Jiwoo Jung</span>
+				</h3>
+			</div>
+			<div class="row profile-menu-div">
+				<h3>
+					nationality<br/>
+					<span>KR</span>
+				</h3>
+			</div>
+			<div class="row profile-menu-div">
+				<h3>
+					email<br/>
+					pingrae@me.com
+				</h3>							
+			</div>
+			<div class="row profile-menu-div">
+				<h3>
+					phone<br/>
+					<span>010-3139-3634</span>
+				</h3>
+			</div>
+		</div>
+		
+		<hr id="section-hr"/>
+		
+		<div id="more-service-section">
+			<h3 id="more-service">More Service</h3>
+			
+			<div id="my-messages" class="row more-service-menu">
+				<h3 class="pull-left more-service-title">My Messages</h3>
+				<span class="pull-right more-service-arrow">&#10095;</span>
+			</div>
+			<hr class="more-service-hr"/>
+			
+			<div id="auto-debit" class="row more-service-menu">
+				<h3 class="pull-left more-service-title">Auto Debit</h3>
+				<span class="pull-right more-service-arrow">&#10095;</span>
+			</div>
+			<hr class="more-service-hr"/>
+			
+			<div id="love-chain-pin" class="row more-service-menu">
+				<h3 class="pull-left more-service-title">Change LoveChain PIN</h3>
+				<span class="pull-right more-service-arrow">&#10095;</span>
+			</div>						
+			<hr class="more-service-hr"/>
+		</div>
+    </div>
+</div>
+<script>
+$('.scroll-container').css('height', window.innerHeight - 50 + 'px');
+$('#my-messages').click(function() {
+    location.href = '/my_messages';
+});
+
+$('#love-chain-pin').click(function() {
+    location.href = '/pin';
+});
+
+$('#auto-debit').click(function() {
+    location.href = '/auto_debit';
+});
+
+</script>

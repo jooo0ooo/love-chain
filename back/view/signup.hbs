@@ -1,0 +1,204 @@
+<style>
+#context {
+	padding: 10px 30px;
+}
+
+label {
+	font-size: 20px;
+}
+
+input {
+	font-size: 20px!important;
+	padding-top: 0!important;
+	padding-bottom: 0!important;
+	border-width: 0px !important;
+	border-bottom-width: 1px !important;
+	margin-bottom: 15px;
+}
+
+input[type="radio"] {
+	position: fixed;
+	opacity: 0;
+	pointer-events: none;
+}
+
+#gender-div {
+	margin-bottom: 15px;
+}
+
+.gender-span {
+	font-size: 20px;
+}
+
+select {
+	font-size: 20px!important;
+	padding-top: 0!important;
+	padding-bottom: 0!important;
+	margin-bottom: 15px;
+}
+
+.radio-btn {
+	border: 1px solid #dfdfdf;
+	width: 50%;
+}
+
+.btn-group, .input-group {
+	width: 100%;
+}
+
+#signup-btn {
+	width: 100%;
+	height: 50px;
+	font-size: 30px;
+	padding-top: 0;
+}
+
+#signup-btn-div {
+	position: absolute;
+	height: 50px;
+	bottom: 0;
+	max-width: 440px;
+	width: 100%;
+}
+
+#file {
+	width: 100%;
+}
+</style>
+<div class="container scroll-container">
+    <div id="context" class="">
+		<div class="">
+			<form class="" id="signup-form">
+				
+				<div class="form-group m-t-md" id='name-div'>
+					<label for="last-name">Name</label>
+					<input type="text" class="form-control" value="" id="name" name="name" autocomplete="off" required>
+				</div>
+				
+				<div class="form-group" id='gender-div'>
+					<label class="control-label">Gender</label>
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label for="gender-male" id="male-btn" class="btn radio-btn">
+							<input type="radio" name="gender" id="gender-male" value="male"><span id="male-span" class="gender-span">Male</span>
+						</label>
+						<label for="gender-female" id="female-btn" class="btn radio-btn">
+							<input type="radio" name="gender" id="gender-female" value="female"><span id="female-span" class="gender-span">Femail</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group" id='birth-div'>
+					<label class="control-label" for="birth-date">Birth Date (YYYY/MM/DD)</label>
+					<input type="text" class="form-control" id="birth-date" name="birthDate" value="" placeholder="ex) 1989/04/25" autocomplete="off" required>
+				</div>
+				
+				<div class="form-group" id='country-select'>
+					<label class="control-label">Nationality</label>
+					<select name="favCountry" id="fav-country" class="form-control">
+						<option value="" selected>Select...</option>
+						<option value="KR">Korea</option>
+						<option value="JP">Japan</option>
+						<option value="CN">China</option>
+						<option value="VN">Vietnam</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label" for="phone">Phone</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="phone" name="phone" placeholder="010-1234-5678" value="" autocomplete="off" required>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="nickname">Nickname</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="nickname" name="nickname" placeholder="" value="" autocomplete="off" required>
+					</div>
+				</div>
+				
+				<div class="form-group" id="password-div">
+					<label class="control-label">Password</label>
+					<input name="password" id="password" type="password" class="form-control" placeholder="" required>
+				</div>
+
+				<div class="form-group" id="password-repeat-div">
+					<label class="control-label">Password Repeat</label>
+					<input name="password-repeat" id="password-repeat" type="password" class="form-control" placeholder="" required>
+				</div>
+
+				<div class="form-group" id="email-div">
+					<label class="control-label">Email</label>
+					<input name="email" id="email" type="email" class="form-control" placeholder="your@email.com" autocomplete="off" required>
+				</div>
+
+				<img id="preview-img" class="" style="width:100%; max-width: 500px; display:none;"/>
+				<div class="form-group" id='file-div'>
+					<label for="file" class="control-label">ID Card Upload</label>
+					<input type="file" name="file" id="file" onchange="loadFile1(event)">
+				</div>
+				
+				<div class="form-group" id='id-number-div'>
+					<label for="id-number">ID Number</label>
+					<input type="text" class="form-control" value="" id="id-number" name="idNumber" autocomplete="off" required>
+				</div>
+				
+				
+			</form>
+		</div>
+    </div>
+	<div id="signup-btn-div">
+		<button type="button" id="signup-btn" class="btn btn-outline-success">
+			Sign Up
+		</button>
+	</div>
+</div>
+<script>
+$('.scroll-container').css('height', window.innerHeight - 100 + 'px');
+
+var $span = $('<span style="color: #00cc4c;">&#10003; </span>');
+$('.radio-btn').click(function(){
+	$(this).children('input').attr('checked', 'checked');
+	
+	if($(this).children('input').val() == 'male') {
+		$('#male-span').before($span);
+		$('#male-btn').css('border', '1px solid black');
+		$('#female-btn').css('border', '1px solid #dfdfdf');
+		$('#male-btn').css('z-index', '1');
+		$('#female-btn').css('z-index', '0');
+	} else {
+		$('#female-span').before($span);
+		$('#female-btn').css('border', '1px solid black');
+		$('#male-btn').css('border', '1px solid #dfdfdf');
+		$('#male-btn').css('z-index', '0');
+		$('#female-btn').css('z-index', '1');
+	}
+});
+
+$(function() {
+	var SPMaskBehavior = function(val) {
+		if (val.charAt(0) === '1') {
+			return val.replace(/\D/g, '').length === 9 ? '00-000-00009' : '00-0000-0000';
+		} else {
+			return val.replace(/\D/g, '').length === 10 ? '000-000-00009' : '000-0000-0000';
+		}
+		
+	}, spOptions = {
+		onKeyPress : function(val, e, field, options) {
+			field.mask(SPMaskBehavior.apply({}, arguments), options);
+		}
+	};
+
+	$('#phone').mask(SPMaskBehavior, spOptions);
+	$('#birth-date').mask('0000/00/00');
+});
+
+var loadFile1 = function(event) {
+	var output = $('#preview-img')[0];
+    output.src = URL.createObjectURL(event.target.files[0]);
+    $('#preview-img').css('display', 'block');
+};
+
+$('#signup-btn').click(function() {
+    location.href = '/signin';
+});
+</script>

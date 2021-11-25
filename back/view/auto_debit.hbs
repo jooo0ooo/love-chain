@@ -1,0 +1,58 @@
+<style>
+#register-btn {
+	background-color: #4ed945;
+	padding: 5px 10px;
+	text-align: center;
+	color: white;
+	font-size: 30px;
+	font-weight: bold;
+	width: 75%;
+	margin: 0 auto;
+	border-radius: 10px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+</style>
+<div id="wrap" class="container">
+    <div id="context" class="" style="height: 100%;">
+		<div id="register-section" style="height: 30%; padding: 15px;">
+			<h4>If you don't have a registered account or want to register a new account, please press the button below to add it.</h4>
+			<div id="register-btn" style="">Register Now!</div>
+		</div>
+		<hr>
+		<div id="list-section" class="scroll-container" style="padding: 5px 50px; height: 65%;">
+			<div style="border: 2px solid #ececec; padding: 3px 10px; margin-bottom: 15px; box-shadow: 5px 5px 5px gray; line-height: 30px; border-radius: 10px;">
+				<span class="pull-left" style="font-size: 20px; color: #4ed945;">인증 완료</span>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">국민은행</p>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">93139363455</p>
+			</div>
+			<div style="border: 2px solid #ececec; padding: 3px 10px; margin-bottom: 15px; box-shadow: 5px 5px 5px gray; line-height: 30px; border-radius: 10px;">
+				<span class="pull-left" style="font-size: 20px; color: red;">인증 필요</span>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">카카오뱅크</p>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">3333057517230</p>
+			</div>
+			<div style="border: 2px solid #ececec; padding: 3px 10px; margin-bottom: 15px; box-shadow: 5px 5px 5px gray; line-height: 30px; border-radius: 10px;">
+				<span class="pull-left" style="font-size: 20px; color: #4ed945;">인증 완료</span>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">농협</p>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">17611252124235</p>
+			</div>
+		</div>
+    </div>
+</div>
+<script>
+$('#wrap').css('height', window.innerHeight - 50 + 'px');
+$('#register-btn').click(function() {
+	$.ajax({
+        url: `/openbanking/register`,
+        type: 'GET',
+        contentType: 'application/json',
+		async: false,
+        success: function (result) {
+			location.href=result;
+        },
+        error: function(result) {
+            console.log(result);
+        }
+    });
+});
+</script>

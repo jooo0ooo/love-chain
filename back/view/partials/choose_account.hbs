@@ -1,0 +1,104 @@
+<style>
+#context {
+	padding: 10px 30px;
+}
+
+.password {
+	width:10%;
+	display: inline-block;
+	margin: 3px;
+}
+
+.pw-digit {
+	font-size: 32px;
+	font-weight: bold;
+}
+
+.pw-digit-b {
+	border: 2px solid #999999;
+	display: inline-block;
+	width: 25px;
+	margin-top: 5px;
+}
+.digit {
+	color: black;
+	font-size: 2.5em;
+}
+
+.btn-link:hover, .btn-link:active {
+	color: #f76680;
+}
+
+#half-content {
+	height: 35%!important;
+}
+
+.hidden {
+	display: none;
+	opacity: 0;
+}
+
+.appear {
+	animation: fade-in 1s;
+	animation-fill-mode: forwards;
+	display: flex;
+}
+
+.disappear {
+	animation: fade-out 1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-out {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+#account-close {
+	cursor: pointer;
+}
+</style>
+<div id="choose-account-cover" class="choose-account hidden" style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5);">
+	<div id="half-content" class="container scroll-container" style="position: fixed; bottom: 0; left: 50%; transform: translate(-50%);">
+		<img id="account-close" class="pull-right" style="width: 35px; margin: 5px;" src="/public/image/cancel.png">
+		<div id="context" class="" style="">
+			<div style="height: 35px;"></div>
+			<div class="account-div" style="border: 2px solid #ececec; padding: 3px 10px; margin-bottom: 15px; box-shadow: 5px 5px 5px gray; line-height: 30px; border-radius: 10px;">
+				<span class="pull-left" style="font-size: 20px; color: #4ed945;">인증 완료</span>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">국민은행</p>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">93139363455</p>
+			</div>
+			<div class="account-div" style="border: 2px solid #ececec; padding: 3px 10px; margin-bottom: 15px; box-shadow: 5px 5px 5px gray; line-height: 30px; border-radius: 10px;">
+				<span class="pull-left" style="font-size: 20px; color: #4ed945;">인증 완료</span>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">농협</p>
+				<p style="text-align: right; margin-bottom: 0; font-size: 25px;">17611252124235</p>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$('#account-close').click(function() {
+	$('#choose-account-cover').addClass('disappear');
+	setTimeout(function() {
+		$('#choose-account-cover').removeClass('appear');
+	}, 1001);
+});
+
+$('.account-div').click(function() {
+	$('.pin').removeClass('disappear');
+    $('.pin').addClass('appear');
+});
+</script>

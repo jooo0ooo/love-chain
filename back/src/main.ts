@@ -4,6 +4,8 @@ import { config, setConfig } from '@src/config';
 import {NestExpressApplication} from "@nestjs/platform-express";
 import * as MysqlSession from 'express-mysql-session';
 import * as session from 'express-session';
+import { join } from 'path';
+import * as exphbs from "express-handlebars";
 import {expressMiddleware as rTracerExpressMiddlewares} from 'cls-rtracer';
 import { WinstonLogger } from '@src/logger/WinstonLogger';
 import {requestIdMiddleware} from "@src/middleware/RequestIdMiddleware";
@@ -39,11 +41,23 @@ async function bootstrap() {
         })
     );
 
+    app.useStaticAssets(join(__dirname, '..', 'public'), { etag: false, prefix: '/public' });
+    app.setBaseViewsDir(join(__dirname, '..', 'view'));
+    app.engine(
+        "hbs",
+        exphbs({
+            //helpers: hbsHelper,
+            extname: "hbs",
+        })
+    );
+    
+    app.setViewEngine('hbs');
+
     app.use(requestIdMiddleware);
 
     app.use(rTracerExpressMiddlewares({
         useHeader: true,
-        headerName: 'love-chain-request-id'
+        headerName: 'lovechain-master-request-id'
     }));
     app.use(winstonLogger.morganMiddleware());
     app.useLogger(winstonLogger);

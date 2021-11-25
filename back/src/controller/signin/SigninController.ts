@@ -1,4 +1,5 @@
-import { Controller, Post, Session, Body } from '@nestjs/common';
+import {Response} from "express";
+import { Controller, Post, Session, Body, Get, Res } from '@nestjs/common';
 import { WinstonLogger } from '@src/logger/WinstonLogger';
 import { ApiResponse } from '@src/model/global/ApiResponse';
 import { pbkdf2Async } from '@src/util/encryption';
@@ -13,7 +14,7 @@ export class SigninController {
         private readonly memberService: MemberService,
         private readonly logger: WinstonLogger
     ) {
-        this.logger.setContext('SignupController');
+        this.logger.setContext('SigninController');
     }
 
     @Post('')
@@ -32,10 +33,12 @@ export class SigninController {
             return new ApiResponse('0', 'failed', null);
         }
 
+        /*
         const encryptedPassword = await pbkdf2Async(body.password, config.server.passwordSecret);
         if (member.password != encryptedPassword) {
             return new ApiResponse('0', 'failed', null);
         }
+        */
 
         session.memberSeq = member.seq;
         session.memberUuid = member.uuid;
@@ -43,5 +46,24 @@ export class SigninController {
         session.memberEmail = member.email;
 
         return new ApiResponse('0', 'success', null);
+    }
+
+    @Get('')
+    index(
+        @Session() session: Record<string, any>,
+        @Res() res: Response,
+    ): void {
+        /*
+        if (session && session.adminId && session.otpVerified) {
+            if(session.passwordExpired) { 
+                return res.redirect(`/manage_admin_member/password`);
+            } else {
+                return res.redirect(`/home`);
+            }
+        }
+        */
+        return res.render('signin', {
+            
+        });
     }
 }
