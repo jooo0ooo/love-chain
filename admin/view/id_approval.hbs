@@ -1,0 +1,683 @@
+{{> navigation/sidenav }}
+{{> navigation/topnav }}
+<style>
+.custom-btn, .duplicate-check {
+    background-color: gray;
+    padding: 3px 10px;
+    border-radius: 8px;
+    color: black;
+}
+
+.custom-input {
+    display: inline-block;
+    height: 100%;
+    padding: 0;
+    width: 85%;
+    border: 0;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.modal-body {
+    color: black;
+}
+
+.modal-body div p:first-child {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* slider css start */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 46px;
+	height: 18px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ffd300;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 11px;
+	width: 11px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked + .slider {
+	background-color: #2196F3;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+/* slider css end */
+
+.admin-table {
+    text-align: center;
+}
+
+.admin-table th {
+    text-align: center;
+}
+</style>
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="card mb-4" style="width: 100%;">
+            
+            <div style="padding: 20px 20px 0;">
+                <span><b>승인 요청</b></span>
+                <label class="switch m-l-xs m-r-xs">
+                    <input type="checkbox" id="completed-view-check-box">
+                    <span class="slider round"></span>
+                </label>
+                <span><b>처리 완료</b></span>
+            </div>
+
+            <div class="card-body" id="completed-div" style="display: none;">
+                <div class="mt-3 mb-1">
+                    <span class="text-dark font-weight-bold">처리 완료 목록 ({{completedPager.totalCount}}건)</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table table completed">
+                        <thead>
+                            <tr>
+                                <th>요청 일시</th>
+                                <th>처리 일시</th>
+                                <th>이름</th>
+                                <th>닉네임</th>
+                                <th>신분증 종류</th>
+                                <th>상태</th>
+                                <th>메모</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each completedIdApproval}}
+                                <tr id="{{this.memberId}}">
+                                    <td data-label="요청 일시">{{this.createdAt}}</td>
+                                    <td data-label="처리 일시">{{this.updatedAt}}</td>
+                                    <td data-label="이름" class="name">{{this.name}}</td>
+                                    <td data-label="닉네임" class="nickname">{{this.nickname}}</td>
+                                    <td data-label="신분증 종류" class="idType">
+                                        {{#ifType this.idType "ALIGN_REGISTRATION_CARD"}}외국인 등록증{{/ifType}}
+                                        {{#ifType this.idType "PASSPORT"}}여권{{/ifType}}
+                                        {{#ifType this.idType "OVERSEAS_KOREAN_RESIDENT_CARD"}}외국국적동포 거소신고증{{/ifType}}
+                                        {{#ifType this.idType "RESIDENT_REGISTRATION_CARD"}}주민등록증{{/ifType}}
+                                        {{#ifType this.idType "DRIVE_LICENSE"}}운전면허증{{/ifType}}
+                                    </td>
+                                    <td data-label="상태" class="state">{{this.state}}</td>
+                                    <td data-label="메모" class="adminMemo">{{this.adminMemo}}</td>
+                                    <input type="hidden" class="name" value="{{this.name}}" />
+                                    <input type="hidden" class="country" value="{{this.country}}" />
+                                    <input type="hidden" class="expiredAt" value="{{this.expiredAt}}" />
+                                    <input type="hidden" class="memberId" value="{{this.memberId}}" />
+                                    <input type="hidden" class="tokenId" value="{{this.tokenId}}" />
+                                    
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <form id="completed-searchForm">
+                    <input type="hidden" name="completed-page" id="completed-page" value="{{completedPager.currentPage}}"/>
+                    <input type="hidden" name="completed-limit" id="completed-limit" value="{{completedPager.limit}}"/>
+                </form>
+                <div class="form-group pagination-centered">
+                    <ul class="pagination">
+                        <li class="pn-custom pn-completed-left pn-completed-left-option1 page-item"><a class="page-link" href="#" onclick="gotoCompletedPage(1);">&laquo;</a></li>
+                        <li class="pn-custom pn-completed-left pn-completed-left-option2 page-item"><a class="pageLink" href="#" onclick="gotoCompletedPage({{completedPager.currentPage}} - 1);">&larr;</a></li>
+
+                        <li class="pn-custom pn-completed-right pn-completed-right-option1 page-item"><a class="page-link" href="#" onclick="gotoCompletedPage({{completedPager.currentPage}} + 1);">&rarr;</a></li>
+                        <li class="pn-custom pn-completed-right pn-completed-right-option2 page-item"><a class="page-link" href="#" onclick="gotoCompletedPage({{completedPager.lastPage}});">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-body" id="request-div">
+                <div class="mt-3 mb-1">
+                    <span class="text-dark font-weight-bold">승인 요청 목록 (1{{requestPager.totalCount}}건)</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table table request">
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>요청 일시</th>
+                                <th>닉네임</th>
+                                <th>이메일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr id="{{this.seq}}">
+                                    <td data-label="번호">1{{this.seq}}</td>
+                                    <td data-label="요청 일시">2021.11.09 03:05:27{{this.createdAt}}</td>
+                                    <td data-label="닉네임" class="nickname">Joo0oo{{this.nickname}}</td>
+                                    <td data-label="이메일" class="email">pingrae@me.com</td>
+                                </tr>
+                                <!--{{#each requestIdApproval}}-->
+                            <!--{{/each}}-->
+                        </tbody>
+                    </table>
+                </div>
+                <form id="request-searchForm">
+                    <input type="hidden" name="request-page" id="request-page" value="{{requestPager.currentPage}}"/>
+                    <input type="hidden" name="request-limit" id="request-limit" value="{{requestPager.limit}}"/>
+                </form>
+                <div class="form-group pagination-centered">
+                    <ul class="pagination">
+                        <li class="pn-custom pn-request-left pn-request-left-option1 page-item"><a class="page-link" href="#" onclick="gotoRequestPage(1);">&laquo;</a></li>
+                        <li class="pn-custom pn-request-left pn-request-left-option2 page-item"><a class="pageLink" href="#" onclick="gotoRequestPage({{requestPager.currentPage}} - 1);">&larr;</a></li>
+
+                        <li class="pn-custom pn-request-right pn-request-right-option1 page-item"><a class="page-link" href="#" onclick="gotoRequestPage({{requestPager.currentPage}} + 1);">&rarr;</a></li>
+                        <li class="pn-custom pn-request-right pn-request-right-option2 page-item"><a class="page-link" href="#" onclick="gotoRequestPage({{requestPager.lastPage}});">&raquo;</a></li>
+                    </ul>
+                </div>
+
+                <div class="row detail-view" style="display: none;">
+                    <div class="mt-3 mb-1" style="width: 100%;">
+                        <span class="text-dark font-weight-bold">업로드된 신분증 이미지의 정보를 확인한 후 정확하게 입력하세요. (대소문자, 띄어쓰기, 연월일 정보 등)<br/><span style="color: red;">※ 국적: 조선민주주의인민공화국, 이란인 경우 가입 불가능합니다.</span></span>
+                    </div>
+                    <div class="table-responsive col-sm-5">
+                        <table class="table vertical-table">
+                            <tbody>
+                                <tr>
+                                    <th>닉네임</th>
+                                    <td id="nickname"></td>
+                                </tr>
+                                <tr>
+                                    <th>이름</th>
+                                    <td id="name">Jiwoo Jung</td>
+                                </tr>
+                                <tr>
+                                    <th>국적</th>
+                                    <td id="country">KR</td>
+                                </tr>
+                                <tr>
+                                    <th>생년월일</th>
+                                    <td>
+                                        <input class="form-control custom-input" id="birth" name="birth" type="text" placeholder="YYYYMMDD 형식으로 입력하세요." maxlength="8" value="1995/07/08"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>신분증 번호</th>
+                                    <td>
+                                        <input class="form-control custom-input" id="birth" name="birth" type="text" placeholder="YYYYMMDD 형식으로 입력하세요." maxlength="8" value="PN123456789"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>성별</th>
+                                    <td>
+                                        <select class="form-control custom-input" id="gender" name="gender" style="float: left; width: 200px; background-color: #f2f2f2;">
+                                            <option value="male">남</option>
+                                            <option value="female">여</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>승인/거절</th>
+                                    <td>
+                                        <span class="custom-btn approval">승인</span>
+                                        <span class="custom-btn reject">거절</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <input type="hidden" id="memberId">
+                            <input type="hidden" id="tokenId">
+                            <input type="hidden" id="language">
+                            <input type="hidden" id="residence">
+                            <input type="hidden" id="approval-seq" class="">
+                        </table>
+                    </div>
+                    <div class="col-sm-7">
+                        <div>
+                            <img id="picture1" src="/public/images/passport.jpg" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 15px 0 5px;">
+            <div class="modal-body" style="text-align: center;">
+                <div id="reject-body" style="display: none;">
+                    <p>인증 요청을 거절하시겠습니까?</p>
+                    <div class="row">
+                        <label class="col-sm-4">거절 사유</label>
+                        <select id="reject-select" class="col-sm-7 form-control form-control-sm" style="display: inline-block;">
+                            <!--option value="NOT_MATCH_WITH_VERIFIED_USER_INFO">인증된 회원 정보와 일치하지 않음</option-->
+                            <option value="EXPIRED_ID">유효한 신분증 아님(만료일 경과)</option>
+                            <option value="INVALID_ID">유효한 신분증 아님(Invalid ID)</option>
+                            <option value="HARD_TO_SEE">이미지가 잘 보이지 않음</option>
+                            <!--option value="TYPE_NOT_MATCH">선택한 신분증 종류와 일치하지 않음</option-->
+                            <option value="NOT_SUPPORTED_ID_CARD">지원하지 않는 신분증</option>
+                            <option value="ALREADY_REGISTERED">이미 가입된 회원</option>
+                            <option value="custom">직접 입력</option>
+                        </select>
+                    </div>
+                    <div id="custom-case-div" class="row mt-2" style="display: none;">
+                        <span class="col-sm-4"></span>
+                        <input id="reject-custom-msg" type="text" class="form-control form-control-sm col-sm-7" placeholder="입력하세요" value="" />
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-sm btn-secondary modal-body-btn modal-cancel">취소</button>
+                        <button class="btn btn-sm btn-dark modal-body-btn process-btn reject">확인</button>
+                    </div>
+                </div>
+                <div id="approval-body" style="display: none;">
+                    <p>인증 요청을 승인하시겠습니까?</p>
+                    <button class="btn btn-sm btn-secondary modal-body-btn modal-cancel">취소</button>
+                    <button class="btn btn-sm btn-dark modal-body-btn process-btn approval approval-test">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="totalForm" onsubmit="merge();">
+    <input type="hidden" name="is-completed" id="is-completed" value="{{isCompleted}}"/>
+</form>
+<script>
+$('.request tbody tr').click(function() {
+    $('.detail-view').show();
+    $('#nickname').text($(this).children('.nickname').text());
+    $('#idType').text($(this).children('.idType').text());
+    $('#name').text($(this).children('.name').val());
+    $('#country').text($(this).children('.country').val());
+    $('#expiredAt').text($(this).children('.expiredAt').val());
+    $('#memberId').val($(this).children('.memberId').val());
+    $('#tokenId').val($(this).children('.tokenId').val());
+    $('#language').val($(this).children('.language').val());
+    $('#residence').val($(this).children('.residence').val());
+    $('#approval-seq').val($(this).attr("id"));
+
+    $.ajax({
+        url: 'id_approval/detail/' + $(this).attr("id"),
+        type: 'GET',
+        contentType: 'application/json',
+        async: false,
+        success: function (result) {
+            $('#picture1').attr("src", "/public/id_picture_tmp/" + obj.picture1);
+            $('#picture1').addClass(obj.picture1);
+        }
+    });
+});
+
+$('.custom-btn').click(function() {
+    if (!$('#picture1').attr("src")) {
+        toastr.error('권한이 없습니다.');
+        return;
+    }
+    $('#confirmModal').modal('show');
+    if ($(this).hasClass('reject')) {
+        $('#reject-body').show();
+        $('#approval-body').hide();
+    } else {
+        $('#reject-body').hide();
+        $('#approval-body').show();
+    }
+});
+$('#reject-select').on('change', function() {
+    if ($(this).val() == 'custom') {
+        $('#custom-case-div').show();
+    } else {
+        $('#custom-case-div').hide();
+    }
+});
+$('.modal-cancel').click(function() {
+    $('#confirmModal').modal('hide');
+});
+
+$(document).on('click', '.duplicate-user', function() {
+    window.open('/manage_members/' + $(this).children('input').val());
+});
+
+$('.approval-test').click(function() {
+    location.href='/manage_members'
+});
+
+$('.process-btn').click(function() {
+    let data = "", msg = " ", state = "", name = "", gender = "", birth = "", country = "", residence = "", action = "";
+    if ($(this).hasClass('reject')) {
+        state = "INVALID";
+        action = "ID_REJECT";
+        if ($('#reject-select').val() == 'custom') {
+            msg = $('#reject-custom-msg').val();
+            if (msg.length == 0) {
+                toastr.error('거절 사유를 입력해주세요.');
+                return;
+            }
+        } else {
+            msg = $('#reject-select').val();
+        }
+    } else if ($(this).hasClass('approval')) {
+        state = "VALID";
+        action = "ID_APPROVE";
+        name = $('#name').text();
+        gender = $('#gender').val();
+        birth = $('#birth').val();
+        country = $('#country').text();
+        residence = $('#residence').val();
+
+        if (birth.length < 8) {
+            toastr.error("생년월일 8자리를 입력해주세요.");
+            $('#confirmModal').modal('hide');
+            return;
+        }
+    }
+    
+    var formData = new FormData(),
+        $canvas1, $canvas2, imgDataUrl1, imgDataUrl2, file1, file2;
+       
+    if (canvas1) {
+        $canvas1 = document.getElementById("canvas1");
+        imgDataUrl1 = $canvas1.toDataURL('image/png');
+        file1 = dataURLtoFile(imgDataUrl1, $('#picture1').attr('class'));
+        formData.append($('#picture1').attr('class'), file1);
+    }
+
+    if (canvas2) {
+        $canvas2 = document.getElementById("canvas2");
+        imgDataUrl2 = $canvas2.toDataURL('image/png');
+        file2 = dataURLtoFile(imgDataUrl2, $('#picture2').attr('class'));
+        formData.append($('#picture2').attr('class'), file2);
+    }
+
+    $.ajax({
+        url: "id_approval/picture/update/" + $('#approval-seq').val(),
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        data: formData,
+        async: false,
+        success: function (result) {
+            if (result.message == 'success') {
+                $('#confirmModal').modal('hide');
+                toastr.success('처리 완료되었습니다.');
+                
+            } else {
+                toastr.error('처리 실패!');
+            }
+        }
+    });
+
+    data = {
+        adminMemo: msg,
+        state: state,
+        memberId: $('#memberId').val(),
+        tokenId: $('#tokenId').val(),
+        language: $('#language').val(),
+        name: name,
+        gender: gender,
+        birth: birth,
+        country: country,
+        residence: residence,
+        menu: 'ID_APPROVAL',
+        action: action
+    }
+
+    $.ajax({
+        url: "id_approval/process/" + $('#approval-seq').val(),
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        async: false,
+        success: function (result) {
+            if (result.message == 'success') {
+                $('#confirmModal').modal('hide');
+                toastr.success('처리 완료되었습니다.');
+                location.reload();
+            } else {
+                toastr.error('처리 실패!');
+            }
+        }
+    });
+});
+
+/*
+let requestCurrentPage = {{requestPager.currentPage}}, requestStartPage = {{requestPager.startPage}}, requestEndPage = {{requestPager.endPage}}, requestLastPage = {{requestPager.lastPage}};
+if (requestStartPage == 1) {
+    $('.pn-request-left-option1').hide();
+}
+if (requestCurrentPage == 1) {
+    $('.pn-request-left-option2').hide();
+}
+
+let $requestLi = '';
+for (let i = requestStartPage; i <= requestEndPage; i++) {
+    if (requestCurrentPage == i) {
+        $requestLi += `<li class="page-item active pointer-disabled"><a class="page-link" href="#" onclick="gotoRequestPage(` + i + `);">` + i + `</a></li>`;
+    } else {
+        $requestLi += `<li class="page-item"><a class="page-link" href="#" onclick="gotoRequestPage(` + i + `);">` + i + `</a></li>`;
+    }
+}
+$('.pn-request-left').last().after($requestLi);
+
+if (requestEndPage == requestLastPage) {
+    $('.pn-request-right-option2').hide();
+}
+if (requestCurrentPage == requestLastPage || {{requestPager.totalCount}} == 0) {
+    $('.pn-request-right-option1').hide();
+}
+
+function gotoRequestPage(page) {
+    $('#request-page').val(page);
+    $("#totalForm").submit();
+}
+
+$('#request-submit-btn').click(function() {
+    $("#totalForm").submit();
+});
+
+//
+let completedCurrentPage = {{completedPager.currentPage}}, completedStartPage = {{completedPager.startPage}}, completedEndPage = {{completedPager.endPage}}, completedLastPage = {{completedPager.lastPage}};
+if (completedStartPage == 1) {
+    $('.pn-completed-left-option1').hide();
+}
+if (completedCurrentPage == 1) {
+    $('.pn-completed-left-option2').hide();
+}
+
+let $completedLi = '';
+for (let i = completedStartPage; i <= completedEndPage; i++) {
+    if (completedCurrentPage == i) {
+        $completedLi += `<li class="page-item active pointer-disabled"><a class="page-link" href="#" onclick="gotoCompletedPage(` + i + `);">` + i + `</a></li>`;
+    } else {
+        $completedLi += `<li class="page-item"><a class="page-link" href="#" onclick="gotoCompletedPage(` + i + `);">` + i + `</a></li>`;
+    }
+}
+$('.pn-completed-left').last().after($completedLi);
+
+if (completedEndPage == completedLastPage) {
+    $('.pn-completed-right-option2').hide();
+}
+if (completedCurrentPage == completedLastPage || {{completedPager.totalCount}} == 0) {
+    $('.pn-completed-right-option1').hide();
+}
+
+function gotoCompletedPage(page) {
+    $('#completed-page').val(page);
+    $("#totalForm").submit();
+}
+
+$('#completed-submit-btn').click(function() {
+    $("#totalForm").submit();
+});
+//
+
+//
+function merge() {
+    $totoalFrm = $("#totalForm");
+    $("#completed-searchForm input, #request-searchForm input").each(function() {
+        $totoalFrm.append("<input type='hidden' name='"+$(this).attr('name')+"' value='"+$(this).val()+"' />");
+    });
+}
+//
+
+if ({{isCompleted}}) {
+    $('#completed-div').show();
+    $('#request-div').hide();
+    $('#completed-view-check-box').prop("checked", true);
+}
+
+$("#completed-view-check-box").change(function(){    
+	if ($("#completed-view-check-box").is(":checked")) {
+        $('#completed-div').show();
+    	$('#request-div').hide();    	
+        $('#is-completed').val(true);
+    } else {
+        $('#request-div').show();
+    	$('#completed-div').hide();
+        $('#is-completed').val(false);
+    }
+    
+    $('#stat-range').submit();
+});
+
+$('.completed tbody tr').click(function() {
+    location.href = "/manage_members/" + $(this).attr("id");
+});
+
+$('#picture1').on("contextmenu",function(e){
+    return false;
+});
+
+$('#picture2').on("contextmenu",function(e){
+    return false;
+});
+
+$('#canvas1').on("contextmenu",function(e){
+    return false;
+});
+
+$('#canvas2').on("contextmenu",function(e){
+    return false;
+});
+
+if(canvas1){
+    canvas1.addEventListener("mousemove",onMouseMove1);
+    //캔버스 안에서의 움직임 감지
+    canvas1.addEventListener("mousedown",startPainting1);
+    //클릭했을때 발생하는 event
+    canvas1.addEventListener("mouseup", stopPainting1);
+    canvas1.addEventListener("mouseleave", stopPainting1);
+}
+
+function stopPainting1(event){
+    painting1 = false;
+}
+
+function startPainting1(){
+    painting1 = true;
+}
+
+function onMouseMove1(event){ //모든 움직임을 감지하고 line을 만든다.
+     //스크린과 캠퍼스가 크기가 다른 경우 offsetX와 offsetY를 사용한다.
+    const x = event.offsetX;
+    const y = event.offsetY;
+    if(!painting1){
+        ctx1.beginPath(); //path를 만듬
+        ctx1.moveTo(x, y); //x, y로 옮김
+        ctx1.lineWidth = lineWidth;
+    }else{
+        ctx1.lineTo(x, y);
+        ctx1.lineWidth = lineWidth;
+        ctx1.stroke();
+    }
+}
+
+if(canvas2){
+    canvas2.addEventListener("mousemove",onMouseMove2);
+    //캔버스 안에서의 움직임 감지
+    canvas2.addEventListener("mousedown",startPainting2);
+    //클릭했을때 발생하는 event
+    canvas2.addEventListener("mouseup", stopPainting2);
+    canvas2.addEventListener("mouseleave", stopPainting2);
+}
+
+function stopPainting2(event){
+    painting2 = false;
+}
+
+function startPainting2(){
+    painting2 = true;
+}
+
+function onMouseMove2(event){ //모든 움직임을 감지하고 line을 만든다.
+     //스크린과 캠퍼스가 크기가 다른 경우 offsetX와 offsetY를 사용한다.
+    const x = event.offsetX;
+    const y = event.offsetY;
+    if(!painting2){
+        ctx2.beginPath(); //path를 만듬
+        ctx2.moveTo(x, y); //x, y로 옮김
+        ctx2.lineWidth = lineWidth;
+    }else{
+        ctx2.lineTo(x, y);
+        ctx2.lineWidth = lineWidth;
+        ctx2.stroke();
+    }
+}
+
+function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
+
+$('#small-btn').click(function() {
+    lineWidth = 10;
+});
+
+$('#normal-btn').click(function() {
+    lineWidth = 30;
+});
+
+$('#big-btn').click(function() {
+    lineWidth = 50;
+});
+*/
+</script>
