@@ -1,0 +1,93 @@
+<style>
+.text-card-body {
+    height: 150px;
+    padding-top: 25px;
+}
+
+.text-card-footer {
+    line-height: 20px;
+    padding: 5px 20px;
+}
+
+#context {
+    background-color: #fbfbfb;
+}
+
+#tx-tag {
+    background-color: gray;
+    color: white;
+    padding: 0 3px;
+    border-radius: 5px;
+}
+
+.detail-btn {
+    padding: 1px 7px;
+    font-size: 17px;
+    border-radius: 7px;
+}
+
+#tx-link {
+    cursor: pointer;
+    word-break: break-all;
+}
+
+#detail-group-btn-div {
+    margin-top: 15px;
+}
+
+#detail-home-btn-div {
+    margin-top: 30px;
+}
+
+#detail-home-btn {
+    font-size: 25px;
+    text-decoration: underline;
+    padding: 0 15px;
+}
+</style>
+<div class="container scroll-container">
+    <div id="context" class="" style="text-align: center;">
+        <div class="text-card">
+            <div class="text-card-header">
+                November 8th 2021 / 15:13:21
+            </div>
+            <div class="text-card-body">
+                정지우 바보
+            </div>
+            <div class="text-card-footer" style="padding: 0px 20px; margin-bottom: 10px;">
+                <span class="writer">by Joo0oo</span>
+                <br/>
+                <span id="tx-link">
+                    <span id="tx-tag">Tx</span>
+                    <span id="tx-id">c9e5ed1f7b2fcc8f9e0485714b31736bbd25a543f95fc2184d88041fa775bbc5</span>
+                    <i class="fa fa-copy"></i>
+                </span>
+            </div>
+        </div>
+        <div id="detail-group-btn-div">
+            <button type="button" class="btn btn-xs btn-primary detail-btn">
+                <i class="fa fa-thumbs-up"></i>
+                Like
+                0
+            </button>
+            <button type="button" class="btn btn-xs btn-secondary detail-btn">
+                <i class="fa fa-link"></i>
+                <span>copy link</span>
+            </button>
+        </div>
+        <div id="detail-home-btn-div">
+            <button type="button" id="detail-home-btn" class="btn btn-outline-dark">
+                Home
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+$('.scroll-container').css('height', window.innerHeight - 50 + 'px');
+$('#detail-home-btn').click(function() {
+    location.href = '/home2';
+});
+$('#tx-id').click(function() {
+    location.href = 'https://blockstream.info/testnet/tx/c9e5ed1f7b2fcc8f9e0485714b31736bbd25a543f95fc2184d88041fa775bbc5?expand';
+});
+</script>

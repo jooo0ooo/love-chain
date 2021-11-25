@@ -51,6 +51,6 @@ export class OpenBankingController {
 
         await this.openBankingService.issueObToken(userSeq, response.code);
         
-        return res.redirect(`http://localhost:3634`);
+        return res.redirect(`http://localhost:3139/auto_debit`);
     }
 }

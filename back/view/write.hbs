@@ -1,0 +1,270 @@
+<style>
+.text-card {
+    cursor: pointer;
+}
+
+.text-card-body {
+    word-break: break-all;
+}
+
+#context {
+    background-color: #fbfbfb;
+}
+
+#tx-tag {
+    background-color: gray;
+    color: white;
+    padding: 0 3px;
+    border-radius: 5px;
+}
+
+.detail-btn {
+    padding: 1px 7px;
+    font-size: 17px;
+    border-radius: 7px;
+}
+
+#tx-link {
+    cursor: pointer;
+    word-break: break-all;
+}
+
+#detail-group-btn-div {
+    margin-top: 15px;
+}
+
+#write-upload-btn-div {
+    margin-top: 30px;
+}
+
+#write-upload-btn {
+    font-size: 25px;
+    text-decoration: underline;
+    padding: 0 15px;
+}
+
+#plain-text-div, #hash-text-div {
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 90%;
+}
+
+#choose-write-type-div {
+    text-align: left;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+#choose-public-div {
+    margin-top: 30px;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 46px;
+	height: 18px;
+    vertical-align: text-bottom;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #2196F3;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 11px;
+	width: 11px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked + .slider {
+	background-color: #ff006a;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #ff006a;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+</style>
+<div id="container" class="container scroll-container">
+    <div id="context" class="" style="text-align: center;">
+        <div id="choose-write-type-div">
+            <span><b>plain</b></span>
+            <label class="switch m-l-xs m-r-xs">
+                <input type="checkbox" id="write-type-box">
+                <span class="slider round"></span>
+            </label>
+            <span><b>hash</b></span>
+        </div>
+        <div class="text-card">
+            <div class="text-card-header">
+                November 4th 2021
+            </div>
+            <div class="text-card-body">
+            </div>
+            <div class="text-card-footer">
+                by Joo0oo
+            </div>
+        </div>
+        <div id="plain-text-div">
+            <input type="text" id="plain-text" class="form-control"/>
+            <span id="byte-check" class="pull-right">
+                <span id="current-byte">0</span>
+                <span> / 20</span>
+            </span>
+        </div>
+        <div id="hash-text-div" style="display: none;">
+            <textarea class="form-control" id="hash-text" rows="3"></textarea>
+        </div>
+        <div id="choose-public-div">
+            <span><b>public</b></span>
+            <label class="switch m-l-xs m-r-xs">
+                <input type="checkbox" id="public-box">
+                <span class="slider round"></span>
+            </label>
+            <span><b>private</b></span>
+        </div>
+        <div style="margin-top: 30px;">
+            <h3>Upload Fee: 5,000 KRW</h3>
+        </div>
+        <div id="write-upload-btn-div">
+            <button type="button" id="write-upload-btn" class="btn btn-outline-success">
+                Upload
+            </button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="display: block; padding: 0;">
+        <h5 class="modal-title" style="font-size: 30px; text-align: center;">Confirm</h5>
+      </div>
+      <div class="modal-body">
+        <div>
+            <span>upload text type</span>
+            <span>plain</span>
+        </div>
+        <div>
+            <span>text</span>
+            <span>Joo Handsome!</span>
+        </div>
+        <div>
+            <span>private option</span>
+            <span>true</span>
+        </div>
+        <div>
+            <span>upload fee</span>
+            <span>5,000 krw</span>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: block; padding: 0;">
+        <button id="confirm-modal-close" type="button" class="btn btn-secondary" style="font-size: 25px; padding: 0px 10px;">Close</button>
+        <button id="continue" type="button" class="btn btn-success pull-right" style="font-size: 25px; padding: 0px 10px;">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{> choose_account }}
+{{> pin }}
+<script>
+$('.scroll-container').css('height', window.innerHeight - 50 + 'px');
+
+$('#write-upload-btn').click(function() {
+    $('#confirm-modal').modal('show');
+});
+
+$('#confirm-modal-close').click(function() {
+    $('#confirm-modal').modal('hide');
+});
+
+$('#continue').click(function() {
+    $('#confirm-modal').modal('hide');
+    $('.choose-account').removeClass('disappear');
+    $('.choose-account').addClass('appear');
+});
+
+$('#plain-text').keyup(function() {
+    var text = byteFunc($(this).val(), 'text');
+    $(this).val(text);
+    $('#current-byte').text(byteFunc(text));
+    $('.text-card-body').text(text)
+});
+
+$("#write-type-box").change(function() {
+    if(this.checked) {
+        $('#hash-text-div').show();
+        $('#plain-text-div').hide();
+    } else {
+        $('#hash-text-div').hide();
+        $('#plain-text-div').show();
+    }
+});
+
+function byteCheck(el){
+    var codeByte = 0;
+    for (var idx = 0; idx < el.val().length; idx++) {
+        var oneChar = escape(el.val().charAt(idx));
+        if ( oneChar.length == 1 ) {
+            codeByte ++;
+        } else if (oneChar.indexOf("%u") != -1) {
+            codeByte += 2;
+        } else if (oneChar.indexOf("%") != -1) {
+            codeByte ++;
+        }
+    }
+    return codeByte;
+}
+
+function byteFunc(str, command){
+    var ret="", i, msglen = 0;
+    for(i = 0; i < str.length; i++) {
+        var ch=str.charAt(i);
+        if(escape(ch).length > 4) {
+            msglen += 2;
+        } else {
+            msglen++;
+        }
+        if (msglen > 20) break;
+        ret += ch;
+    }
+    if (command == 'text') {
+        return ret;
+    } else {
+        return msglen;
+    }
+}
+</script>

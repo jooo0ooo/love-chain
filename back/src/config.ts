@@ -49,7 +49,7 @@ export type Config = {
 export let config: Config = {
     server: {
         port: process.env.PORT || "3139",
-        name: process.env.SERVER_NAME || "love-chain",
+        name: process.env.SERVER_NAME || "lovechain-master",
         sessionSecret: process.env.SESSION_SECRET || "session-secret",
         passwordSecret: process.env.PASSWORD_SECRET || "password-secret",
     },
@@ -84,7 +84,7 @@ export let config: Config = {
     },
 
     log: {
-        filepath: process.env.LOG_FILE_PATH || "/data/love-chain-master/logs"
+        filepath: process.env.LOG_FILE_PATH || "/data/lovechain-master/logs"
     }
 };
 

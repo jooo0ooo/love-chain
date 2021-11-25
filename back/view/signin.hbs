@@ -1,0 +1,116 @@
+<style>
+#context {
+	padding: 10px 30px;
+}
+
+label {
+	font-size: 20px;
+}
+
+input {
+	font-size: 20px!important;
+	padding-top: 0!important;
+	padding-bottom: 0!important;
+	border-width: 0px !important;
+	border-bottom-width: 1px !important;
+	margin-bottom: 15px;
+}
+
+select {
+	font-size: 20px!important;
+	padding-top: 0!important;
+	padding-bottom: 0!important;
+	margin-bottom: 15px;
+}
+
+#signin-btn {
+	width: 100%;
+	height: 50px;
+	font-size: 30px;
+	padding-top: 0;
+}
+
+#signin-btn-div {
+	position: absolute;
+	height: 50px;
+	bottom: 0;
+	max-width: 440px;
+	width: 100%;
+}
+
+#register-btn {
+	cursor: pointer;
+}
+
+#register-btn:hover {
+	text-decoration: underline;
+}
+</style>
+<div class="container scroll-container">
+    <div id="context" class="">
+		<div class="">
+            <h3 class="text-center mb-3">Log In</h3>
+			<form class="" id="signin-form">				
+				<div class="form-group">
+					<label class="control-label" for="id">User ID(Email, Nickname or Phone Number)</label>
+					<div class="input-group">
+						<input type="text" class="form-control" id="email" name="email" placeholder="" value="" autocomplete="off" required>
+					</div>
+				</div>
+				
+				<div class="form-group" id="password-div">
+					<label class="control-label">Password</label>
+					<input name="password" id="password" type="password" class="form-control" placeholder="" required>
+				</div>
+				<div id="register-btn" class="pull-right">
+					If you don't have an account yet, Sign up Now!
+				</div>
+			</form>
+		</div>
+    </div>
+	<div id="signin-btn-div">
+		<button type="button" id="signin-btn" class="btn btn-outline-success">
+			Log In
+		</button>
+	</div>
+</div>
+<script>
+$('.scroll-container').css('height', window.innerHeight - 100 + 'px');
+$('#signin-btn').click(function() {
+	let email = $('#email').val(),
+        password = $('#password').val();
+
+    if (email.length == 0 || password == 0) {
+        toastr.error('Email, Password를 전부 입력해주세요.');
+        return;
+    }
+
+    let data = {email: email, password: password};
+
+    $.ajax({
+        url: `/signin`,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result.message == 'success') {
+                alert("good");
+            } else {
+				alert("bad");
+				//toastr.error('로그인 실패, 이메일 혹은 비밀번호를 확인해주세요.');
+            }
+        },
+        error: function(result) {
+            console.log(result);
+        }
+    });
+});
+$('#register-btn').click(function() {
+	location.href = '/signup';
+});
+
+function submitLogin() {
+    
+}
+</script>
