@@ -28,24 +28,6 @@ export class IndexController {
         });
     }
 
-    @Get('home2')
-    home2(
-        @Session() session: Record<string, any>,
-        @Res() res: Response,
-    ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
-        return res.render('home2', {
-        });
-    }
-
     @Get('/detail')
     detail(
         @Session() session: Record<string, any>,
@@ -69,17 +51,12 @@ export class IndexController {
         @Session() session: Record<string, any>,
         @Res() res: Response,
     ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
+        
+        if (!(session && session.memberSeq && session.memberUuid)) {
+            return res.redirect(`/signin`);
         }
-        */
-        return res.render('write', {
-        });
+        
+        return res.render('write', {});
     }
 
     @Get('/profile')

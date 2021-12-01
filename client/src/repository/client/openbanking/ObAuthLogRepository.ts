@@ -1,5 +1,5 @@
 import { ObAuthLogDto } from "@src/model/dto/openbanking/ObAuthLogDto";
-import { ObAuthLog } from "@src/model/entity/master/openbanking/ObAuthLog";
+import { ObAuthLog } from "@src/model/entity/client/openbanking/ObAuthLog";
 import {EntityManager, EntityRepository, Repository} from "typeorm";
 
 const tableName = 't_ob_auth_log';

@@ -24,11 +24,11 @@ export class MemberRepository extends Repository<Member> {
             .getOne();
     }
 
-    async findOneByUsername(username: string, manager?: EntityManager): Promise<Member | undefined> {
+    async findOneByNickname(nickname: string, manager?: EntityManager): Promise<Member | undefined> {
         const queryBuilder = manager?.createQueryBuilder(Member, tableName) || this.createQueryBuilder(tableName);
         return queryBuilder
             .select()
-            .where(`${tableName}.username = :username`, {username})
+            .where(`${tableName}.nickname = :nickname`, {nickname})
             .getOne();
     }
 

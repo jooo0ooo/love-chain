@@ -52,9 +52,9 @@ select {
             <h3 class="text-center mb-3">Log In</h3>
 			<form class="" id="signin-form">				
 				<div class="form-group">
-					<label class="control-label" for="id">User ID(Email, Nickname or Phone Number)</label>
+					<label class="control-label" for="id">User ID(Email or Nickname)</label>
 					<div class="input-group">
-						<input type="text" class="form-control" id="email" name="email" placeholder="" value="" autocomplete="off" required>
+						<input type="text" class="form-control" id="user-id" name="user-id" placeholder="" value="" autocomplete="off" required>
 					</div>
 				</div>
 				
@@ -77,15 +77,15 @@ select {
 <script>
 $('.scroll-container').css('height', window.innerHeight - 100 + 'px');
 $('#signin-btn').click(function() {
-	let email = $('#email').val(),
+	let userId = $('#user-id').val(),
         password = $('#password').val();
 
-    if (email.length == 0 || password == 0) {
-        toastr.error('Email, Password를 전부 입력해주세요.');
+    if (userId.length == 0 || password == 0) {
+        toastr.error('User ID, Password를 전부 입력해주세요.');
         return;
     }
 
-    let data = {email: email, password: password};
+    let data = {userId: userId, password: password};
 
     $.ajax({
         url: `/signin`,
@@ -95,17 +95,17 @@ $('#signin-btn').click(function() {
         data: JSON.stringify(data),
         success: function (result) {
             if (result.message == 'success') {
-                alert("good");
+                location.href = '/';
             } else {
-				alert("bad");
-				//toastr.error('로그인 실패, 이메일 혹은 비밀번호를 확인해주세요.');
+				toastr.error('Signin Failed. Check your id or pwd');
             }
         },
-        error: function(result) {
-            console.log(result);
+        error: function(error) {
+            toastr.error("Contact support team");
         }
     });
 });
+
 $('#register-btn').click(function() {
 	location.href = '/signup';
 });

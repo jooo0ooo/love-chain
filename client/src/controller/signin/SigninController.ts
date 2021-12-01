@@ -22,27 +22,26 @@ export class SigninController {
         @Session() session: Record<string, any>,
         @Body() body: SignInRequest,
     ): Promise<ApiResponse<null>> {
-        this.logger.log(`signin request, email/username: ${hideEmailInfo(body.email)}`);
+        this.logger.log(`signin request, email/nickname: ${body.userId}`);
         
-        const member = (body.email.includes("@")) 
-            ? await this.memberService.findOneByEmail(body.email) 
-            : await this.memberService.findOneByUsername(body.email)
+        const member = (body.userId.includes("@")) 
+            ? await this.memberService.findOneByEmail(body.userId) 
+            : await this.memberService.findOneByNickname(body.userId)
         
         if (!member) {
-            this.logger.error(`cannot find member info: ${hideEmailInfo(body.email)}`);
+            this.logger.error(`cannot find member info: ${body.userId}`);
             return new ApiResponse('0', 'failed', null);
         }
 
-        /*
         const encryptedPassword = await pbkdf2Async(body.password, config.server.passwordSecret);
         if (member.password != encryptedPassword) {
             return new ApiResponse('0', 'failed', null);
         }
-        */
 
         session.memberSeq = member.seq;
         session.memberUuid = member.uuid;
-        session.memberUsername = member.username;
+        session.memberName = member.name;
+        session.memberNickname = member.nickname;
         session.memberEmail = member.email;
 
         return new ApiResponse('0', 'success', null);
@@ -65,5 +64,24 @@ export class SigninController {
         return res.render('signin', {
             
         });
+    }
+
+    @Get('check')
+    async checkSignin(
+        @Session() session: Record<string, any>,
+        @Res() res: Response,
+    ): Promise<any> {
+        this.logger.log(`check sign in exist`);
+        let flag = false;
+        if (session && session.memberUuid) {
+            flag = true;
+        }
+
+        console.log(flag);
+        console.log(session.memberName);
+        console.log(session.memberNickname);
+        console.log(session.memberEmail);
+        
+        return res.end('{"success":' + flag + ', "name": "' + session.memberName + '", "nickname": "' + session.memberNickname + '", "email": "' + session.memberEmail + '"}');
     }
 }

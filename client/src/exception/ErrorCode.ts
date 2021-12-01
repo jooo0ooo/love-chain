@@ -11,6 +11,7 @@ export const ERROR_CODE = {
     // Common
     NOT_FOUND: fromErrorData(404, "MC001", "Not Found"),
     INTERNAL_SERVER_ERROR: fromErrorData(500, "MC002", "Internal Server Error"),
+    INVALID_VALUE: fromErrorData(400, "MC003", "Invalid value"),
 
     // OpenBanking
     WRONG_RESPONSE: fromErrorData(400, "MO001", "Error Response"),

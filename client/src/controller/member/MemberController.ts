@@ -25,12 +25,12 @@ export class MemberController {
         return new ApiResponse('0', 'exist', null);
     }
 
-    @Post('check/username/:email')
-    async isExistUsername(
-        @Param('email') username: string
+    @Post('check/nickname/:nickname')
+    async isExistNickname(
+        @Param('nickname') nickname: string
     ): Promise<ApiResponse<null>> {
-        this.logger.log(`check username exist, body: ${username}`);
-        if (!await this.memberService.isExistUsername(username)) {
+        this.logger.log(`check nickname exist, body: ${nickname}`);
+        if (!await this.memberService.isExistNickname(nickname)) {
             return new ApiResponse('0', 'not exist', null);
         }
 
