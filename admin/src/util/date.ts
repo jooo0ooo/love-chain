@@ -1,4 +1,3 @@
-import * as momentTimezone from 'moment-timezone';
 import * as moment from 'moment';
 
 export const DF_ISO_8601 = 'YYYY-MM-DDTHH:mm:ss.SSS';
@@ -22,13 +21,9 @@ export const toTimeStamp = (date: string): number => {
     return parseInt(moment(date).utc(true).format('x'));
 };
 
-export const KRTdatetime = (time: string | number | undefined | null, returnFormat = DF_CUSTOM_FORMAT, emptyReturn?: string): string => {
+export const KRTdatetime = (time: string | number | undefined | null, emptyReturn?: string): string => {
     if (time) {
-        const timeData = datetime(time, "YYYY-MM-DD HH:mm:ss.SSS").toString().split(" ");
-        const timeSource = timeData[0] + "T" + timeData[1] + "Z";
-        const dateObj = new Date(timeSource);
-
-        return momentTimezone(dateObj).tz("Asia/Seoul").format(returnFormat);
+        return datetime(time, "YYYY-MM-DD HH:mm:ss").toString();
     }
     if(emptyReturn) {
         return emptyReturn;
