@@ -1,4 +1,4 @@
 export class SignInRequest {
-    email!: string;
+    userId!: string;
     password!: string;
 }

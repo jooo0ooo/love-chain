@@ -93,7 +93,7 @@ select {
 				
 				<div class="form-group" id='country-select'>
 					<label class="control-label">Nationality</label>
-					<select name="favCountry" id="fav-country" class="form-control">
+					<select name="nationality" id="nationality" class="form-control">
 						<option value="" selected>Select...</option>
 						<option value="KR">Korea</option>
 						<option value="JP">Japan</option>
@@ -114,21 +114,33 @@ select {
 					<div class="input-group">
 						<input type="text" class="form-control" id="nickname" name="nickname" placeholder="" value="" autocomplete="off" required>
 					</div>
+					<span id="nickname-text" class="pull-right" style="margin-top: -10px; line-height: 10px; text-align: right; color: red; display: none;">
+						nickname is invalid or already taken. nickname may only contain alphanumeric characters, underscore or hyphen and cannot begin with a special symbols and numbers and cannot end with a special symbols.
+					</span>
 				</div>
 				
 				<div class="form-group" id="password-div">
 					<label class="control-label">Password</label>
 					<input name="password" id="password" type="password" class="form-control" placeholder="" required>
+					<span id="pwd-text" class="pull-right" style="margin-top: -10px; line-height: 10px; text-align: right; color: red; display: none;">
+						Password must be at least 8 characters including numbers, lowercase letters and special symbols.
+					</span>
 				</div>
 
 				<div class="form-group" id="password-repeat-div">
 					<label class="control-label">Password Repeat</label>
 					<input name="password-repeat" id="password-repeat" type="password" class="form-control" placeholder="" required>
+					<span id="pwd-repeat-text" class="pull-right" style="margin-top: -10px; line-height: 10px; text-align: right; color: red; display: none;">
+						Password and password repeat are different.
+					</span>
 				</div>
 
 				<div class="form-group" id="email-div">
 					<label class="control-label">Email</label>
 					<input name="email" id="email" type="email" class="form-control" placeholder="your@email.com" autocomplete="off" required>
+					<span id="email-text" class="pull-right" style="margin-top: -10px; line-height: 10px; text-align: right; color: red; display: none;">
+						Email is invalid or already taken
+					</span>
 				</div>
 
 				<img id="preview-img" class="" style="width:100%; max-width: 500px; display:none;"/>
@@ -139,7 +151,12 @@ select {
 				
 				<div class="form-group" id='id-number-div'>
 					<label for="id-number">ID Number</label>
-					<input type="text" class="form-control" value="" id="id-number" name="idNumber" autocomplete="off" required>
+					<input type="text" class="form-control" value="" id="id-number" name="id-number" autocomplete="off" required>
+				</div>
+
+				<div class="form-group" id='id-number-repeat-div'>
+					<label for="id-number">ID Number Repeat</label>
+					<input type="text" class="form-control" value="" id="id-number-repeat" name="id-number-repeat" autocomplete="off" required>
 				</div>
 				
 				
@@ -198,7 +215,186 @@ var loadFile1 = function(event) {
     $('#preview-img').css('display', 'block');
 };
 
+$("#password").change(function(){
+	const pwdRegex = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+	if (!pwdRegex.test($(this).val())) {
+		$('#pwd-text').show();
+	} else {
+		$('#pwd-text').hide();
+	}
+});
+
+$("#password-repeat").change(function(){
+	if ($("#password").val() != $(this).val()) {
+		$('#pwd-repeat-text').show();
+	} else {
+		$('#pwd-repeat-text').hide();
+	}
+});
+
+$("#email").change(function(){
+	const email = $(this).val();
+	let flag = true;
+	$.ajax({
+        url: `/member/check/email/` + email,
+        type: 'POST',
+		contentType: 'application/json',
+		async: false,
+        success: function (result) {
+			flag = result.message == 'exist';
+        },
+        error: function(result) {
+            toastr.error("Contact support team");
+        }
+    });
+
+	if (flag) {
+		$('#email-text').show();
+		return;
+	}
+
+	const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+	if (!emailRegex.test(email)) {
+		$('#email-text').show();
+	} else {
+		$('#email-text').hide();
+	}
+});
+
+$("#nickname").change(function(){
+	const nickname = $(this).val();
+	let flag = true;
+	$.ajax({
+        url: `/member/check/nickname/` + nickname,
+        type: 'POST',
+		contentType: 'application/json',
+		async: false,
+        success: function (result) {
+            flag = result.message == 'exist';
+        },
+        error: function(result) {
+            toastr.error("Contact support team");
+        }
+    });
+
+	if (flag) {
+		$('#nickname-text').show();
+		return;
+	}
+
+	const nicknameRegex = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,18}[A-Za-z0-9]{1}$/;
+	if (!nicknameRegex.test(nickname)) {
+		$('#nickname-text').show();
+	} else {
+		$('#nickname-text').hide();
+	}
+});
+
 $('#signup-btn').click(function() {
-    location.href = '/signin';
+	if (!$('#name').val()) {
+		toastr.error('Please enter your name');
+		return;
+	}
+
+	if (!$('input[name=gender]:checked').val()) {
+		toastr.error('Please check your gender');
+		return;
+	}
+
+	if (!$('#birth-date').val()) {
+		toastr.error('Please enter your birthdate');
+		return;
+	}
+
+	if ($('#birth-date').val() && $('#birth-date').val().length != 10) {
+		toastr.error('Please check your birthdate');
+		return;
+	}
+
+	if (!$('#nationality').val()) {
+		toastr.error('Please check your nationality');
+		return;
+	}
+
+	if (!$('#phone').val()) {
+		toastr.error('Please enter your phone');
+		return;
+	}
+
+	if (!$('#nickname').val()) {
+		toastr.error('Please enter your nickname');
+		return;
+	}
+
+	if (!$('#password').val()) {
+		toastr.error('Please enter your password');
+		return;
+	}
+
+	if (!$('#password-repeat').val()) {
+		toastr.error('Please enter your password repeat');
+		return;
+	}
+
+	if ($('#password').val() != $('#password-repeat').val()) {
+		toastr.error('your password & password repeat are different');
+		return;
+	}
+
+	if (!$('#email').val()) {
+		toastr.error('Please enter your email');
+		return;
+	}
+	
+	if (!$('#file')[0].files[0]) {
+		toastr.error('Please upload id picture');
+		return;
+	}
+
+	if (!$('#id-number').val()) {
+		toastr.error('Please enter your id number');
+		return;
+	}
+
+	if (!$('#id-number-repeat').val()) {
+		toastr.error('Please enter your id number repeat');
+		return;
+	}
+
+	if ($('#id-number').val() != $('#id-number-repeat').val()) {
+		toastr.error('your id number & id number repeat are different');
+		return;
+	}
+
+	var formData = new FormData();
+	formData.append("name", $('#name').val());
+	formData.append("gender", $('input[name=gender]:checked').val());
+	formData.append("birthDate", $('#birth-date').val());
+	formData.append("nationality", $('#nationality').val());
+	formData.append("phone", $('#phone').val());
+	formData.append("nickname", $('#nickname').val());
+	formData.append("password", $('#password').val());
+	formData.append("email", $('#email').val());
+	formData.append("file", $('#file')[0].files[0]);
+	formData.append("idNumber", $('#id-number').val());
+	
+	$.ajax({
+        url: `/signup`,
+        type: 'POST',
+        dataType: 'json',
+		processData: false,
+        contentType: false,
+        data: formData,
+        success: function (result) {
+            if (result.message == 'invalid data') {
+                toastr.error('email or nickname is already taken');
+            } else if (result.message == 'success') {
+                location.href = "/signin";
+            }
+        },
+        error: function(error) {
+			toastr.error("Contact support team");
+        }
+    });
 });
 </script>

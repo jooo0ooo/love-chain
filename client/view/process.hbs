@@ -1,0 +1,142 @@
+<style>
+#context {
+	padding: 10px 30px;
+}
+
+label {
+	font-size: 20px;
+}
+
+input {
+	font-size: 20px!important;
+	padding-top: 0!important;
+	padding-bottom: 0!important;
+	border-width: 0px !important;
+	border-bottom-width: 1px !important;
+	margin-bottom: 15px;
+}
+
+#confirm-btn {
+	width: 100%;
+	height: 50px;
+	font-size: 30px;
+	padding-top: 0;
+}
+
+#confirm-btn-div {
+	position: absolute;
+	height: 50px;
+	bottom: 0;
+	max-width: 440px;
+	width: 100%;
+}
+
+#file {
+	width: 100%;
+}
+</style>
+<div class="container scroll-container">
+    <div id="context" class="">
+		<div class="">
+			<h4 id="process-title" class="text-center">Your submission is currently being confirmed by the administrator.<br/><br/>Please wait a moment</h4>
+
+			<form class="" id="id-upload-form" style="display: none;">
+				<img id="preview-img" class="" style="width:100%; max-width: 500px; display:none;"/>
+				<div class="form-group" id='file-div'>
+					<label for="file" class="control-label">ID Card Upload</label>
+					<input type="file" name="file" id="file" onchange="loadFile1(event)">
+				</div>
+				
+				<div class="form-group" id='id-number-div'>
+					<label for="id-number">ID Number</label>
+					<input type="text" class="form-control" value="" id="id-number" name="id-number" autocomplete="off" required>
+				</div>
+
+				<div class="form-group" id='id-number-repeat-div'>
+					<label for="id-number">ID Number Repeat</label>
+					<input type="text" class="form-control" value="" id="id-number-repeat" name="id-number-repeat" autocomplete="off" required>
+				</div>
+			</form>
+		</div>
+    </div>
+	<div id="confirm-btn-div">
+		<button type="button" id="confirm-btn" class="btn btn-outline-success">
+			OK
+		</button>
+	</div>
+</div>
+<script>
+$('.scroll-container').css('height', window.innerHeight - 100 + 'px');
+
+//REJECTED
+//SUBMITTED
+if ("REJECTED" == "{{idInfoStatus}}") {
+	$('#id-upload-form').show();
+	$('#process-title').html("Your submission was rejected.<br/>Please submit your idcard info again.");
+	$('#confirm-btn').text("Upload");
+
+}
+
+var loadFile1 = function(event) {
+	var output = $('#preview-img')[0];
+    output.src = URL.createObjectURL(event.target.files[0]);
+    $('#preview-img').css('display', 'block');
+};
+
+$('#confirm-btn').click(function() {
+	if ("SUBMITTED" == "{{idInfoStatus}}") {
+		location.href = '/';
+	}
+
+	if (!$('#file')[0].files[0]) {
+		toastr.error('Please upload id picture');
+		return;
+	}
+
+	if (!$('#id-number').val()) {
+		toastr.error('Please enter your id number');
+		return;
+	}
+
+	if (!$('#id-number-repeat').val()) {
+		toastr.error('Please enter your id number repeat');
+		return;
+	}
+
+	if ($('#id-number').val() != $('#id-number-repeat').val()) {
+		toastr.error('your id number & id number repeat are different');
+		return;
+	}
+
+	var formData = new FormData();
+	formData.append("name", $('#name').val());
+	formData.append("gender", $('input[name=gender]:checked').val());
+	formData.append("birthDate", $('#birth-date').val());
+	formData.append("nationality", $('#nationality').val());
+	formData.append("phone", $('#phone').val());
+	formData.append("nickname", $('#nickname').val());
+	formData.append("password", $('#password').val());
+	formData.append("email", $('#email').val());
+	formData.append("file", $('#file')[0].files[0]);
+	formData.append("idNumber", $('#id-number').val());
+	
+	$.ajax({
+        url: `/member/process`,
+        type: 'POST',
+        dataType: 'json',
+		processData: false,
+        contentType: false,
+        data: formData,
+        success: function (result) {
+            if (result.message == 'invalid data') {
+                toastr.error('email or nickname is already taken');
+            } else if (result.message == 'success') {
+                location.href = "/signin";
+            }
+        },
+        error: function(error) {
+			toastr.error("Contact support team");
+        }
+    });
+});
+</script>

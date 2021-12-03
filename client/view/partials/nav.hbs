@@ -136,6 +136,11 @@ body {
 	padding-right: 0;
     background-color: #fbfbfb; 
 }
+.toast {
+	font-size: 23px;
+	line-height: 20px;
+
+}
 </style>
 <div id="header" class="row">
 <nav class="navbar" role="navigation">
@@ -155,20 +160,55 @@ body {
 	<div class="cnav-times">&times;</div>
 </div>
 <div class="cnav cnav-menu">
-    <div class="cnav-menu-user">
-        <p>Jiwoo Jung</p>
-        <p id="user-nickname">NickName : Joo0oo</p>
-        <p id="user-email">Email : pingrae@me.com</p>
-    </div>
-	<ul>
-        <li><a href="/home2"><span class="">Home</span></a></li>
-        <li><a href="/write">Leave Message</a></li>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="${context}/how_to_join">Q&#38;A</a></li>
-        <li><a href="${context}/support">Support</a></li>
-	</ul>
+	<div id="signin-menu" style="display: none;">
+		<div class="cnav-menu-user">
+			<p id="user-name"></p>
+			<p>NickName : <span id="user-nickname">Joo0oo</span></p>
+			<p>Email : <span id="user-email">pingrae@me.com</span></p>
+		</div>
+		<ul>
+			<li><a href="/"><span class="">Home</span></a></li>
+			<li><a href="/write">Leave Message</a></li>
+			<li><a href="/profile">Profile</a></li>
+		</ul>
+	</div>
+	<div id="not-signin-menu" style="display: none;">
+		<div class="cnav-menu-user">
+			<p>Please Sign in or Sign up<br/>to use our service</p>
+		</div>
+		<ul>
+			<li><a href="/signin"><span class="">Sign In</span></a></li>
+			<li><a href="/signup">Sign Up</a></li>
+		</ul>
+	</div>
+
 </div>
 <script>
+$.ajax({
+	url: `/signin/check`,
+	type: 'GET',
+	dataType: 'json',
+	contentType: 'application/json',
+	async: false,
+	success: function (result) {
+		if (result.success) {
+			$('#signin-menu').show();
+			$('#not-signin-menu').hide();
+
+			$('#user-name').text(result.name);
+			$('#user-nickname').text(result.nickname);
+			$('#user-email').text(result.email);
+		} else {
+			$('#not-signin-menu').show();
+			$('#signin-menu').hide();
+		}
+	},
+	error: function(result) {
+		toastr.error("Contact support team");
+	}
+});
+
+
 $('.custom-toggle').click(function() {
 	openNav();
 	hideOnClickOutside();
@@ -176,7 +216,7 @@ $('.custom-toggle').click(function() {
 
 $('#nav-home').click(function() {
     location.href = "/";
-})
+});
 
 function openNav() {
 	$('.cnav').addClass('active');

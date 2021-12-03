@@ -13,6 +13,11 @@ import { OpenBankingService } from './service/OpenBankingService';
 import { OpenBankingController } from './controller/openbanking/OpenBankingController';
 import { ObAuthLogRepository } from './repository/client/openbanking/ObAuthLogRepository';
 import { ObTokenRepository } from './repository/client/openbanking/ObTokenRepository';
+import { S3Client } from './service/bucket/S3Client';
+import { UtilService } from './service/UtilService';
+import { IdInfoRepository } from './repository/client/IdInfoRepository';
+import { IdInfoService } from './service/IdInfoService';
+import { BoardController } from './controller/board/BoardController';
 
 @Module({})
 export class AppModule {
@@ -23,20 +28,26 @@ export class AppModule {
                 DatabaseModule.forRoot(config),
                 TypeOrmModule.forFeature([
                     MemberRepository,
+                    IdInfoRepository,
                     ObAuthLogRepository,
                     ObTokenRepository,
                 ], config.db.client.name),
                 LoggerModule,
             ],
             providers: [
+                S3Client,
+
                 MemberService,
-                OpenBankingService
+                IdInfoService,
+                OpenBankingService,
+                UtilService
             ],
             controllers: [
                 IndexController,
                 SignupController,
                 SigninController,
                 MemberController,
+                BoardController,
                 OpenBankingController
             ]
         }

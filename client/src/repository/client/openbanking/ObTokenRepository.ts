@@ -1,5 +1,5 @@
 import { ObTokenDto } from "@src/model/dto/openbanking/ObTokenDto";
-import { ObToken } from "@src/model/entity/master/openbanking/ObToken";
+import { ObToken } from "@src/model/entity/client/openbanking/ObToken";
 import { deleteBlankOrNull } from "@src/util/conversion";
 import {EntityManager, EntityRepository, Repository} from "typeorm";
 

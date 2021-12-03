@@ -39,7 +39,15 @@ export type Config = {
             tokenUri: string;
         }
 
-    }
+    },
+
+    aws: {
+        s3: {
+            baseUri: string;
+            publicBucketName: string;
+            privateBucketName: string;
+        }
+    };
 
     log: {
         filepath: string;
@@ -80,6 +88,14 @@ export let config: Config = {
             redirectUri: process.env.OB_REDIRECT_URI || '',
             authUri: process.env.OB_AUTH_URI || '',
             tokenUri: process.env.OB_TOKEN_URI || '',
+        }
+    },
+
+    aws: {
+        s3: {
+            baseUri: process.env.AWS_S3_BASE_URI || '',
+            privateBucketName: process.env.AWS_S3_PRIVATE_BUCKET || '',
+            publicBucketName: process.env.AWS_S3_PUBLIC_BUCKET || '',
         }
     },
 
@@ -124,6 +140,14 @@ export const setConfig = async (): Promise<void> => {
                 redirectUri: originalConfig.openbanking.url.redirectUri,
                 authUri: originalConfig.openbanking.url.authUri,
                 tokenUri: originalConfig.openbanking.url.tokenUri,
+            }
+        },
+
+        aws: {
+            s3: {
+                baseUri: originalConfig.aws.s3.baseUri,
+                privateBucketName: originalConfig.aws.s3.privateBucketName,
+                publicBucketName: originalConfig.aws.s3.publicBucketName,
             }
         },
 

@@ -16,14 +16,14 @@ export const isValidPwd = (pwd: string | undefined): boolean => {
     return pwdRegex.test(pwd);
 };
 
-export const isValidUsername = (username: string | undefined): boolean => {
-    if (username == undefined) {
+export const isValidNickname = (nickname: string | undefined): boolean => {
+    if (nickname == undefined) {
         return false;
     }
-    const usernameRegex = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,18}[A-Za-z0-9]{1}$/;
-    return usernameRegex.test(username);
+    const nicknameRegex = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,18}[A-Za-z0-9]{1}$/;
+    return nicknameRegex.test(nickname);
 };
 
 export const isValidSignupRequest = (signupRequest: SignUpRequest): boolean => {
-    return isValidEmail(signupRequest.email) && isValidPwd(signupRequest.password) && isValidUsername(signupRequest.username);
+    return isValidEmail(signupRequest.email) && isValidPwd(signupRequest.password) && isValidNickname(signupRequest.nickname);
 }
