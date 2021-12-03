@@ -17,6 +17,7 @@ import { S3Client } from './service/bucket/S3Client';
 import { UtilService } from './service/UtilService';
 import { IdInfoRepository } from './repository/client/IdInfoRepository';
 import { IdInfoService } from './service/IdInfoService';
+import { BoardController } from './controller/board/BoardController';
 
 @Module({})
 export class AppModule {
@@ -46,6 +47,7 @@ export class AppModule {
                 SignupController,
                 SigninController,
                 MemberController,
+                BoardController,
                 OpenBankingController
             ]
         }

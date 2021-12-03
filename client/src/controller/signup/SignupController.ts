@@ -33,8 +33,7 @@ export class SignupController {
             return new ApiResponse('0', 'invalid data', null);
         }
         const encryptedPassword = await pbkdf2Async(body.password, config.server.passwordSecret);
-        const encryptedIdNumber = await pbkdf2Async(body.idNumber, config.server.passwordSecret);
-        await this.memberService.createMember(toSignupDto(body, encryptedPassword, encryptedIdNumber), file[0]);
+        await this.memberService.createMember(toSignupDto(body, encryptedPassword), file[0]);
 
         return new ApiResponse('0', 'success', null);
     }

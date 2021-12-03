@@ -26,6 +26,9 @@ export class IdInfo {
     @Column({name: 'status', type: 'varchar', default: IdInfoStatus.SUBMITTED})
     public status!: IdInfoStatus;
 
+    @Column({name: 'admin_memo', type: 'varchar', nullable: true})
+    public adminMemo!: string | null;
+
     @Column({
         name: 'created_at',
         type: 'timestamp',

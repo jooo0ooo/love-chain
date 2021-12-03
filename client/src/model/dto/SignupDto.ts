@@ -15,7 +15,7 @@ export interface SignupDto {
     accessToken: string;
 }
 
-export const toSignupDto = (requestDto: SignUpRequest, encryptedPassword: string, encryptedIdNumber: string): SignupDto => {
+export const toSignupDto = (requestDto: SignUpRequest, encryptedPassword: string, ): SignupDto => {
     return {
         uuid: uuidV4().toString(),
         name: requestDto.name,
@@ -26,7 +26,7 @@ export const toSignupDto = (requestDto: SignUpRequest, encryptedPassword: string
         nickname: requestDto.nickname,
         password: encryptedPassword,
         email: requestDto.email,
-        idNumber: encryptedIdNumber,
+        idNumber: requestDto.idNumber,
         accessToken: uuidV4().toString()
     }
 }

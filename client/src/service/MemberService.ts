@@ -36,10 +36,15 @@ export class MemberService {
                 file.originalname.length
             );
 
-            const filePath = config.aws.s3.baseUri + `/id_picture/${picId}${fileExt}`;        
+            const s3BaseUrl = config.aws.s3.baseUri;
+            const filePath = `id_picture/${picId}${fileExt}`;
             await this.utilService.uploadImgToS3(file, filePath);
-            await this.idInfoRepository.insertIdInfo(toIdInfoDto(dto.uuid, dto.idNumber, filePath), manager)
+            await this.idInfoRepository.insertIdInfo(toIdInfoDto(dto.uuid, dto.idNumber, s3BaseUrl + filePath), manager)
         });
+    }
+
+    async findOneByUuid(uuid: string): Promise<Member | undefined> {
+        return await this.memberRepository.findOneByUuid(uuid);
     }
 
     async findOneByEmail(email: string): Promise<Member | undefined> {

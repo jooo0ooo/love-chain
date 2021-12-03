@@ -30,6 +30,7 @@ CREATE TABLE `t_id_info`
   `id_number`     varchar(255)           NOT NULL COMMENT 'member nickname',
   `picture`       varchar(255)           NOT NULL COMMENT 'member email',
   `status`        varchar(30)            NOT NULL DEFAULT 'SUBMITTED' COMMENT 'id info status (SUBMITTED, APPROVED, REJECTED)',
+  `admin_memo`    varchar(255)           NULL     DEFAULT NULL COMMENT 'member email',
   `created_at`    timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`    timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`seq`),

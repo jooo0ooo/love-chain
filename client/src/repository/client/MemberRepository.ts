@@ -16,6 +16,14 @@ export class MemberRepository extends Repository<Member> {
             .execute();
     }
 
+    async findOneByUuid(uuid: string, manager?: EntityManager): Promise<Member | undefined> {
+        const queryBuilder = manager?.createQueryBuilder(Member, tableName) || this.createQueryBuilder(tableName);
+        return queryBuilder
+            .select()
+            .where(`${tableName}.uuid = :uuid`, {uuid})
+            .getOne();
+    }
+
     async findOneByEmail(email: string, manager?: EntityManager): Promise<Member | undefined> {
         const queryBuilder = manager?.createQueryBuilder(Member, tableName) || this.createQueryBuilder(tableName);
         return queryBuilder

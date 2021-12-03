@@ -26,7 +26,7 @@ export class SigninController {
         
         const member = (body.userId.includes("@")) 
             ? await this.memberService.findOneByEmail(body.userId) 
-            : await this.memberService.findOneByNickname(body.userId)
+            : await this.memberService.findOneByNickname(body.userId);
         
         if (!member) {
             this.logger.error(`cannot find member info: ${body.userId}`);
