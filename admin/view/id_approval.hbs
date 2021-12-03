@@ -120,7 +120,6 @@ input:checked + .slider:before {
                                 <th>처리 일시</th>
                                 <th>이름</th>
                                 <th>닉네임</th>
-                                <th>신분증 종류</th>
                                 <th>상태</th>
                                 <th>메모</th>
                             </tr>
@@ -132,20 +131,14 @@ input:checked + .slider:before {
                                     <td data-label="처리 일시">{{this.updatedAt}}</td>
                                     <td data-label="이름" class="name">{{this.name}}</td>
                                     <td data-label="닉네임" class="nickname">{{this.nickname}}</td>
-                                    <td data-label="신분증 종류" class="idType">
-                                        {{#ifType this.idType "ALIGN_REGISTRATION_CARD"}}외국인 등록증{{/ifType}}
-                                        {{#ifType this.idType "PASSPORT"}}여권{{/ifType}}
-                                        {{#ifType this.idType "OVERSEAS_KOREAN_RESIDENT_CARD"}}외국국적동포 거소신고증{{/ifType}}
-                                        {{#ifType this.idType "RESIDENT_REGISTRATION_CARD"}}주민등록증{{/ifType}}
-                                        {{#ifType this.idType "DRIVE_LICENSE"}}운전면허증{{/ifType}}
-                                    </td>
-                                    <td data-label="상태" class="state">{{this.state}}</td>
+                                    <td data-label="상태" class="state">{{this.status}}</td>
                                     <td data-label="메모" class="adminMemo">{{this.adminMemo}}</td>
                                     <input type="hidden" class="name" value="{{this.name}}" />
-                                    <input type="hidden" class="country" value="{{this.country}}" />
-                                    <input type="hidden" class="expiredAt" value="{{this.expiredAt}}" />
+                                    <input type="hidden" class="nationality" value="{{this.nationality}}" />
+                                    <input type="hidden" class="birthDate" value="{{this.birthDate}}" />
+                                    <input type="hidden" class="idNumber" value="{{this.idNumber}}" />
+                                    <input type="hidden" class="gender" value="{{this.gender}}" />
                                     <input type="hidden" class="memberId" value="{{this.memberId}}" />
-                                    <input type="hidden" class="tokenId" value="{{this.tokenId}}" />
                                     
                                 </tr>
                             {{/each}}
@@ -169,7 +162,7 @@ input:checked + .slider:before {
 
             <div class="card-body" id="request-div">
                 <div class="mt-3 mb-1">
-                    <span class="text-dark font-weight-bold">승인 요청 목록 (1{{requestPager.totalCount}}건)</span>
+                    <span class="text-dark font-weight-bold">승인 요청 목록 ({{requestPager.totalCount}}건)</span>
                 </div>
                 <div class="table-responsive">
                     <table class="admin-table table request">
@@ -182,15 +175,20 @@ input:checked + .slider:before {
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            {{#each requestIdApproval}}
                                 <tr id="{{this.seq}}">
                                     <td data-label="번호">1{{this.seq}}</td>
-                                    <td data-label="요청 일시">2021.11.09 03:05:27{{this.createdAt}}</td>
-                                    <td data-label="닉네임" class="nickname">Joo0oo{{this.nickname}}</td>
-                                    <td data-label="이메일" class="email">pingrae@me.com</td>
+                                    <td data-label="요청 일시">{{this.createdAt}}</td>
+                                    <td data-label="닉네임" class="nickname">{{this.nickname}}</td>
+                                    <td data-label="이메일" class="email">{{this.email}}</td>
+                                    <input type="hidden" class="name" value="{{this.name}}" />
+                                    <input type="hidden" class="nationality" value="{{this.nationality}}" />
+                                    <input type="hidden" class="birthDate" value="{{this.birthDate}}" />
+                                    <input type="hidden" class="idNumber" value="{{this.idNumber}}" />
+                                    <input type="hidden" class="gender" value="{{this.gender}}" />
+                                    <input type="hidden" class="memberId" value="{{this.memberId}}" />
                                 </tr>
-                                <!--{{#each requestIdApproval}}-->
-                            <!--{{/each}}-->
+                            {{/each}}
                         </tbody>
                     </table>
                 </div>
@@ -221,22 +219,22 @@ input:checked + .slider:before {
                                 </tr>
                                 <tr>
                                     <th>이름</th>
-                                    <td id="name">Jiwoo Jung</td>
+                                    <td id="name"></td>
                                 </tr>
                                 <tr>
                                     <th>국적</th>
-                                    <td id="country">KR</td>
+                                    <td id="nationality"></td>
                                 </tr>
                                 <tr>
                                     <th>생년월일</th>
                                     <td>
-                                        <input class="form-control custom-input" id="birth" name="birth" type="text" placeholder="YYYYMMDD 형식으로 입력하세요." maxlength="8" value="1995/07/08"/>
+                                        <input class="form-control custom-input" id="birth" name="birth" type="text" placeholder="YYYYMMDD 형식으로 입력하세요." maxlength="10" value=""/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>신분증 번호</th>
                                     <td>
-                                        <input class="form-control custom-input" id="birth" name="birth" type="text" placeholder="YYYYMMDD 형식으로 입력하세요." maxlength="8" value="PN123456789"/>
+                                        <input class="form-control custom-input" id="id-number" name="id-number" type="text" placeholder="YYYYMMDD 형식으로 입력하세요." maxlength="20" value=""/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -257,15 +255,12 @@ input:checked + .slider:before {
                                 </tr>
                             </tbody>
                             <input type="hidden" id="memberId">
-                            <input type="hidden" id="tokenId">
-                            <input type="hidden" id="language">
-                            <input type="hidden" id="residence">
                             <input type="hidden" id="approval-seq" class="">
                         </table>
                     </div>
                     <div class="col-sm-7">
                         <div>
-                            <img id="picture1" src="/public/images/passport.jpg" style="width: 100%;">
+                            <img id="picture" src="" style="width: 100%;">
                         </div>
                     </div>
                 </div>
@@ -282,13 +277,10 @@ input:checked + .slider:before {
                     <div class="row">
                         <label class="col-sm-4">거절 사유</label>
                         <select id="reject-select" class="col-sm-7 form-control form-control-sm" style="display: inline-block;">
-                            <!--option value="NOT_MATCH_WITH_VERIFIED_USER_INFO">인증된 회원 정보와 일치하지 않음</option-->
                             <option value="EXPIRED_ID">유효한 신분증 아님(만료일 경과)</option>
                             <option value="INVALID_ID">유효한 신분증 아님(Invalid ID)</option>
                             <option value="HARD_TO_SEE">이미지가 잘 보이지 않음</option>
-                            <!--option value="TYPE_NOT_MATCH">선택한 신분증 종류와 일치하지 않음</option-->
                             <option value="NOT_SUPPORTED_ID_CARD">지원하지 않는 신분증</option>
-                            <option value="ALREADY_REGISTERED">이미 가입된 회원</option>
                             <option value="custom">직접 입력</option>
                         </select>
                     </div>
@@ -313,37 +305,33 @@ input:checked + .slider:before {
 <form id="totalForm" onsubmit="merge();">
     <input type="hidden" name="is-completed" id="is-completed" value="{{isCompleted}}"/>
 </form>
+<input id="adminName" type="hidden" value={{adminName}} />
+<input id="adminEmail" type="hidden" value={{adminEmail}} />
 <script>
 $('.request tbody tr').click(function() {
     $('.detail-view').show();
     $('#nickname').text($(this).children('.nickname').text());
-    $('#idType').text($(this).children('.idType').text());
     $('#name').text($(this).children('.name').val());
-    $('#country').text($(this).children('.country').val());
-    $('#expiredAt').text($(this).children('.expiredAt').val());
+    $('#nationality').text($(this).children('.nationality').val());
     $('#memberId').val($(this).children('.memberId').val());
-    $('#tokenId').val($(this).children('.tokenId').val());
-    $('#language').val($(this).children('.language').val());
-    $('#residence').val($(this).children('.residence').val());
+    $('#birth').val($(this).children('.birthDate').val());
+    $('#id-number').val($(this).children('.idNumber').val());
+    $('#gender').val($(this).children('.gender').val());
     $('#approval-seq').val($(this).attr("id"));
 
     $.ajax({
         url: 'id_approval/detail/' + $(this).attr("id"),
         type: 'GET',
+        dataType: 'json',
         contentType: 'application/json',
         async: false,
         success: function (result) {
-            $('#picture1').attr("src", "/public/id_picture_tmp/" + obj.picture1);
-            $('#picture1').addClass(obj.picture1);
+            $('#picture').attr("src", result.picture);
         }
     });
 });
 
 $('.custom-btn').click(function() {
-    if (!$('#picture1').attr("src")) {
-        toastr.error('권한이 없습니다.');
-        return;
-    }
     $('#confirmModal').modal('show');
     if ($(this).hasClass('reject')) {
         $('#reject-body').show();
@@ -364,96 +352,51 @@ $('.modal-cancel').click(function() {
     $('#confirmModal').modal('hide');
 });
 
-$(document).on('click', '.duplicate-user', function() {
-    window.open('/manage_members/' + $(this).children('input').val());
-});
-
 $('.approval-test').click(function() {
     location.href='/manage_members'
 });
 
 $('.process-btn').click(function() {
-    let data = "", msg = " ", state = "", name = "", gender = "", birth = "", country = "", residence = "", action = "";
+    let data = "", adminMemo = " ", status = "";
     if ($(this).hasClass('reject')) {
-        state = "INVALID";
-        action = "ID_REJECT";
+        status = "REJECTED";
         if ($('#reject-select').val() == 'custom') {
-            msg = $('#reject-custom-msg').val();
+            adminMemo = $('#reject-custom-msg').val();
             if (msg.length == 0) {
                 toastr.error('거절 사유를 입력해주세요.');
                 return;
             }
         } else {
-            msg = $('#reject-select').val();
+            adminMemo = $('#reject-select').val();
         }
     } else if ($(this).hasClass('approval')) {
-        state = "VALID";
-        action = "ID_APPROVE";
-        name = $('#name').text();
-        gender = $('#gender').val();
-        birth = $('#birth').val();
-        country = $('#country').text();
-        residence = $('#residence').val();
-
-        if (birth.length < 8) {
-            toastr.error("생년월일 8자리를 입력해주세요.");
-            $('#confirmModal').modal('hide');
-            return;
-        }
-    }
-    
-    var formData = new FormData(),
-        $canvas1, $canvas2, imgDataUrl1, imgDataUrl2, file1, file2;
-       
-    if (canvas1) {
-        $canvas1 = document.getElementById("canvas1");
-        imgDataUrl1 = $canvas1.toDataURL('image/png');
-        file1 = dataURLtoFile(imgDataUrl1, $('#picture1').attr('class'));
-        formData.append($('#picture1').attr('class'), file1);
+        status = "APPROVED";
     }
 
-    if (canvas2) {
-        $canvas2 = document.getElementById("canvas2");
-        imgDataUrl2 = $canvas2.toDataURL('image/png');
-        file2 = dataURLtoFile(imgDataUrl2, $('#picture2').attr('class'));
-        formData.append($('#picture2').attr('class'), file2);
+    if ($('#birth').val().length < 10) {
+        toastr.error("생년월일을 정확히 입력해주세요.");
+        $('#confirmModal').modal('hide');
+        return;
     }
 
-    $.ajax({
-        url: "id_approval/picture/update/" + $('#approval-seq').val(),
-        type: 'POST',
-        processData: false,
-        contentType: false,
-        data: formData,
-        async: false,
-        success: function (result) {
-            if (result.message == 'success') {
-                $('#confirmModal').modal('hide');
-                toastr.success('처리 완료되었습니다.');
-                
-            } else {
-                toastr.error('처리 실패!');
-            }
-        }
-    });
+    if ($('#id-number').val() < 10) {
+        toastr.error("신분증 번호를 정확히 입력해주세요.");
+        $('#confirmModal').modal('hide');
+        return;
+    }
 
     data = {
-        adminMemo: msg,
-        state: state,
+        seq: $('#approval-seq').val(),
+        adminMemo: adminMemo,
+        status: status,
         memberId: $('#memberId').val(),
-        tokenId: $('#tokenId').val(),
-        language: $('#language').val(),
-        name: name,
-        gender: gender,
-        birth: birth,
-        country: country,
-        residence: residence,
-        menu: 'ID_APPROVAL',
-        action: action
+        gender: $('#gender').val(),
+        birth: $('#birth').val(),
+        idNumber: $('#id-number').val()
     }
 
     $.ajax({
-        url: "id_approval/process/" + $('#approval-seq').val(),
+        url: "id_approval/process",
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -471,7 +414,6 @@ $('.process-btn').click(function() {
     });
 });
 
-/*
 let requestCurrentPage = {{requestPager.currentPage}}, requestStartPage = {{requestPager.startPage}}, requestEndPage = {{requestPager.endPage}}, requestLastPage = {{requestPager.lastPage}};
 if (requestStartPage == 1) {
     $('.pn-request-left-option1').hide();
@@ -537,12 +479,6 @@ function gotoCompletedPage(page) {
     $("#totalForm").submit();
 }
 
-$('#completed-submit-btn').click(function() {
-    $("#totalForm").submit();
-});
-//
-
-//
 function merge() {
     $totoalFrm = $("#totalForm");
     $("#completed-searchForm input, #request-searchForm input").each(function() {
@@ -571,113 +507,26 @@ $("#completed-view-check-box").change(function(){
     $('#stat-range').submit();
 });
 
-$('.completed tbody tr').click(function() {
-    location.href = "/manage_members/" + $(this).attr("id");
-});
-
-$('#picture1').on("contextmenu",function(e){
-    return false;
-});
-
-$('#picture2').on("contextmenu",function(e){
-    return false;
-});
-
-$('#canvas1').on("contextmenu",function(e){
-    return false;
-});
-
-$('#canvas2').on("contextmenu",function(e){
-    return false;
-});
-
-if(canvas1){
-    canvas1.addEventListener("mousemove",onMouseMove1);
-    //캔버스 안에서의 움직임 감지
-    canvas1.addEventListener("mousedown",startPainting1);
-    //클릭했을때 발생하는 event
-    canvas1.addEventListener("mouseup", stopPainting1);
-    canvas1.addEventListener("mouseleave", stopPainting1);
+const adminNameInCookie = getCookie(adminName);
+const adminNameFromServer = $('#adminName').val();
+if (adminNameInCookie == null || adminName != adminNameFromServer) {
+    setCookie("adminName", adminNameFromServer, 365);
 }
 
-function stopPainting1(event){
-    painting1 = false;
+const adminEmailInCookie = getCookie(adminEmail);
+const adminEmailFromServer = $('#adminEmail').val();
+if (adminEmailInCookie == null || adminEmail != adminEmailFromServer) {
+    setCookie("adminEmail", adminEmailFromServer, 365);
 }
 
-function startPainting1(){
-    painting1 = true;
-}
+var getCookie = function(name) {
+    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return value? value[2] : null;
+};
 
-function onMouseMove1(event){ //모든 움직임을 감지하고 line을 만든다.
-     //스크린과 캠퍼스가 크기가 다른 경우 offsetX와 offsetY를 사용한다.
-    const x = event.offsetX;
-    const y = event.offsetY;
-    if(!painting1){
-        ctx1.beginPath(); //path를 만듬
-        ctx1.moveTo(x, y); //x, y로 옮김
-        ctx1.lineWidth = lineWidth;
-    }else{
-        ctx1.lineTo(x, y);
-        ctx1.lineWidth = lineWidth;
-        ctx1.stroke();
-    }
-}
-
-if(canvas2){
-    canvas2.addEventListener("mousemove",onMouseMove2);
-    //캔버스 안에서의 움직임 감지
-    canvas2.addEventListener("mousedown",startPainting2);
-    //클릭했을때 발생하는 event
-    canvas2.addEventListener("mouseup", stopPainting2);
-    canvas2.addEventListener("mouseleave", stopPainting2);
-}
-
-function stopPainting2(event){
-    painting2 = false;
-}
-
-function startPainting2(){
-    painting2 = true;
-}
-
-function onMouseMove2(event){ //모든 움직임을 감지하고 line을 만든다.
-     //스크린과 캠퍼스가 크기가 다른 경우 offsetX와 offsetY를 사용한다.
-    const x = event.offsetX;
-    const y = event.offsetY;
-    if(!painting2){
-        ctx2.beginPath(); //path를 만듬
-        ctx2.moveTo(x, y); //x, y로 옮김
-        ctx2.lineWidth = lineWidth;
-    }else{
-        ctx2.lineTo(x, y);
-        ctx2.lineWidth = lineWidth;
-        ctx2.stroke();
-    }
-}
-
-function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), 
-        n = bstr.length, 
-        u8arr = new Uint8Array(n);
-        
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type:mime});
-}
-
-$('#small-btn').click(function() {
-    lineWidth = 10;
-});
-
-$('#normal-btn').click(function() {
-    lineWidth = 30;
-});
-
-$('#big-btn').click(function() {
-    lineWidth = 50;
-});
-*/
+var setCookie = function(name, value, exp) {
+    var date = new Date();
+    date.setTime(date.getTime() + exp*24*60*60*1000);
+    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+};
 </script>

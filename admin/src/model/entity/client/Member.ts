@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import {WinstonLogger} from '@src/logger/WinstonLogger';
-import {UNASSIGNED} from "@src/constants";
 import {timeDefaultTransformer} from "@src/database/util";
+import { MemberStatus } from '@src/model/type/MemberType';
 
 const logger = new WinstonLogger().setContext('Member');
 
@@ -14,14 +14,32 @@ export class Member {
     @Column({name: 'uuid', unique: true, type: 'varchar', length: 64})
     public uuid!: string;
 
-    @Column({name: 'username', type: 'varchar', default: UNASSIGNED})
-    public username!: string;
+    @Column({name: 'name', type: 'varchar'})
+    public name!: string;
 
-    @Column({name: 'email', type: 'varchar', default: UNASSIGNED})
+    @Column({name: 'nickname', type: 'varchar'})
+    public nickname!: string;
+
+    @Column({name: 'email', type: 'varchar'})
     public email!: string;
 
-    @Column({name: 'password', type: 'varchar', default: UNASSIGNED})
+    @Column({name: 'password', type: 'varchar'})
     public password!: string;
+
+    @Column({name: 'gender', type: 'varchar'})
+    public gender!: string;
+
+    @Column({name: 'birth_date', type: 'varchar'})
+    public birthDate!: string;
+
+    @Column({name: 'nationality', type: 'varchar'})
+    public nationality!: string;
+
+    @Column({name: 'phone', type: 'varchar'})
+    public phone!: string;
+
+    @Column({name: 'status', type: 'varchar', default: MemberStatus.CREATED})
+    public status!: MemberStatus;
 
     @Column({name: 'access_token', unique: true, type: 'varchar', length: 64})
     public accessToken!: string;

@@ -15,52 +15,7 @@ export class IndexController {
         @Session() session: Record<string, any>,
         @Res() res: Response,
     ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
         return res.render('home', {
-        });
-    }
-
-    @Get('/signin')
-    signin(
-        @Session() session: Record<string, any>,
-        @Res() res: Response,
-    ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
-        return res.render('signin', {
-        });
-    }
-
-    @Get('/id_approval')
-    idApproval(
-        @Session() session: Record<string, any>,
-        @Res() res: Response,
-    ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
-        return res.render('id_approval', {
         });
     }
 
@@ -69,15 +24,7 @@ export class IndexController {
         @Session() session: Record<string, any>,
         @Res() res: Response,
     ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
+        
         return res.render('member/manage_members', {
         });
     }
