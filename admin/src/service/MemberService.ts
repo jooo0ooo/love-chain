@@ -5,7 +5,7 @@ import {Connection} from "typeorm";
 import {WinstonLogger} from "@src/logger/WinstonLogger";
 import { Member } from "@src/model/entity/client/Member";
 import { UtilService } from "@src/service/UtilService";
-import { MemberRepository } from "@src/repository/master/MemberRepository";
+import { MemberRepository } from "@src/repository/client/MemberRepository";
 import { UpdateMemberDto } from "@src/model/dto/update/UpdateMemberDto";
 
 @Injectable()
