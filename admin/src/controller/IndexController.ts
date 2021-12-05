@@ -29,11 +29,9 @@ export class IndexController {
         });
     }
 
-
-
-
     @Get('ping')
     ping(): string {
         return 'pong';
     }
+
 }
