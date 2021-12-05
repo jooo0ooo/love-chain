@@ -9,8 +9,10 @@ import { SigninController } from './controller/auth/SigninController';
 import { SignOutController } from './controller/auth/SignOutController';
 import { IdApprovalController } from './controller/id_info/IdInfoController';
 import { AdminMemberRepository } from './repository/admin/AdminMemberRepository';
-import { IdInfoRepository } from './repository/master/IdInfoRepository';
-import { MemberRepository } from './repository/master/MemberRepository';
+import { IdInfoRepository } from './repository/client/IdInfoRepository';
+import { MemberRepository } from './repository/client/MemberRepository';
+import { WalletHistoryRepository } from './repository/client/WalletHistoryRepository';
+import { WalletInfoRepository } from './repository/client/WalletInfoRepository';
 import { AdminMemberService } from './service/AdminMemberService';
 import { S3Client } from './service/bucket/S3Client';
 import { IdInfoService } from './service/IdInfoService';
@@ -29,7 +31,9 @@ export class AppModule {
                 ], config.db.admin.name),
                 TypeOrmModule.forFeature([
                     MemberRepository,
-                    IdInfoRepository
+                    IdInfoRepository,
+                    WalletInfoRepository,
+                    WalletHistoryRepository
                 ], config.db.client.name),
                 LoggerModule,
             ],

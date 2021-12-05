@@ -51,6 +51,10 @@ export type Config = {
         }
     };
 
+    crypto: {
+        environment: string;
+    };
+
     log: {
         filepath: string;
     };
@@ -102,6 +106,10 @@ export let config: Config = {
             privateBucketName: process.env.AWS_S3_PRIVATE_BUCKET || '',
             publicBucketName: process.env.AWS_S3_PUBLIC_BUCKET || '',
         }
+    },
+
+    crypto: {
+        environment: process.env.INFURA_URI_WITH_KEY || ''
     },
 
     log: {
@@ -157,6 +165,10 @@ export const setConfig = async (): Promise<void> => {
                 privateBucketName: originalConfig.aws.s3.privateBucketName,
                 publicBucketName: originalConfig.aws.s3.publicBucketName,
             }
+        },
+
+        crypto: {
+            environment: originalConfig.crypto.environment
         },
 
         log: {
