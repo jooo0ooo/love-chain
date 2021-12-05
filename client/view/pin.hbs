@@ -142,7 +142,22 @@ $('.digit').click(function() {
 		if(i == 6) {
 			setTimeout(function(){
 				
-				location.href = '/profile'
+				$.ajax({
+					url: `pin`,
+					type: 'POST',
+					dataType: 'json',
+					data: {"pin": $('#password').val()},
+					success: function (result) {
+						if (result.message == 'success') {
+							location.href = '/'
+						} else {
+							toastr.error("Contact support team");	
+						}
+					},
+					error: function(error) {
+						toastr.error("Contact support team");
+					}
+				});
 				
 				$('#password').val('');
 				for(var i = 6; i >= 1; i--) {

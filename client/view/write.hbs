@@ -43,7 +43,7 @@
     padding: 0 15px;
 }
 
-#plain-text-div, #hash-text-div {
+#plain-text-div {
     margin: 0 auto;
     margin-top: 30px;
     width: 90%;
@@ -57,6 +57,11 @@
 
 #choose-public-div {
     margin-top: 30px;
+}
+
+#choose-payment-div {
+    margin-left: 15px;
+    margin-top: 15px;
 }
 
 .switch {
@@ -130,13 +135,12 @@ input:checked + .slider:before {
             <span><b>hash</b></span>
         </div>
         <div class="text-card">
-            <div class="text-card-header">
-                November 4th 2021
+            <div id="card-time" class="text-card-header">
             </div>
-            <div class="text-card-body">
+            <div id="card-text" class="text-card-body">
             </div>
             <div class="text-card-footer">
-                by Joo0oo
+                by <span id="card-nickname"></span>
             </div>
         </div>
         <div id="plain-text-div">
@@ -146,9 +150,6 @@ input:checked + .slider:before {
                 <span> / 20</span>
             </span>
         </div>
-        <div id="hash-text-div" style="display: none;">
-            <textarea class="form-control" id="hash-text" rows="3"></textarea>
-        </div>
         <div id="choose-public-div">
             <span><b>public</b></span>
             <label class="switch m-l-xs m-r-xs">
@@ -157,8 +158,16 @@ input:checked + .slider:before {
             </label>
             <span><b>private</b></span>
         </div>
+        <div id="choose-payment-div">
+            <span><b>WON</b></span>
+            <label class="switch m-l-xs m-r-xs">
+                <input type="checkbox" id="payment-box">
+                <span class="slider round"></span>
+            </label>
+            <span><b>LV token</b></span>
+        </div>
         <div style="margin-top: 30px;">
-            <h3>Upload Fee: 5,000 KRW</h3>
+            <h3>Upload Fee: <span id="payment-fee">5,000 KRW</span></h3>
         </div>
         <div id="write-upload-btn-div">
             <button type="button" id="write-upload-btn" class="btn btn-outline-success">
@@ -173,22 +182,22 @@ input:checked + .slider:before {
       <div class="modal-header" style="display: block; padding: 0;">
         <h5 class="modal-title" style="font-size: 30px; text-align: center;">Confirm</h5>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="font-size: 20px; text-align: center;">
         <div>
-            <span>upload text type</span>
-            <span>plain</span>
+            <span>upload type: </span>
+            <span id="upload-type">plain</span>
         </div>
         <div>
-            <span>text</span>
-            <span>Joo Handsome!</span>
+            <span>text: </span>
+            <span id="upload-text">Joo Handsome!</span>
         </div>
         <div>
-            <span>private option</span>
-            <span>true</span>
+            <span>private option: </span>
+            <span id="private-option">true</span>
         </div>
         <div>
-            <span>upload fee</span>
-            <span>5,000 krw</span>
+            <span>upload fee:</span>
+            <span id="payment-fee-confirm">5,000 krw</span>
         </div>
       </div>
       <div class="modal-footer" style="display: block; padding: 0;">
@@ -201,10 +210,50 @@ input:checked + .slider:before {
 {{> choose_account }}
 {{> pin }}
 <script>
+$(document).ready(function() {
+    clockUpdate();
+    setInterval(clockUpdate, 1000);
+});
+$('#card-nickname').text($('#user-nickname').text());
 $('.scroll-container').css('height', window.innerHeight - 50 + 'px');
 
 $('#write-upload-btn').click(function() {
+    /*
+    $('#upload-type').text($("input:checkbox[id='write-type-box']").is(":checked"));
+    $('#upload-text').text($('#card-text').text());
+    $('#private-option').text($("input:checkbox[id='public-box']").is(":checked"));
+    $('#payment-fee-confirm').text($('#payment-fee').text());
     $('#confirm-modal').modal('show');
+    */
+
+    let textType = $("input:checkbox[id='write-type-box']").is(":checked") == true ? 'hash' : 'plain',
+        paymentType = $("input:checkbox[id='payment-box']").is(":checked") == true ? 'LV_TOKEN' : 'WON',
+        isPrivate = $("input:checkbox[id='public-box']").is(":checked") == true ? 'priavte' : 'public',
+        boardText = $('#card-text').text().trim();
+
+    if (!boardText) {
+        toastr.error("Write your Message");
+        return;
+    }
+
+    let data = {textType: textType, paymentType: paymentType, isPrivate: isPrivate, boardText: boardText};
+
+    $.ajax({
+        url: `write`,
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (result) {
+            if (result.message == 'success') {
+                alert("good");
+            } else {
+                toastr.error("Contact support team");	
+            }
+        },
+        error: function(error) {
+            toastr.error("Contact support team");
+        }
+    });
 });
 
 $('#confirm-modal-close').click(function() {
@@ -217,21 +266,19 @@ $('#continue').click(function() {
     $('.choose-account').addClass('appear');
 });
 
+$("#payment-box").change(function() {
+    if(this.checked) {
+        $('#payment-fee').text("5LV token");
+    } else {
+        $('#payment-fee').text("5,000 KRW");
+    }
+});
+
 $('#plain-text').keyup(function() {
     var text = byteFunc($(this).val(), 'text');
     $(this).val(text);
     $('#current-byte').text(byteFunc(text));
-    $('.text-card-body').text(text)
-});
-
-$("#write-type-box").change(function() {
-    if(this.checked) {
-        $('#hash-text-div').show();
-        $('#plain-text-div').hide();
-    } else {
-        $('#hash-text-div').hide();
-        $('#plain-text-div').show();
-    }
+    $('#card-text').text(text)
 });
 
 function byteCheck(el){
@@ -266,5 +313,10 @@ function byteFunc(str, command){
     } else {
         return msglen;
     }
+}
+
+function clockUpdate() {
+    var today = new Date();
+    $('#card-time').text(today.toLocaleString());
 }
 </script>

@@ -43,6 +43,7 @@ export class SigninController {
         session.memberName = member.name;
         session.memberNickname = member.nickname;
         session.memberEmail = member.email;
+        session.memberHasPin = await this.memberService.hasLvPin(member.uuid);
 
         return new ApiResponse('0', 'success', null);
     }
@@ -72,16 +73,12 @@ export class SigninController {
         @Res() res: Response,
     ): Promise<any> {
         this.logger.log(`check sign in exist`);
-        let flag = false;
+        let flag = false, hasPin = false;
         if (session && session.memberUuid) {
             flag = true;
+            hasPin = session.memberHasPin
         }
-
-        console.log(flag);
-        console.log(session.memberName);
-        console.log(session.memberNickname);
-        console.log(session.memberEmail);
         
-        return res.end('{"success":' + flag + ', "name": "' + session.memberName + '", "nickname": "' + session.memberNickname + '", "email": "' + session.memberEmail + '"}');
+        return res.end('{"success":' + flag + ', "name": "' + session.memberName + '", "nickname": "' + session.memberNickname + '", "email": "' + session.memberEmail + '", "hasPin":' + hasPin + '}');
     }
 }

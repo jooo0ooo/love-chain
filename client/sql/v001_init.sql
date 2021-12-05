@@ -37,3 +37,36 @@ CREATE TABLE `t_id_info`
   UNIQUE KEY `uix-id_info-uuid` (`uuid`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT 'ID info';
+
+-- `t_lv_pin`
+CREATE TABLE `t_lv_pin`
+(
+  `seq`           bigint(20)    unsigned NOT NULL AUTO_INCREMENT,
+  `member_id`     varchar(64)            NOT NULL COMMENT 'member name',
+  `pin`           varchar(256)           NOT NULL COMMENT 'lv pin',
+  `created_at`    timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`    timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT 'lv pin';
+
+-- `t_board`
+CREATE TABLE `t_board`
+(
+  `seq`           bigint(20)    unsigned NOT NULL AUTO_INCREMENT,
+  `uuid`          varchar(64)            NOT NULL COMMENT 'board uuid',
+  `member_id`     varchar(64)            NOT NULL COMMENT 'member name',
+  `text_type`     varchar(10)            NOT NULL COMMENT 'plain or hash',
+  `payment_type`  varchar(10)            NOT NULL COMMENT 'won or lv token',
+  `is_private`    varchar(10)            NOT NULL COMMENT 'public or private',
+  `board_text`    varchar(256)           NOT NULL COMMENT 'board text',
+  `status`        varchar(30)            NOT NULL DEFAULT 'SUBMITTED' COMMENT 'board status (SUBMITTED, APPROVED, REJECTED)',
+  `tx_id`         varchar(256)           NULL     DEFAULT NULL COMMENT 'tx id',
+  `confirm_count` int(10)                NOT NULL DEFAULT '0' COMMENT 'block confirm count',
+  `nickname`      varchar(256)           NOT NULL COMMENT 'writer nickname',
+  `created_at`    timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`    timestamp              NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `uix-board-uuid` (`uuid`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT 'board';

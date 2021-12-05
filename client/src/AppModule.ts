@@ -21,6 +21,10 @@ import { IdInfoService } from '@src/service/IdInfoService';
 import { WalletInfoRepository } from '@src/repository/client/WalletInfoRepository';
 import { WalletHistoryRepository } from '@src/repository/client/WalletHistoryRepository';
 import { WalletService } from '@src/service/WalletService';
+import { LvPinRepository } from './repository/client/LvPinRepository';
+import { SignOutController } from './controller/SignOutController';
+import { BoardRepository } from './repository/client/BoardRepository';
+import { BoardService } from './service/BoardService';
 
 @Module({})
 export class AppModule {
@@ -35,7 +39,9 @@ export class AppModule {
                     ObAuthLogRepository,
                     ObTokenRepository,
                     WalletInfoRepository,
-                    WalletHistoryRepository
+                    WalletHistoryRepository,
+                    LvPinRepository,
+                    BoardRepository
                 ], config.db.client.name),
                 LoggerModule,
             ],
@@ -46,11 +52,13 @@ export class AppModule {
                 IdInfoService,
                 OpenBankingService,
                 WalletService,
-                UtilService
+                UtilService,
+                BoardService
             ],
             controllers: [
                 IndexController,
                 SignupController,
+                SignOutController,
                 SigninController,
                 MemberController,
                 BoardController,

@@ -163,13 +163,14 @@ body {
 	<div id="signin-menu" style="display: none;">
 		<div class="cnav-menu-user">
 			<p id="user-name"></p>
-			<p>NickName : <span id="user-nickname">Joo0oo</span></p>
-			<p>Email : <span id="user-email">pingrae@me.com</span></p>
+			<p>NickName : <span id="user-nickname"></span></p>
+			<p>Email : <span id="user-email"></span></p>
 		</div>
 		<ul>
 			<li><a href="/"><span class="">Home</span></a></li>
 			<li><a href="/write">Leave Message</a></li>
 			<li><a href="/profile">Profile</a></li>
+			<li><a href="/signout">Sign Out</a></li>
 		</ul>
 	</div>
 	<div id="not-signin-menu" style="display: none;">
@@ -181,7 +182,7 @@ body {
 			<li><a href="/signup">Sign Up</a></li>
 		</ul>
 	</div>
-
+	<input id="has-pin" style="display:none"/>
 </div>
 <script>
 $.ajax({
@@ -198,9 +199,11 @@ $.ajax({
 			$('#user-name').text(result.name);
 			$('#user-nickname').text(result.nickname);
 			$('#user-email').text(result.email);
+			$('#has-pin').val(result.hasPin);
 		} else {
 			$('#not-signin-menu').show();
 			$('#signin-menu').hide();
+			$('#has-pin').val(result.hasPin);
 		}
 	},
 	error: function(result) {
@@ -208,6 +211,13 @@ $.ajax({
 	}
 });
 
+if ($('#user-name').text() && $('#has-pin').val() == 'false') {
+	var url = $(location).attr('href');
+		urlSplit = url.split('/');
+	if (urlSplit[urlSplit.length - 1] != 'pin') {
+		location.href = "/member/pin";
+	}
+}
 
 $('.custom-toggle').click(function() {
 	openNav();

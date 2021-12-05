@@ -1,13 +1,18 @@
 import {Response} from "express";
-import { Controller, Get, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Session } from '@nestjs/common';
 import { WinstonLogger } from '@src/logger/WinstonLogger';
 import { MemberService } from "@src/service/MemberService";
 import { MemberStatus } from "@src/model/type/MemberType";
+import { uploadRequest } from "./request/uploadRequest";
+import { ApiResponse } from "@src/model/global/ApiResponse";
+import { objectToString } from "@src/util/conversion";
+import { BoardService } from "@src/service/BoardService";
 
 @Controller()
 export class BoardController {
     constructor (
         private readonly memberService: MemberService,
+        private readonly boardService: BoardService,
         private readonly logger: WinstonLogger
     ) {
         this.logger.setContext('BoardController');
@@ -46,6 +51,21 @@ export class BoardController {
         }
         
         return res.render('write', {});
+    }
+
+    @Post('/write')
+    async upload(
+        @Session() session: Record<string, any>,
+        @Body() body: uploadRequest,
+    ): Promise<ApiResponse<null>> {
+        this.logger.log(`board upload request, body: ${objectToString(body)}`);
+
+        body.memberId = session.memberUuid;
+        body.nickname = session.memberNickname;
+        await this.boardService.saveBoard(body);
+
+        return new ApiResponse('0', 'success', null);
+
     }
 
     @Get('/my_messages')

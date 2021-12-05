@@ -11,6 +11,10 @@ import { v4 as uuidV4 } from "uuid";
 import { toIdInfoDto } from "@src/model/dto/IdInfoDto";
 import { UtilService } from "@src/service/UtilService";
 import { IdInfoRepository } from "@src/repository/client/IdInfoRepository";
+import { LvPinRepository } from "@src/repository/client/LvPinRepository";
+import { LvPin } from "@src/model/entity/client/LvPin";
+import { Builder } from "builder-pattern";
+import { pbkdf2Async } from '@src/util/encryption';
 
 @Injectable()
 export class MemberService {
@@ -18,6 +22,7 @@ export class MemberService {
     constructor(
         @InjectRepository(MemberRepository, config.db.client.name) private readonly memberRepository: MemberRepository,
         @InjectRepository(IdInfoRepository, config.db.client.name) private readonly idInfoRepository: IdInfoRepository,
+        @InjectRepository(LvPinRepository, config.db.client.name) private readonly lvPinRepository: LvPinRepository,
         @InjectConnection(config.db.client.name) private readonly clientConnection: Connection,
 
         private readonly utilService: UtilService,
@@ -67,5 +72,25 @@ export class MemberService {
     async isExistNickname(nickname: string): Promise<boolean> {
         const member = await this.findOneByNickname(nickname);
         return member ? true : false;
+    }
+
+    async hasLvPin(memberId: string): Promise<boolean> {
+        const pin = await this.lvPinRepository.getLvPinByMemberId(memberId);
+        return pin ? true : false;
+    }
+
+    async saveLvPin(pinNum: string, memberId: string): Promise<void> {
+        const encryptedPin = await pbkdf2Async(pinNum, config.server.passwordSecret);
+        const pin = Builder(LvPin)
+            .pin(encryptedPin)
+            .memberId(memberId)
+            .build();
+
+        await this.lvPinRepository.saveLvPin(pin);
+    }
+
+    async updatePin(pinNum: string, memberId: string): Promise<void> {
+        const encryptedPin = await pbkdf2Async(pinNum, config.server.passwordSecret);
+        await this.lvPinRepository.updateLvPin(memberId, encryptedPin);
     }
 }

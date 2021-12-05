@@ -15,15 +15,6 @@ export class IndexController {
         @Session() session: Record<string, any>,
         @Res() res: Response,
     ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
         return res.render('home', {
         });
     }
@@ -43,24 +34,6 @@ export class IndexController {
         }
         */
         return res.render('profile', {
-        });
-    }
-
-    @Get('/pin')
-    pin(
-        @Session() session: Record<string, any>,
-        @Res() res: Response,
-    ): void {
-        /*
-        if (session && session.adminId && session.otpVerified) {
-            if(session.passwordExpired) { 
-                return res.redirect(`/manage_admin_member/password`);
-            } else {
-                return res.redirect(`/home`);
-            }
-        }
-        */
-        return res.render('pin', {
         });
     }
 

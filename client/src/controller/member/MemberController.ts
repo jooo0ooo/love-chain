@@ -77,11 +77,42 @@ export class MemberController {
         @UploadedFiles() file: Express.Multer.File[],
         @Body() body: processRequest,
     ): Promise<ApiResponse<null>> {
-        this.logger.log(`signup request, body: ${objectToString(body)}`);
-        
+        this.logger.log(`member process request, body: ${objectToString(body)}`);
         
         await this.idInfoService.updateIdInfoAgain(session.memberUuid, body.idNumber, file[0]);
 
         return new ApiResponse('0', 'success', null);
+    }
+
+    @Get('/pin')
+    pin(
+        @Session() session: Record<string, any>,
+        @Res() res: Response,
+    ): void {
+        if (!(session && session.memberSeq && session.memberUuid)) {
+            return res.redirect(`/signin`);
+        }
+
+        return res.render('pin', {
+        });
+    }
+
+    @Post('/pin')
+    async setPin(
+        @Session() session: Record<string, any>,
+        @Body() body: any,
+    ): Promise<ApiResponse<null>> {
+        if (body && body.pin) {
+            if (session.memberHasPin) {
+                await this.memberService.updatePin(body.pin, session.memberUuid);
+            } else {
+                await this.memberService.saveLvPin(body.pin, session.memberUuid);
+                session.memberHasPin = true;
+            }
+
+            return new ApiResponse('0', 'success', null);
+        }
+
+        return new ApiResponse('0', 'failed', null);
     }
 }
