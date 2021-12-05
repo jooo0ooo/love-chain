@@ -7,17 +7,20 @@ import { SignupController } from '@src/controller/signup/SignupController';
 import { LoggerModule } from '@src/logger/LoggerModule';
 import { MemberRepository } from '@src/repository/client/MemberRepository';
 import { MemberService } from '@src/service/MemberService';
-import { MemberController } from './controller/member/MemberController';
-import { SigninController } from './controller/signin/SigninController';
-import { OpenBankingService } from './service/OpenBankingService';
-import { OpenBankingController } from './controller/openbanking/OpenBankingController';
-import { ObAuthLogRepository } from './repository/client/openbanking/ObAuthLogRepository';
-import { ObTokenRepository } from './repository/client/openbanking/ObTokenRepository';
-import { S3Client } from './service/bucket/S3Client';
-import { UtilService } from './service/UtilService';
-import { IdInfoRepository } from './repository/client/IdInfoRepository';
-import { IdInfoService } from './service/IdInfoService';
-import { BoardController } from './controller/board/BoardController';
+import { BoardController } from '@src/controller/board/BoardController';
+import { MemberController } from '@src/controller/member/MemberController';
+import { SigninController } from '@src/controller/signin/SigninController';
+import { OpenBankingService } from '@src/service/OpenBankingService';
+import { OpenBankingController } from '@src/controller/openbanking/OpenBankingController';
+import { ObAuthLogRepository } from '@src/repository/client/openbanking/ObAuthLogRepository';
+import { ObTokenRepository } from '@src/repository/client/openbanking/ObTokenRepository';
+import { S3Client } from '@src/service/bucket/S3Client';
+import { UtilService } from '@src/service/UtilService';
+import { IdInfoRepository } from '@src/repository/client/IdInfoRepository';
+import { IdInfoService } from '@src/service/IdInfoService';
+import { WalletInfoRepository } from '@src/repository/client/WalletInfoRepository';
+import { WalletHistoryRepository } from '@src/repository/client/WalletHistoryRepository';
+import { WalletService } from '@src/service/WalletService';
 
 @Module({})
 export class AppModule {
@@ -31,6 +34,8 @@ export class AppModule {
                     IdInfoRepository,
                     ObAuthLogRepository,
                     ObTokenRepository,
+                    WalletInfoRepository,
+                    WalletHistoryRepository
                 ], config.db.client.name),
                 LoggerModule,
             ],
@@ -40,6 +45,7 @@ export class AppModule {
                 MemberService,
                 IdInfoService,
                 OpenBankingService,
+                WalletService,
                 UtilService
             ],
             controllers: [

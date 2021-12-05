@@ -21,7 +21,7 @@ CREATE TABLE `t_member`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT 'member';
 
-
+-- `t_id_info`
 CREATE TABLE `t_id_info`
 (
   `seq`           bigint(20)    unsigned NOT NULL AUTO_INCREMENT,
